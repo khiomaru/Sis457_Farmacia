@@ -1,0 +1,36 @@
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\bin\Debug\CadLicoreria2024.dll.config
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\bin\Debug\CadLicoreria2024.dll
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\bin\Debug\CadLicoreria2024.pdb
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\bin\Debug\EntityFramework.dll
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\bin\Debug\EntityFramework.xml
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\obj\Debug\CadLicoreria2024.csproj.AssemblyReference.cache
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\obj\Debug\CadLicoreria2024.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\obj\Debug\CadLicor.3032E474.Up2Date
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\obj\Debug\CadLicoreria2024.dll
+C:\Users\DELL\Documents\POSEIDON_sis457\proyectos\licoreria2024Importante\importanticimo\Licoreria2024\CadLicoreria2024\obj\Debug\CadLicoreria2024.pdb
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\bin\Debug\CadLicoreria2024.dll.config
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\bin\Debug\CadLicoreria2024.dll
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\bin\Debug\CadLicoreria2024.pdb
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\bin\Debug\EntityFramework.dll
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\bin\Debug\EntityFramework.xml
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicoreria2024.csproj.AssemblyReference.cache
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicoreria2024.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicor.3032E474.Up2Date
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicoreria2024.dll
+C:\Users\DELL\Documents\hidrologia\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicoreria2024.pdb
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\bin\Debug\CadLicoreria2024.dll.config
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\bin\Debug\CadLicoreria2024.dll
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\bin\Debug\CadLicoreria2024.pdb
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\bin\Debug\EntityFramework.dll
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\bin\Debug\EntityFramework.SqlServer.dll
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\bin\Debug\EntityFramework.xml
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\bin\Debug\EntityFramework.SqlServer.xml
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicoreria2024.csproj.AssemblyReference.cache
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicoreria2024.csproj.CoreCompileInputs.cache
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicor.3032E474.Up2Date
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicoreria2024.dll
+D:\tarea del vaca laboratorio\Crud\SIS457_Licoreria\CadLicoreria2024\obj\Debug\CadLicoreria2024.pdb

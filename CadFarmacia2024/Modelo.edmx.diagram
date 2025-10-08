@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1fbc590986824bdd988052b6bf9d49f7" Name="Diagram1" ZoomLevel="98">
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.Categoria" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.Compra" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.DetalleCompra" Width="1.5" PointX="7.5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.DetalleNegocio" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.DetalleVenta" Width="1.5" PointX="7.5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.Empleado" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.Medicamento" Width="1.5" PointX="5.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.Paciente" Width="1.5" PointX="9.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.Proveedor" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.Usuario" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Labsis457farmaciaModel.Venta" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="Labsis457farmaciaModel.fk_Medicamento_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="Labsis457farmaciaModel.fk_Compra_Proveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="Labsis457farmaciaModel.fk_Compra_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="Labsis457farmaciaModel.fk_DetalleCompra_Compra" ManuallyRouted="false" />
+        <AssociationConnector Association="Labsis457farmaciaModel.fk_DetalleCompra_Medicamento" ManuallyRouted="false" />
+        <AssociationConnector Association="Labsis457farmaciaModel.fk_DetalleVenta_Medicamento" ManuallyRouted="false" />
+        <AssociationConnector Association="Labsis457farmaciaModel.fk_DetalleVenta_Venta" ManuallyRouted="false" />
+        <AssociationConnector Association="Labsis457farmaciaModel.fk_Usuario_Empleado" ManuallyRouted="false" />
+        <AssociationConnector Association="Labsis457farmaciaModel.fk_Venta_Usuario" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
