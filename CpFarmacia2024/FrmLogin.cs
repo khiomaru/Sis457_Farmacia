@@ -32,6 +32,11 @@ namespace CpFarmacia2024
                 esValido = false;
                 erpClave.SetError(txtClave, "El campo clave es obligatorio");
             }
+            if (!rdbUsuario.Checked && !rdbPropietario.Checked)
+            {
+                esValido = false;
+                MessageBox.Show("Debe seleccionar un rol", "::: Farmacia - Mensaje :::", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             return esValido;
         }
 
@@ -39,7 +44,8 @@ namespace CpFarmacia2024
         {
             if (validar())
             {
-                var usuario = UsuarioCln.validar(txtUsuario.Text, Util.Encrypt(txtClave.Text));
+                string rolSeleccionado = rdbUsuario.Checked ? "Usuario" : "Propietario";
+                var usuario = UsuarioCln.validar(txtUsuario.Text, txtClave.Text, rolSeleccionado);
                 if (usuario != null)
                 {
                     Util.usuario = usuario;
@@ -51,7 +57,7 @@ namespace CpFarmacia2024
                     FrmPrincipal frmPrincipal = new FrmPrincipal(this);
                     frmPrincipal.ShowDialog();
                 }
-                else MessageBox.Show("Usuario y/o contraseña incorrecto", " ::: Farmacia - Mensaje :::",
+                else MessageBox.Show("Usuario y/o contrasea incorrecto o rol no coincide", " ::: Farmacia - Mensaje :::",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

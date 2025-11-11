@@ -49,12 +49,9 @@ namespace CpFarmacia2024
             }
         }
 
-        /// <summary>
-        /// Validar sólo números enteros o decimales en el evento KeyPress
-        /// </summary>
         public static void onlyDecimals(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 22 && notPaste) e.Handled = true; //Deshabilitar Ctrl + V (Pegar)
+            if (e.KeyChar == 22 && notPaste) e.Handled = true;
             else
             {
                 char separtor = Char.Parse(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
@@ -82,10 +79,7 @@ namespace CpFarmacia2024
             else e.Handled = true;
         }
 
-        /// <summary>
-        /// Validar ni números ni letras en el evento KeyPress
-        /// </summary>
-        public static void notNumbersLetters(object sender, KeyPressEventArgs e)
+         public static void notNumbersLetters(object sender, KeyPressEventArgs e)
         {
             if (!(Char.IsLetterOrDigit(e.KeyChar) || Char.IsPunctuation(e.KeyChar))) e.Handled = false;
             else if (Char.IsControl(e.KeyChar)) e.Handled = false;
@@ -100,7 +94,6 @@ namespace CpFarmacia2024
         {
             if (e.Button == MouseButtons.Right)
             {
-                //if (isMsgTxtMouseDown) MessageBox.Show(msgTxtMouseDown);
             }
         }
     }

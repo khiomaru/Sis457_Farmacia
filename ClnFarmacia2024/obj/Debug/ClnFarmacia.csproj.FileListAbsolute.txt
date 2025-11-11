@@ -13,3 +13,33 @@ D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\ClnFarmacia2024\obj\Debug\Cln
 D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarma.52DC5A06.Up2Date
 D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia2024.dll
 D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia2024.pdb
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\ClnFarmacia2024.dll.config
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\ClnFarmacia2024.dll
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\ClnFarmacia2024.pdb
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\CadFarmacia2024.dll
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\EntityFramework.dll
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\CadFarmacia2024.pdb
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\CadFarmacia2024.dll.config
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\EntityFramework.xml
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia.csproj.AssemblyReference.cache
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia.csproj.CoreCompileInputs.cache
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarma.52DC5A06.Up2Date
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia2024.dll
+C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia2024.pdb
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\ClnFarmacia2024.dll.config
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\ClnFarmacia2024.dll
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\ClnFarmacia2024.pdb
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\CadFarmacia2024.dll
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\EntityFramework.dll
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\CadFarmacia2024.pdb
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\CadFarmacia2024.dll.config
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\EntityFramework.xml
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia.csproj.AssemblyReference.cache
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia.csproj.CoreCompileInputs.cache
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarma.52DC5A06.Up2Date
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia2024.dll
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\ClnFarmacia2024\obj\Debug\ClnFarmacia2024.pdb

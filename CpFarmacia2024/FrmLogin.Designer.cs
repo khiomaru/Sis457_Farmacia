@@ -40,6 +40,9 @@ namespace CpFarmacia2024
             this.btnSalir = new System.Windows.Forms.Button();
             this.btnIngresar = new System.Windows.Forms.Button();
             this.pctLogo = new System.Windows.Forms.PictureBox();
+            this.grpRol = new System.Windows.Forms.GroupBox();
+            this.rdbPropietario = new System.Windows.Forms.RadioButton();
+            this.rdbUsuario = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.erpClave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.erpUsuario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctLogo)).BeginInit();
@@ -75,7 +78,7 @@ namespace CpFarmacia2024
             this.lblClave.Name = "lblClave";
             this.lblClave.Size = new System.Drawing.Size(104, 28);
             this.lblClave.TabIndex = 11;
-            this.lblClave.Text = "Contraseña:";
+            this.lblClave.Text = "Contraseï¿½a:";
             // 
             // lblUsuario
             // 
@@ -98,7 +101,7 @@ namespace CpFarmacia2024
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(382, 32);
             this.lblTitulo.TabIndex = 9;
-            this.lblTitulo.Text = "Iniciar Sesión";
+            this.lblTitulo.Text = "Iniciar Sesiï¿½n";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // erpClave
@@ -115,7 +118,7 @@ namespace CpFarmacia2024
             this.btnSalir.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSalir.Image = global::CpFarmacia2024.Properties.Resources.close;
             this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSalir.Location = new System.Drawing.Point(220, 132);
+            this.btnSalir.Location = new System.Drawing.Point(220, 188);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(80, 43);
             this.btnSalir.TabIndex = 16;
@@ -130,7 +133,7 @@ namespace CpFarmacia2024
             this.btnIngresar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIngresar.Image = global::CpFarmacia2024.Properties.Resources.login_ok;
             this.btnIngresar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnIngresar.Location = new System.Drawing.Point(96, 132);
+            this.btnIngresar.Location = new System.Drawing.Point(96, 188);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(103, 43);
             this.btnIngresar.TabIndex = 15;
@@ -149,6 +152,43 @@ namespace CpFarmacia2024
             this.pctLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pctLogo.TabIndex = 14;
             this.pctLogo.TabStop = false;
+            //
+            // grpRol
+            //
+            this.grpRol.Controls.Add(this.rdbPropietario);
+            this.grpRol.Controls.Add(this.rdbUsuario);
+            this.grpRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpRol.Location = new System.Drawing.Point(12, 120);
+            this.grpRol.Name = "grpRol";
+            this.grpRol.Size = new System.Drawing.Size(280, 50);
+            this.grpRol.TabIndex = 17;
+            this.grpRol.TabStop = false;
+            this.grpRol.Text = "Seleccionar Rol";
+            //
+            // rdbPropietario
+            //
+            this.rdbPropietario.AutoSize = true;
+            this.rdbPropietario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdbPropietario.Location = new System.Drawing.Point(150, 20);
+            this.rdbPropietario.Name = "rdbPropietario";
+            this.rdbPropietario.Size = new System.Drawing.Size(90, 20);
+            this.rdbPropietario.TabIndex = 1;
+            this.rdbPropietario.TabStop = true;
+            this.rdbPropietario.Text = "Propietario";
+            this.rdbPropietario.UseVisualStyleBackColor = true;
+            //
+            // rdbUsuario
+            //
+            this.rdbUsuario.AutoSize = true;
+            this.rdbUsuario.Checked = true;
+            this.rdbUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdbUsuario.Location = new System.Drawing.Point(20, 20);
+            this.rdbUsuario.Name = "rdbUsuario";
+            this.rdbUsuario.Size = new System.Drawing.Size(70, 20);
+            this.rdbUsuario.TabIndex = 0;
+            this.rdbUsuario.TabStop = true;
+            this.rdbUsuario.Text = "Usuario";
+            this.rdbUsuario.UseVisualStyleBackColor = true;
             // 
             // FrmLogin
             // 
@@ -158,7 +198,8 @@ namespace CpFarmacia2024
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::CpFarmacia2024.Properties.Resources.images2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(406, 184);
+            this.ClientSize = new System.Drawing.Size(406, 240);
+            this.Controls.Add(this.grpRol);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.pctLogo);
@@ -194,6 +235,9 @@ namespace CpFarmacia2024
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.ErrorProvider erpClave;
         private System.Windows.Forms.ErrorProvider erpUsuario;
+        private System.Windows.Forms.RadioButton rdbUsuario;
+        private System.Windows.Forms.RadioButton rdbPropietario;
+        private System.Windows.Forms.GroupBox grpRol;
     }
 }
 

@@ -68,6 +68,7 @@
     <Compile Include="RegistroCompraCln.cs" />
     <Compile Include="RegistroCompraDTO.cs" />
     <Compile Include="UsuarioCln.cs" />
+    <Compile Include="UtilCln.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -78,6 +79,7 @@
       <Project>{50b657f3-3149-4b09-9897-cd2dbeb26832}</Project>
       <Name>CadFarmacia</Name>
     </ProjectReference>
+
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
