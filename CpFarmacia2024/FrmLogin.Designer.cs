@@ -1,4 +1,4 @@
-namespace CpFarmacia2024
+﻿namespace CpFarmacia2024
 {
     partial class FrmLogin
     {
@@ -28,223 +28,218 @@ namespace CpFarmacia2024
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
-            this.txtClave = new System.Windows.Forms.TextBox();
-            this.txtUsuario = new System.Windows.Forms.TextBox();
-            this.lblClave = new System.Windows.Forms.Label();
-            this.lblUsuario = new System.Windows.Forms.Label();
-            this.lblTitulo = new System.Windows.Forms.Label();
-            this.erpClave = new System.Windows.Forms.ErrorProvider(this.components);
-            this.erpUsuario = new System.Windows.Forms.ErrorProvider(this.components);
-            this.btnSalir = new System.Windows.Forms.Button();
-            this.btnIngresar = new System.Windows.Forms.Button();
-            this.pctLogo = new System.Windows.Forms.PictureBox();
-            this.grpRol = new System.Windows.Forms.GroupBox();
-            this.rdbPropietario = new System.Windows.Forms.RadioButton();
-            this.rdbUsuario = new System.Windows.Forms.RadioButton();
-            ((System.ComponentModel.ISupportInitialize)(this.erpClave)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.erpUsuario)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pctLogo)).BeginInit();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.tbusername = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tbpassword = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtClave
+            // panel1
             // 
-            this.txtClave.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtClave.Location = new System.Drawing.Point(144, 92);
-            this.txtClave.MaxLength = 15;
-            this.txtClave.Name = "txtClave";
-            this.txtClave.PasswordChar = '*';
-            this.txtClave.Size = new System.Drawing.Size(151, 24);
-            this.txtClave.TabIndex = 13;
-            this.txtClave.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtClave_KeyPress);
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(18)))), ((int)(((byte)(80)))));
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(845, 37);
+            this.panel1.TabIndex = 0;
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             // 
-            // txtUsuario
+            // label2
             // 
-            this.txtUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsuario.Location = new System.Drawing.Point(145, 62);
-            this.txtUsuario.MaxLength = 10;
-            this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(150, 24);
-            this.txtUsuario.TabIndex = 12;
-            this.txtUsuario.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUsuario_KeyDown);
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(3, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 15);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "FARMACIA";
             // 
-            // lblClave
+            // button1
             // 
-            this.lblClave.BackColor = System.Drawing.Color.Transparent;
-            this.lblClave.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblClave.ForeColor = System.Drawing.Color.Black;
-            this.lblClave.Location = new System.Drawing.Point(46, 95);
-            this.lblClave.Name = "lblClave";
-            this.lblClave.Size = new System.Drawing.Size(104, 28);
-            this.lblClave.TabIndex = 11;
-            this.lblClave.Text = "Contrase�a:";
+            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(798, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(47, 37);
+            this.button1.TabIndex = 1;
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // lblUsuario
+            // button2
             // 
-            this.lblUsuario.BackColor = System.Drawing.Color.Transparent;
-            this.lblUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.ForeColor = System.Drawing.Color.Black;
-            this.lblUsuario.Location = new System.Drawing.Point(48, 62);
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(85, 33);
-            this.lblUsuario.TabIndex = 10;
-            this.lblUsuario.Text = "Usuario:";
+            this.button2.BackColor = System.Drawing.Color.Transparent;
+            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(85, 214);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(168, 65);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "INGRESAR";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // lblTitulo
+            // tbusername
             // 
-            this.lblTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTitulo.BackColor = System.Drawing.Color.Transparent;
-            this.lblTitulo.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(12, 7);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(382, 32);
-            this.lblTitulo.TabIndex = 9;
-            this.lblTitulo.Text = "Iniciar Sesi�n";
-            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tbusername.Location = new System.Drawing.Point(69, 76);
+            this.tbusername.Name = "tbusername";
+            this.tbusername.Size = new System.Drawing.Size(217, 23);
+            this.tbusername.TabIndex = 2;
             // 
-            // erpClave
+            // panel2
             // 
-            this.erpClave.ContainerControl = this;
+            this.panel2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.panel2.BackColor = System.Drawing.Color.Transparent;
+            this.panel2.Controls.Add(this.pictureBox2);
+            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.button2);
+            this.panel2.Controls.Add(this.tbpassword);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.tbusername);
+            this.panel2.Location = new System.Drawing.Point(24, 102);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(337, 329);
+            this.panel2.TabIndex = 3;
             // 
-            // erpUsuario
+            // pictureBox2
             // 
-            this.erpUsuario.ContainerControl = this;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(14, 115);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(46, 33);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 9;
+            this.pictureBox2.TabStop = false;
             // 
-            // btnSalir
+            // pictureBox1
             // 
-            this.btnSalir.BackColor = System.Drawing.Color.LightGray;
-            this.btnSalir.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSalir.Image = global::CpFarmacia2024.Properties.Resources.close;
-            this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSalir.Location = new System.Drawing.Point(220, 188);
-            this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(80, 43);
-            this.btnSalir.TabIndex = 16;
-            this.btnSalir.Text = "Salir";
-            this.btnSalir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSalir.UseVisualStyleBackColor = false;
-            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(14, 76);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(46, 33);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabStop = false;
             // 
-            // btnIngresar
+            // label4
             // 
-            this.btnIngresar.BackColor = System.Drawing.Color.LightGray;
-            this.btnIngresar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnIngresar.Image = global::CpFarmacia2024.Properties.Resources.login_ok;
-            this.btnIngresar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnIngresar.Location = new System.Drawing.Point(96, 188);
-            this.btnIngresar.Name = "btnIngresar";
-            this.btnIngresar.Size = new System.Drawing.Size(103, 43);
-            this.btnIngresar.TabIndex = 15;
-            this.btnIngresar.Text = "Ingresar";
-            this.btnIngresar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnIngresar.UseVisualStyleBackColor = false;
-            this.btnIngresar.Click += new System.EventHandler(this.btnIngresar_Click);
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(66, 110);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(84, 15);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "CONTRASEÑA";
             // 
-            // pctLogo
+            // tbpassword
             // 
-            this.pctLogo.BackColor = System.Drawing.Color.Transparent;
-            this.pctLogo.Image = global::CpFarmacia2024.Properties.Resources.o_Photoroom;
-            this.pctLogo.Location = new System.Drawing.Point(292, 23);
-            this.pctLogo.Name = "pctLogo";
-            this.pctLogo.Size = new System.Drawing.Size(114, 133);
-            this.pctLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pctLogo.TabIndex = 14;
-            this.pctLogo.TabStop = false;
-            //
-            // grpRol
-            //
-            this.grpRol.Controls.Add(this.rdbPropietario);
-            this.grpRol.Controls.Add(this.rdbUsuario);
-            this.grpRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpRol.Location = new System.Drawing.Point(12, 120);
-            this.grpRol.Name = "grpRol";
-            this.grpRol.Size = new System.Drawing.Size(280, 50);
-            this.grpRol.TabIndex = 17;
-            this.grpRol.TabStop = false;
-            this.grpRol.Text = "Seleccionar Rol";
-            //
-            // rdbPropietario
-            //
-            this.rdbPropietario.AutoSize = true;
-            this.rdbPropietario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdbPropietario.Location = new System.Drawing.Point(150, 20);
-            this.rdbPropietario.Name = "rdbPropietario";
-            this.rdbPropietario.Size = new System.Drawing.Size(90, 20);
-            this.rdbPropietario.TabIndex = 1;
-            this.rdbPropietario.TabStop = true;
-            this.rdbPropietario.Text = "Propietario";
-            this.rdbPropietario.UseVisualStyleBackColor = true;
-            //
-            // rdbUsuario
-            //
-            this.rdbUsuario.AutoSize = true;
-            this.rdbUsuario.Checked = true;
-            this.rdbUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdbUsuario.Location = new System.Drawing.Point(20, 20);
-            this.rdbUsuario.Name = "rdbUsuario";
-            this.rdbUsuario.Size = new System.Drawing.Size(70, 20);
-            this.rdbUsuario.TabIndex = 0;
-            this.rdbUsuario.TabStop = true;
-            this.rdbUsuario.Text = "Usuario";
-            this.rdbUsuario.UseVisualStyleBackColor = true;
+            this.tbpassword.Location = new System.Drawing.Point(69, 128);
+            this.tbpassword.Name = "tbpassword";
+            this.tbpassword.Size = new System.Drawing.Size(217, 23);
+            this.tbpassword.TabIndex = 6;
+            this.tbpassword.UseSystemPasswordChar = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(66, 58);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 15);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "USUARIO";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(138, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 20);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "LOGIN";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(845, 597);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 0;
+            this.pictureBox3.TabStop = false;
             // 
             // FrmLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImage = global::CpFarmacia2024.Properties.Resources.images2;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(406, 240);
-            this.Controls.Add(this.grpRol);
-            this.Controls.Add(this.btnSalir);
-            this.Controls.Add(this.btnIngresar);
-            this.Controls.Add(this.pctLogo);
-            this.Controls.Add(this.txtClave);
-            this.Controls.Add(this.txtUsuario);
-            this.Controls.Add(this.lblClave);
-            this.Controls.Add(this.lblUsuario);
-            this.Controls.Add(this.lblTitulo);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ClientSize = new System.Drawing.Size(845, 597);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pictureBox3);
+            this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "FrmLogin";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "::: Farmacia-Login :::";
+            this.Text = "Login";
             this.Load += new System.EventHandler(this.FrmLogin_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.erpClave)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.erpUsuario)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pctLogo)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnSalir;
-        private System.Windows.Forms.Button btnIngresar;
-        private System.Windows.Forms.PictureBox pctLogo;
-        private System.Windows.Forms.TextBox txtClave;
-        private System.Windows.Forms.TextBox txtUsuario;
-        private System.Windows.Forms.Label lblClave;
-        private System.Windows.Forms.Label lblUsuario;
-        private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.ErrorProvider erpClave;
-        private System.Windows.Forms.ErrorProvider erpUsuario;
-        private System.Windows.Forms.RadioButton rdbUsuario;
-        private System.Windows.Forms.RadioButton rdbPropietario;
-        private System.Windows.Forms.GroupBox grpRol;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox tbusername;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox tbpassword;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
-
-
-
-
-
-
-
-

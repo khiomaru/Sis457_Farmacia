@@ -1,85 +1,145 @@
-using ClnFarmacia2024;
+﻿using ClnFarmacia2024;
 using System;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace CpFarmacia2024
 {
     public partial class FrmLogin : Form
     {
+        #region 🔹 Win32 (Permitir mover formulario sin borde)
+        [DllImport("user32.dll")]
+        private static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
+        private const int WM_NCLBUTTONDOWN = 0xA1;
+        private const int HT_CAPTION = 0x2;
+        #endregion
+
+        #region 🔹 Constructor
         public FrmLogin()
         {
             InitializeComponent();
-            this.AutoScaleMode = AutoScaleMode.Dpi;
+        }
+        #endregion
 
+        #region 🔹 Eventos del formulario
+        private void FrmLogin_Load(object sender, EventArgs e)
+        {
+            AplicarBordesRedondeados(25);
+            CenterToScreen(); // Centra el formulario al abrir
         }
 
-        private void btnSalir_Click(object sender, EventArgs e)
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            Application.Exit();
-        }
-        private bool validar()
-        {
-            bool esValido = true;
-            erpUsuario.SetError(txtUsuario, "");
-            erpClave.SetError(txtClave, "");
-            if (string.IsNullOrEmpty(txtUsuario.Text))
+            if (e.Button == MouseButtons.Left)
             {
-                esValido = false;
-                erpUsuario.SetError(txtUsuario, "El campo Usuario es obligatorio");
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
-            if (string.IsNullOrEmpty(txtClave.Text))
-            {
-                esValido = false;
-                erpClave.SetError(txtClave, "El campo clave es obligatorio");
-            }
-            if (!rdbUsuario.Checked && !rdbPropietario.Checked)
-            {
-                esValido = false;
-                MessageBox.Show("Debe seleccionar un rol", "::: Farmacia - Mensaje :::", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            return esValido;
         }
 
-        private void btnIngresar_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            if (validar())
+            if (MessageBox.Show("¿Desea salir del sistema?", "Confirmación",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                string rolSeleccionado = rdbUsuario.Checked ? "Usuario" : "Propietario";
-                var usuario = UsuarioCln.validar(txtUsuario.Text, txtClave.Text, rolSeleccionado);
+                Application.Exit();
+            }
+        }
+        #endregion
+
+        #region 🔹 Métodos privados de apoyo
+        /// <summary>
+        /// Aplica esquinas redondeadas al formulario.
+        /// </summary>
+        /// <param name="radio">Radio de curvatura en píxeles.</param>
+        private void AplicarBordesRedondeados(int radio)
+        {
+            using (var path = new System.Drawing.Drawing2D.GraphicsPath())
+            {
+                path.StartFigure();
+                path.AddArc(0, 0, radio, radio, 180, 90);
+                path.AddArc(Width - radio, 0, radio, radio, 270, 90);
+                path.AddArc(Width - radio, Height - radio, radio, radio, 0, 90);
+                path.AddArc(0, Height - radio, radio, radio, 90, 90);
+                path.CloseFigure();
+                Region = new Region(path);
+            }
+        }
+
+        /// <summary>
+        /// Valida que los campos obligatorios estén completos.
+        /// </summary>
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrWhiteSpace(tbusername.Text))
+            {
+                MostrarMensaje("Debe ingresar el nombre de usuario.", MessageBoxIcon.Warning);
+                tbusername.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(tbpassword.Text))
+            {
+                MostrarMensaje("Debe ingresar la contraseña.", MessageBoxIcon.Warning);
+                tbpassword.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Muestra un mensaje uniforme.
+        /// </summary>
+        private static void MostrarMensaje(string mensaje, MessageBoxIcon icono = MessageBoxIcon.Information)
+        {
+            MessageBox.Show(mensaje, "::: Farmacia - Mensaje :::", MessageBoxButtons.OK, icono);
+        }
+        #endregion
+
+        #region 🔹 Lógica del botón Ingresar
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (!ValidarCampos())
+                return;
+
+            string rolSeleccionado = "Usuario"; // Valor por defecto
+
+            try
+            {
+                var usuario = UsuarioCln.validar(tbusername.Text.Trim(), tbpassword.Text.Trim(), rolSeleccionado);
+
                 if (usuario != null)
                 {
                     Util.usuario = usuario;
-                    txtClave.Text = string.Empty;
-                    txtUsuario.Focus();
-                    txtUsuario.SelectAll();
+                    MostrarMensaje($"Bienvenido {usuario.usuario1}");
 
-                    this.Hide();
-                    FrmPrincipal frmPrincipal = new FrmPrincipal(this);
-                    frmPrincipal.ShowDialog();
+                    Hide();
+                    using (var frmPrincipal = new FrmPrincipal(this))
+                    {
+                        frmPrincipal.ShowDialog();
+                    }
+
+                    // Cuando cierra el principal, mostrar nuevamente login
+                    Show();
+                    tbpassword.Clear();
+                    tbusername.Focus();
                 }
-                else MessageBox.Show("Usuario y/o contrasea incorrecto o rol no coincide", " ::: Farmacia - Mensaje :::",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    MostrarMensaje("Usuario y/o contraseña incorrectos o rol no coincide.", MessageBoxIcon.Error);
+                }
             }
-        }
-
-        private void txtClave_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter) btnIngresar.PerformClick();
-        }
-
-        private void txtUsuario_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
+            catch (Exception ex)
             {
-                txtClave.Focus();
-                e.SuppressKeyPress = true;
-
+                MostrarMensaje($"Error al intentar iniciar sesión:\n{ex.Message}", MessageBoxIcon.Error);
             }
         }
-
-        private void FrmLogin_Load(object sender, EventArgs e)
-        {
-
-        }
+        #endregion
     }
 }

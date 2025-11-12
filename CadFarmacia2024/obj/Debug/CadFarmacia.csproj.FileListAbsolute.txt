@@ -22,3 +22,15 @@ C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarma
 C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarma.02DCD473.Up2Date
 C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.dll
 C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.pdb
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll.config
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.pdb
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.dll
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.SqlServer.dll
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.xml
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.SqlServer.xml
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia.csproj.AssemblyReference.cache
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia.csproj.CoreCompileInputs.cache
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarma.02DCD473.Up2Date
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.dll
+D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.pdb
