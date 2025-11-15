@@ -30,7 +30,7 @@ namespace CpFarmacia2024
             txtIdProveedor.Text = "0";
 
             dgvCompras.Columns.Add("idMedicamento", "ID Medicamento");
-            dgvCompras.Columns.Add("codigo", "Código");
+            dgvCompras.Columns.Add("codigo", "Cï¿½digo");
             dgvCompras.Columns.Add("nombre", "Nombre");
             dgvCompras.Columns.Add("precioCompra", "Precio de Compra");
             dgvCompras.Columns.Add("precioVenta", "Precio de Venta");
@@ -108,14 +108,14 @@ namespace CpFarmacia2024
                 {
                     esValido = false;
                     erpPrecioVenta.SetError(txtPrecioVenta, "El precio de venta debe ser mayor que el precio de compra.");
-                    MessageBox.Show("El precio de venta debe ser mayor que el precio de compra.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El precio de venta debe ser mayor que el precio de compra.", "Error de Validaciï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
 
-            if (nudCantidad.Value < 0)
+            if (nudCantidad.Value <= 0)
             {
                 esValido = false;
-                erpCantidad.SetError(nudCantidad, "El campo Cantidad no debe ser negativo");
+                erpCantidad.SetError(nudCantidad, "El campo Cantidad debe ser mayor que cero");
             }
             return esValido;
         }
@@ -130,9 +130,9 @@ namespace CpFarmacia2024
         {
             if (!validar())
             {
-                // Si no es válido, muestra un mensaje y no continúa
-                MessageBox.Show("Por favor, corrige los errores antes de agregar el Medicamento.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Detiene la ejecución si la validación falla
+                // Si no es vï¿½lido, muestra un mensaje y no continï¿½a
+                MessageBox.Show("Por favor, corrige los errores antes de agregar el Medicamento.", "Error de Validaciï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // Detiene la ejecuciï¿½n si la validaciï¿½n falla
             }
             var idMedicamento = txtIdMedicamento.Text;
             var codigo = txtCodigoMedicamento.Text;
@@ -145,7 +145,7 @@ namespace CpFarmacia2024
             // Agregar una nueva fila al DataGridView
             dgvCompras.Rows.Add(idMedicamento, codigo, nombre, precioCompra, precioVenta, cantidad, total);
 
-            // Limpiar los campos después de agregar
+            // Limpiar los campos despuï¿½s de agregar
             LimpiarCampos();
             CalcularTotalPagar();
         }
@@ -202,17 +202,17 @@ namespace CpFarmacia2024
 
             string numeroDocumento = txtNfactura.Text.Trim();
 
-            // Verifica si el número de factura ya existe
+            // Verifica si el nï¿½mero de factura ya existe
             if (CompraCln.ExisteNumeroFactura(numeroDocumento))
             {
-                MessageBox.Show("El número de factura ya existe. Por favor, ingrese un número único.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El nï¿½mero de factura ya existe. Por favor, ingrese un nï¿½mero ï¿½nico.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            //// Verifica que el tipo de documento seleccionado sea válido
+            //// Verifica que el tipo de documento seleccionado sea vï¿½lido
             if (cbxTipoDocumento.SelectedItem == null || !cbxTipoDocumento.Items.Contains(cbxTipoDocumento.SelectedItem))
             {
-                MessageBox.Show("Por favor, seleccione un tipo de documento válido.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, seleccione un tipo de documento vï¿½lido.", "Error de Validaciï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             //obtener informacion de la compra
@@ -220,7 +220,7 @@ namespace CpFarmacia2024
 
             if (compra == null)
             {
-                return; // Se generó un error en la creación de la compra
+                return; // Se generï¿½ un error en la creaciï¿½n de la compra
             }
 
             try
@@ -230,7 +230,7 @@ namespace CpFarmacia2024
                 RegistrarDetallesCompra(idCompraRegistrada);
                 ActualizarStockYPrecios();
 
-                MessageBox.Show("Compra registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Compra registrada correctamente.", "ï¿½xito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -271,10 +271,10 @@ namespace CpFarmacia2024
                 {
                     if (!ValidarDetallesCompra(row, idCompraRegistrada, out var detalleCompra))
                     {
-                        return; // Si hay un error de validación, detenemos la ejecución
+                        return; // Si hay un error de validaciï¿½n, detenemos la ejecuciï¿½n
                     }
 
-                    // Aquí es donde debes inicializar detalleCompra
+                    // Aquï¿½ es donde debes inicializar detalleCompra
                     detalleCompra = new DetalleCompra
                     {
                         idCompra = idCompraRegistrada,
@@ -315,12 +315,12 @@ namespace CpFarmacia2024
             var precioVenta = Convert.ToDecimal(row.Cells["precioVenta"].Value);
             var cantidad = Convert.ToInt32(row.Cells["cantidad"].Value);
 
-            // Validar que los precios y la cantidad sean válidos
+            // Validar que los precios y la cantidad sean vï¿½lidos
             if (precioCompra < 0 || precioVenta < 0 || cantidad <= 0)
             {
-                MessageBox.Show("Los valores de precio y cantidad deben ser positivos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Los valores de precio y cantidad deben ser positivos.", "Error de Validaciï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 detalleCompra = null; // Asignar null ya que hay un error
-                return false; // Indicar que la validación falló
+                return false; // Indicar que la validaciï¿½n fallï¿½
             }
 
             detalleCompra = new DetalleCompra
@@ -332,7 +332,7 @@ namespace CpFarmacia2024
                 cantidad = cantidad
             };
             Console.WriteLine($"DetalleCompra: {detalleCompra.ToString()}");
-            return true; // Indicar que la validación fue exitosa
+            return true; // Indicar que la validaciï¿½n fue exitosa
         }
 
         private void ManejarErrorValidacion(DbEntityValidationException validationEx, string mensaje)
@@ -345,7 +345,7 @@ namespace CpFarmacia2024
                     errorDetails.AppendLine($"{mensaje}: Propiedad: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
                 }
             }
-            MessageBox.Show(errorDetails.ToString(), "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(errorDetails.ToString(), "Error de Validaciï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void ManejarErrorRegistro(Exception ex, string mensaje)
@@ -366,7 +366,7 @@ namespace CpFarmacia2024
 
                     try
                     {
-                        // Llama al método ActualizarStock con los parámetros correctos
+                        // Llama al mï¿½todo ActualizarStock con los parï¿½metros correctos
                         bool actualizado = MedicamentoCln.ActualizarStock(idMedicamento, precioCompra, precioVenta, cantidad);
 
                         if (!actualizado)
@@ -404,7 +404,7 @@ namespace CpFarmacia2024
                     dgvCompras.Rows.RemoveAt(row.Index);
                 }
 
-                // Calcular el nuevo total a pagar después de eliminar el Medicamento
+                // Calcular el nuevo total a pagar despuï¿½s de eliminar el Medicamento
                 CalcularTotalPagar();
             }
             else

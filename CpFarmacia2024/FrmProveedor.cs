@@ -37,12 +37,12 @@ namespace CpFarmacia2024
             if (dgvLista.Columns["estado"] != null) dgvLista.Columns["estado"].Visible = false;
 
             // Cambiar nombres de las columnas visibles
-            if (dgvLista.Columns["razonSocial"] != null) dgvLista.Columns["razonSocial"].HeaderText = "Razón Social";
-            if (dgvLista.Columns["documento"] != null) dgvLista.Columns["documento"].HeaderText = "N° Documento";
+            if (dgvLista.Columns["razonSocial"] != null) dgvLista.Columns["razonSocial"].HeaderText = "Razï¿½n Social";
+            if (dgvLista.Columns["documento"] != null) dgvLista.Columns["documento"].HeaderText = "Nï¿½ Documento";
             if (dgvLista.Columns["email"] != null) dgvLista.Columns["email"].HeaderText = "Correo";
-            if (dgvLista.Columns["telefono"] != null) dgvLista.Columns["telefono"].HeaderText = "Teléfono";
+            if (dgvLista.Columns["telefono"] != null) dgvLista.Columns["telefono"].HeaderText = "Telï¿½fono";
 
-            // Habilitar o deshabilitar botones según si hay registros
+            // Habilitar o deshabilitar botones segï¿½n si hay registros
             btnEditar.Enabled = lista.Count() > 0;
             btnEliminar.Enabled = lista.Count() > 0;
 
@@ -85,7 +85,7 @@ namespace CpFarmacia2024
             erpCorreo.SetError(txtCorreo, "");
             erpTelefono.SetError(txtTelefono, "");
 
-            // evalua si la cadena esta vacia en el espacio de documento, visebersa para todos los campos 
+            // evalÃºa si la cadena estÃ¡ vacÃ­a en el espacio de documento, viceversa para todos los campos
             if (string.IsNullOrEmpty(txtDocumento.Text))
             {
                 esValido = false;
@@ -185,7 +185,7 @@ namespace CpFarmacia2024
             int id = Convert.ToInt32(dgvLista.Rows[index].Cells["id"].Value);
             string documento = dgvLista.Rows[index].Cells["documento"].Value.ToString();
             DialogResult dialog =
-                MessageBox.Show($"¿Está seguro que desea dar de baja al proveedor con N° de documento {documento}?",
+                MessageBox.Show($"ï¿½Estï¿½ seguro que desea dar de baja al proveedor con Nï¿½ de documento {documento}?",
                 "::: Farmacia - Mensaje :::", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (dialog == DialogResult.OK)
             {

@@ -21,7 +21,7 @@ namespace CpFarmacia2024
             dgvListaCategoria.Columns["id"].Visible = false;
             dgvListaCategoria.Columns["estado"].Visible = false;
             //esto es para cambiar los nombres visibles en la tabla
-            dgvListaCategoria.Columns["descripcion"].HeaderText = "Descripción";
+            dgvListaCategoria.Columns["descripcion"].HeaderText = "Descripciï¿½n";
 
 
             btnEditar.Enabled = lista.Count() > 0;
@@ -56,11 +56,11 @@ namespace CpFarmacia2024
             bool esValido = true;
             erpDescripcionCategoria.SetError(txtDescripcionCategoria, "");
 
-            // evalua si la cadena esta vacia en el espacio de documento, visebersa para todos los campos 
+            // evalÃºa si la cadena estÃ¡ vacÃ­a en el espacio de documento, viceversa para todos los campos
             if (string.IsNullOrEmpty(txtDescripcionCategoria.Text))
             {
                 esValido = false;
-                erpDescripcionCategoria.SetError(txtDescripcionCategoria, "El campo descripción es obligatorio");
+                erpDescripcionCategoria.SetError(txtDescripcionCategoria, "El campo descripciï¿½n es obligatorio");
             }
             return esValido;
         }
@@ -94,7 +94,7 @@ namespace CpFarmacia2024
 
                     if (CategoriaCln.ExisteDescripcion(categoria.descripcion))
                     {
-                        MessageBox.Show("NO SE PUEDE AGREGAR, descripción ya existente.", ":::Farmacia - Mensaje :::",
+                        MessageBox.Show("NO SE PUEDE AGREGAR, descripciï¿½n ya existente.", ":::Farmacia - Mensaje :::",
                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -109,9 +109,9 @@ namespace CpFarmacia2024
                     var categoriaExistente = CategoriaCln.obtenerUno(categoria.id);
                     if (categoria.descripcion != categoriaExistente.descripcion && CategoriaCln.ExisteDescripcion(categoria.descripcion))
                     {
-                        MessageBox.Show("NO SE PUEDE ACTUALIZAR, descripción ya existente.", ":::Farmacia - Mensaje :::",
+                        MessageBox.Show("NO SE PUEDE ACTUALIZAR, descripciï¿½n ya existente.", ":::Farmacia - Mensaje :::",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return; // Salir del método si la descripción ya existe
+                        return; // Salir del mï¿½todo si la descripciï¿½n ya existe
                     }
 
                     CategoriaCln.actualizar(categoria);
@@ -141,7 +141,7 @@ namespace CpFarmacia2024
             int id = Convert.ToInt32(dgvListaCategoria.Rows[index].Cells["id"].Value);
             string descripcion = dgvListaCategoria.Rows[index].Cells["descripcion"].Value.ToString();
             DialogResult dialog =
-                MessageBox.Show($"¿Está seguro que desea dar de baja la Categoria con descripción {descripcion}?",
+                MessageBox.Show($"ï¿½Estï¿½ seguro que desea dar de baja la Categoria con descripciï¿½n {descripcion}?",
                 "::: Farmacia - Mensaje :::", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (dialog == DialogResult.OK)
             {

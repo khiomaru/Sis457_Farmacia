@@ -24,7 +24,7 @@ namespace CpFarmacia2024
             dgvListaEmpleado.Columns["nombres"].HeaderText = "Nombres";
             dgvListaEmpleado.Columns["primerApellido"].HeaderText = "Primer Apellido";
             dgvListaEmpleado.Columns["segundoApellido"].HeaderText = "Segundo Apellido";
-            dgvListaEmpleado.Columns["direccion"].HeaderText = "Dirección";
+            dgvListaEmpleado.Columns["direccion"].HeaderText = "Direcciï¿½n";
             dgvListaEmpleado.Columns["celular"].HeaderText = "Celular";
             dgvListaEmpleado.Columns["cargo"].HeaderText = "Cargo";
             dgvListaEmpleado.Columns["usuario"].HeaderText = "Usuario";
@@ -63,7 +63,7 @@ namespace CpFarmacia2024
             erpDireccion.SetError(txtDireccion, "");
             erpCelular.SetError(txtCelular, "");
 
-            // evalua si la cadena esta vacia en el espacio de documento, visebersa para todos los campos 
+            // evalÃºa si la cadena estÃ¡ vacÃ­a en el espacio de documento, viceversa para todos los campos
             if (string.IsNullOrEmpty(txtCedulaIdentidad.Text))
             {
                 esValido = false;
@@ -162,9 +162,9 @@ namespace CpFarmacia2024
                     var empleadoExistente = EmpleadoCln.obtenerUno(empleado.id);
                     if (empleado.cedulaIdentidad != empleadoExistente.cedulaIdentidad && EmpleadoCln.ExisteCedulaIdentidad(empleado.cedulaIdentidad))
                     {
-                        MessageBox.Show("NO SE PUEDE ACTUALIZAR, la cédula de identidad ya existente.", ":::Farmacia - Mensaje :::",
+                        MessageBox.Show("NO SE PUEDE ACTUALIZAR, la cï¿½dula de identidad ya existente.", ":::Farmacia - Mensaje :::",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return; // Salir del método si la descripción ya existe
+                        return; // Salir del mï¿½todo si la descripciï¿½n ya existe
                     }
                     EmpleadoCln.actualizar(empleado);
                 }
@@ -182,7 +182,7 @@ namespace CpFarmacia2024
             int id = Convert.ToInt32(dgvListaEmpleado.Rows[index].Cells["id"].Value);
             string cedulaIdentidad = dgvListaEmpleado.Rows[index].Cells["cedulaIdentidad"].Value.ToString();
             DialogResult dialog =
-                MessageBox.Show($"¿Está seguro que desea dar de baja al empleado con cedula de identidad {cedulaIdentidad}?",
+                MessageBox.Show($"ï¿½Estï¿½ seguro que desea dar de baja al empleado con cedula de identidad {cedulaIdentidad}?",
                 "::: Farmacia - Mensaje :::", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (dialog == DialogResult.OK)
             {

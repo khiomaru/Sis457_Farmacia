@@ -58,12 +58,12 @@
             this.ibtnAgregar = new FontAwesome.Sharp.IconButton();
             this.iBtnQuitar = new FontAwesome.Sharp.IconButton();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnBuscarProveedor = new System.Windows.Forms.Button();
-            this.gbxInformacionProveedor = new System.Windows.Forms.GroupBox();
-            this.txtIdProveedor = new System.Windows.Forms.TextBox();
-            this.lblRazonSocial = new System.Windows.Forms.Label();
-            this.txtRazonSocial = new System.Windows.Forms.TextBox();
-            this.txtDocuProveedor = new System.Windows.Forms.TextBox();
+            this.btnBuscarCliente = new System.Windows.Forms.Button();
+            this.gbxInformacionCliente = new System.Windows.Forms.GroupBox();
+            this.txtIdCliente = new System.Windows.Forms.TextBox();
+            this.lblNombreCliente = new System.Windows.Forms.Label();
+            this.txtNombreCliente = new System.Windows.Forms.TextBox();
+            this.txtDocuCliente = new System.Windows.Forms.TextBox();
             this.erpCantidad = new System.Windows.Forms.ErrorProvider(this.components);
             this.erpDocuProveedor = new System.Windows.Forms.ErrorProvider(this.components);
             this.erpPrecioVenta = new System.Windows.Forms.ErrorProvider(this.components);
@@ -75,7 +75,7 @@
             this.gbxInfoCompra.SuspendLayout();
             this.gbxInfoMedicamento.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidad)).BeginInit();
-            this.gbxInformacionProveedor.SuspendLayout();
+            this.gbxInformacionCliente.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.erpCantidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.erpDocuProveedor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.erpPrecioVenta)).BeginInit();
@@ -395,71 +395,71 @@
             this.label4.Size = new System.Drawing.Size(116, 20);
             this.label4.TabIndex = 4;
             this.label4.Text = "N° Documento:";
+            //
+            // btnBuscarCliente
+            //
+            this.btnBuscarCliente.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnBuscarCliente.ForeColor = System.Drawing.Color.Black;
+            this.btnBuscarCliente.Image = global::CpFarmacia2024.Properties.Resources.find_search_locate_95725;
+            this.btnBuscarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBuscarCliente.Location = new System.Drawing.Point(6, 26);
+            this.btnBuscarCliente.Name = "btnBuscarCliente";
+            this.btnBuscarCliente.Size = new System.Drawing.Size(117, 60);
+            this.btnBuscarCliente.TabIndex = 17;
+            this.btnBuscarCliente.Text = "Buscar:";
+            this.btnBuscarCliente.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBuscarCliente.UseVisualStyleBackColor = true;
+            this.btnBuscarCliente.Click += new System.EventHandler(this.btnBuscarCliente_Click);
             // 
-            // btnBuscarProveedor
-            // 
-            this.btnBuscarProveedor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnBuscarProveedor.ForeColor = System.Drawing.Color.Black;
-            this.btnBuscarProveedor.Image = global::CpFarmacia2024.Properties.Resources.find_search_locate_95725;
-            this.btnBuscarProveedor.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnBuscarProveedor.Location = new System.Drawing.Point(6, 26);
-            this.btnBuscarProveedor.Name = "btnBuscarProveedor";
-            this.btnBuscarProveedor.Size = new System.Drawing.Size(117, 60);
-            this.btnBuscarProveedor.TabIndex = 17;
-            this.btnBuscarProveedor.Text = "Buscar:";
-            this.btnBuscarProveedor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscarProveedor.UseVisualStyleBackColor = true;
-            this.btnBuscarProveedor.Click += new System.EventHandler(this.btnBuscarProveedor_Click);
-            // 
-            // gbxInformacionProveedor
-            // 
-            this.gbxInformacionProveedor.BackColor = System.Drawing.Color.Transparent;
-            this.gbxInformacionProveedor.Controls.Add(this.btnBuscarProveedor);
-            this.gbxInformacionProveedor.Controls.Add(this.txtIdProveedor);
-            this.gbxInformacionProveedor.Controls.Add(this.lblRazonSocial);
-            this.gbxInformacionProveedor.Controls.Add(this.txtRazonSocial);
-            this.gbxInformacionProveedor.Controls.Add(this.txtDocuProveedor);
-            this.gbxInformacionProveedor.Controls.Add(this.label4);
-            this.gbxInformacionProveedor.ForeColor = System.Drawing.Color.Lime;
-            this.gbxInformacionProveedor.Location = new System.Drawing.Point(409, 45);
-            this.gbxInformacionProveedor.Name = "gbxInformacionProveedor";
-            this.gbxInformacionProveedor.Size = new System.Drawing.Size(505, 93);
-            this.gbxInformacionProveedor.TabIndex = 4;
-            this.gbxInformacionProveedor.TabStop = false;
-            this.gbxInformacionProveedor.Text = "Información Proveedor";
-            // 
-            // txtIdProveedor
-            // 
-            this.txtIdProveedor.Enabled = false;
-            this.txtIdProveedor.Location = new System.Drawing.Point(459, 16);
-            this.txtIdProveedor.Name = "txtIdProveedor";
-            this.txtIdProveedor.Size = new System.Drawing.Size(38, 26);
-            this.txtIdProveedor.TabIndex = 9;
-            // 
-            // lblRazonSocial
-            // 
-            this.lblRazonSocial.AutoSize = true;
-            this.lblRazonSocial.Location = new System.Drawing.Point(265, 26);
-            this.lblRazonSocial.Name = "lblRazonSocial";
-            this.lblRazonSocial.Size = new System.Drawing.Size(107, 20);
-            this.lblRazonSocial.TabIndex = 8;
-            this.lblRazonSocial.Text = "Razon Social:";
-            // 
-            // txtRazonSocial
-            // 
-            this.txtRazonSocial.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRazonSocial.Location = new System.Drawing.Point(268, 51);
-            this.txtRazonSocial.Name = "txtRazonSocial";
-            this.txtRazonSocial.Size = new System.Drawing.Size(229, 29);
-            this.txtRazonSocial.TabIndex = 7;
-            // 
-            // txtDocuProveedor
-            // 
-            this.txtDocuProveedor.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDocuProveedor.Location = new System.Drawing.Point(130, 52);
-            this.txtDocuProveedor.Name = "txtDocuProveedor";
-            this.txtDocuProveedor.Size = new System.Drawing.Size(112, 29);
-            this.txtDocuProveedor.TabIndex = 5;
+            // gbxInformacionCliente
+            //
+            this.gbxInformacionCliente.BackColor = System.Drawing.Color.Transparent;
+            this.gbxInformacionCliente.Controls.Add(this.btnBuscarCliente);
+            this.gbxInformacionCliente.Controls.Add(this.txtIdCliente);
+            this.gbxInformacionCliente.Controls.Add(this.lblNombreCliente);
+            this.gbxInformacionCliente.Controls.Add(this.txtNombreCliente);
+            this.gbxInformacionCliente.Controls.Add(this.txtDocuCliente);
+            this.gbxInformacionCliente.Controls.Add(this.label4);
+            this.gbxInformacionCliente.ForeColor = System.Drawing.Color.Lime;
+            this.gbxInformacionCliente.Location = new System.Drawing.Point(409, 45);
+            this.gbxInformacionCliente.Name = "gbxInformacionCliente";
+            this.gbxInformacionCliente.Size = new System.Drawing.Size(505, 93);
+            this.gbxInformacionCliente.TabIndex = 4;
+            this.gbxInformacionCliente.TabStop = false;
+            this.gbxInformacionCliente.Text = "Información Cliente";
+            //
+            // txtIdCliente
+            //
+            this.txtIdCliente.Enabled = false;
+            this.txtIdCliente.Location = new System.Drawing.Point(459, 16);
+            this.txtIdCliente.Name = "txtIdCliente";
+            this.txtIdCliente.Size = new System.Drawing.Size(38, 26);
+            this.txtIdCliente.TabIndex = 9;
+            //
+            // lblNombreCliente
+            //
+            this.lblNombreCliente.AutoSize = true;
+            this.lblNombreCliente.Location = new System.Drawing.Point(265, 26);
+            this.lblNombreCliente.Name = "lblNombreCliente";
+            this.lblNombreCliente.Size = new System.Drawing.Size(107, 20);
+            this.lblNombreCliente.TabIndex = 8;
+            this.lblNombreCliente.Text = "Nombre Cliente:";
+            //
+            // txtNombreCliente
+            //
+            this.txtNombreCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNombreCliente.Location = new System.Drawing.Point(268, 51);
+            this.txtNombreCliente.Name = "txtNombreCliente";
+            this.txtNombreCliente.Size = new System.Drawing.Size(229, 29);
+            this.txtNombreCliente.TabIndex = 7;
+            //
+            // txtDocuCliente
+            //
+            this.txtDocuCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDocuCliente.Location = new System.Drawing.Point(130, 52);
+            this.txtDocuCliente.Name = "txtDocuCliente";
+            this.txtDocuCliente.Size = new System.Drawing.Size(112, 29);
+            this.txtDocuCliente.TabIndex = 5;
             // 
             // erpCantidad
             // 
@@ -500,7 +500,7 @@
             this.Controls.Add(this.ibtnAgregar);
             this.Controls.Add(this.lblTotalPagar);
             this.Controls.Add(this.gbxInfoMedicamento);
-            this.Controls.Add(this.gbxInformacionProveedor);
+            this.Controls.Add(this.gbxInformacionCliente);
             this.Controls.Add(this.gbxInfoCompra);
             this.Controls.Add(this.label2);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -517,8 +517,8 @@
             this.gbxInfoMedicamento.ResumeLayout(false);
             this.gbxInfoMedicamento.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidad)).EndInit();
-            this.gbxInformacionProveedor.ResumeLayout(false);
-            this.gbxInformacionProveedor.PerformLayout();
+            this.gbxInformacionCliente.ResumeLayout(false);
+            this.gbxInformacionCliente.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.erpCantidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.erpDocuProveedor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.erpPrecioVenta)).EndInit();
@@ -552,12 +552,12 @@
         private System.Windows.Forms.TextBox txtIdMedicamento;
         private System.Windows.Forms.Label lblCodigoMedicamento;
         private System.Windows.Forms.TextBox txtCodigoMedicamento;
-        private System.Windows.Forms.GroupBox gbxInformacionProveedor;
-        private System.Windows.Forms.Button btnBuscarProveedor;
-        private System.Windows.Forms.TextBox txtIdProveedor;
-        private System.Windows.Forms.Label lblRazonSocial;
-        private System.Windows.Forms.TextBox txtRazonSocial;
-        private System.Windows.Forms.TextBox txtDocuProveedor;
+        private System.Windows.Forms.GroupBox gbxInformacionCliente;
+        private System.Windows.Forms.Button btnBuscarCliente;
+        private System.Windows.Forms.TextBox txtIdCliente;
+        private System.Windows.Forms.Label lblNombreCliente;
+        private System.Windows.Forms.TextBox txtNombreCliente;
+        private System.Windows.Forms.TextBox txtDocuCliente;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox gbxInfoCompra;
         private System.Windows.Forms.TextBox txtNfactura;

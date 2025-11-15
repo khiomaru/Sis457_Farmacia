@@ -27,7 +27,7 @@ namespace CpFarmacia2024
 
             txtFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
             txtIdMedicamento.Text = "0";
-            txtIdProveedor.Text = "0";
+            txtIdCliente.Text = "0";
 
             dgvCompras.Columns.Add("idMedicamento", "ID Medicamento");
             dgvCompras.Columns.Add("codigo", "Código");
@@ -40,7 +40,7 @@ namespace CpFarmacia2024
             dgvCompras.Columns["idMedicamento"].Visible = false;
             dgvCompras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DesactivarCamposMedicamentos();
-            DesactivarCamposProveedor();
+            DesactivarCamposCliente(); // Cambiado para ventas
         }
         private void DesactivarCamposMedicamentos()
         {
@@ -52,12 +52,29 @@ namespace CpFarmacia2024
             txtCodigoMedicamento.Enabled = true;
             txtMedicamento.Enabled = true;
         }
-        public void SetProveedorData(string idProveedor, string documento, string razonSocial)
+        private void DesactivarCamposCliente()
         {
-            txtIdProveedor.Text = idProveedor;  // Asumiendo que tienes este TextBox
-            txtDocuProveedor.Text = documento; // Asumiendo que tienes este TextBox
-            txtRazonSocial.Text = razonSocial;   // Asumiendo que tienes este TextBo
+            txtDocuCliente.Enabled = false;
+            txtNombreCliente.Enabled = false;
+        }
+        private void HabilitarCamposCliente()
+        {
+            txtDocuCliente.Enabled = true;
+            txtNombreCliente.Enabled = true;
+        }
+        public void SetClienteData(string idCliente, string documento, string nombre)
+        {
+            txtIdCliente.Text = idCliente;  // Asumiendo que tienes este TextBox
+            txtDocuCliente.Text = documento; // Asumiendo que tienes este TextBox
+            txtNombreCliente.Text = nombre;   // Asumiendo que tienes este TextBox
 
+        }
+
+        public void SetPacienteData(string idPaciente, string documento, string nombre)
+        {
+            txtIdCliente.Text = idPaciente;
+            txtDocuCliente.Text = documento;
+            txtNombreCliente.Text = nombre;
         }
 
         private bool validar()
@@ -65,7 +82,7 @@ namespace CpFarmacia2024
             bool esValido = true;
             erpTipoDocumento.SetError(cbxTipoDocumento, "");
             erpNfactura.SetError(txtNfactura, "");
-            erpDocuProveedor.SetError(txtDocuProveedor, "");
+            erpDocuProveedor.SetError(txtDocuCliente, "");
             erpCodigoMedicamento.SetError(txtCodigoMedicamento, "");
             erpPrecioCompra.SetError(txtPrecioCompra, "");
             erpPrecioVenta.SetError(txtPrecioVenta, "");
@@ -81,10 +98,10 @@ namespace CpFarmacia2024
                 esValido = false;
                 erpNfactura.SetError(txtNfactura, "Este campo es obligatorio");
             }
-            if (string.IsNullOrEmpty(txtDocuProveedor.Text))
+            if (string.IsNullOrEmpty(txtDocuCliente.Text))
             {
                 esValido = false;
-                erpDocuProveedor.SetError(txtDocuProveedor, "Este campo no debe estar vacio");
+                erpDocuProveedor.SetError(txtDocuCliente, "Este campo no debe estar vacio");
             }
             if (string.IsNullOrEmpty(txtCodigoMedicamento.Text))
             {
@@ -94,28 +111,28 @@ namespace CpFarmacia2024
             if (string.IsNullOrEmpty(txtPrecioCompra.Text))
             {
                 esValido = false;
-                erpPrecioCompra.SetError(txtPrecioCompra, "Este campo precio de compra es obligatorio");
+                erpPrecioCompra.SetError(txtPrecioCompra, "El campo precio de compra es obligatorio");
             }
             if (string.IsNullOrEmpty(txtPrecioVenta.Text))
             {
                 esValido = false;
                 erpPrecioVenta.SetError(txtPrecioVenta, "El campo precio de venta es obligatorio");
             }
-            if (decimal.TryParse(txtPrecioCompra.Text, out decimal precioCompra) &&
-         decimal.TryParse(txtPrecioVenta.Text, out decimal precioVenta))
+
+            // Validar que precio de compra sea menor al precio de venta
+            if (decimal.TryParse(txtPrecioCompra.Text, out decimal precioCompra) && decimal.TryParse(txtPrecioVenta.Text, out decimal precioVenta))
             {
-                if (precioCompra > precioVenta)
+                if (precioCompra >= precioVenta)
                 {
                     esValido = false;
-                    erpPrecioVenta.SetError(txtPrecioVenta, "El precio de venta debe ser mayor que el precio de compra.");
-                    MessageBox.Show("El precio de venta debe ser mayor que el precio de compra.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    erpPrecioCompra.SetError(txtPrecioCompra, "El precio de compra debe ser menor al precio de venta");
                 }
             }
 
-            if (nudCantidad.Value < 0)
+            if (nudCantidad.Value <= 0)
             {
                 esValido = false;
-                erpCantidad.SetError(nudCantidad, "El campo Cantidad no debe ser negativo");
+                erpCantidad.SetError(nudCantidad, "El campo Cantidad debe ser mayor que cero");
             }
             return esValido;
         }
@@ -140,7 +157,7 @@ namespace CpFarmacia2024
             var precioCompra = decimal.Parse(txtPrecioCompra.Text);
             var precioVenta = decimal.Parse(txtPrecioVenta.Text);
             var cantidad = int.Parse(nudCantidad.Text);
-            var total = precioCompra * cantidad;
+            var total = precioVenta * cantidad;
 
             // Agregar una nueva fila al DataGridView
             dgvCompras.Rows.Add(idMedicamento, codigo, nombre, precioCompra, precioVenta, cantidad, total);
@@ -185,9 +202,9 @@ namespace CpFarmacia2024
             nudCantidad.Text = string.Empty;
             cbxTipoDocumento.Text = string.Empty;
             txtNfactura.Text = string.Empty;
-            txtDocuProveedor.Text = string.Empty;
-            txtRazonSocial.Text = string.Empty;
-            txtIdProveedor.Text = string.Empty;
+            txtDocuCliente.Text = string.Empty;
+            txtNombreCliente.Text = string.Empty;
+            txtIdCliente.Text = string.Empty;
         }
         private void iBtnRegistrar_Click(object sender, EventArgs e)
         {
@@ -202,12 +219,7 @@ namespace CpFarmacia2024
 
             string numeroDocumento = txtNfactura.Text.Trim();
 
-            // Verifica si el número de factura ya existe
-            if (CompraCln.ExisteNumeroFactura(numeroDocumento))
-            {
-                MessageBox.Show("El número de factura ya existe. Por favor, ingrese un número único.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            
 
             //// Verifica que el tipo de documento seleccionado sea válido
             if (cbxTipoDocumento.SelectedItem == null || !cbxTipoDocumento.Items.Contains(cbxTipoDocumento.SelectedItem))
@@ -215,26 +227,24 @@ namespace CpFarmacia2024
                 MessageBox.Show("Por favor, seleccione un tipo de documento válido.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            //obtener informacion de la compra
-            var compra = CrearCompra(numeroDocumento);
+            //obtener informacion de la venta
+            var venta = CrearVenta(numeroDocumento);
 
-            if (compra == null)
+            if (venta == null)
             {
-                return; // Se generó un error en la creación de la compra
+                return; // Se generó un error en la creación de la venta
             }
 
             try
             {
-                // Registrar la compra en la base de datos
-                int idCompraRegistrada = CompraCln.RegistrarCompra(compra);
-                RegistrarDetallesCompra(idCompraRegistrada);
+                // Registrar la venta en la base de datos
                 ActualizarStockYPrecios();
 
-                MessageBox.Show("Compra registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Venta registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                ManejarErrorRegistro(ex, "Error al registrar la compra");
+                ManejarErrorRegistro(ex, "Error al registrar la venta");
             }
 
             // Limpiar el DataGridView y el total
@@ -244,16 +254,17 @@ namespace CpFarmacia2024
         }
 
 
-        private Compra CrearCompra(string numeroDocumento)
+        private Venta CrearVenta(string numeroDocumento)
         {
             string tipoDocumento = cbxTipoDocumento.SelectedItem.ToString();
             decimal montoTotal = decimal.Parse(txtTotalPagar.Text);
-            int idProveedor = Convert.ToInt32(txtIdProveedor.Text);
+            int idCliente = Convert.ToInt32(txtIdCliente.Text);
             string usuarioRegistro = Util.usuario.usuario1 ?? "Usuario Desconocido";
 
-            return new Compra
+            return new Venta
             {
-                idProveedor = idProveedor,
+                documentoCliente = txtDocuCliente.Text,
+                nombreCliente = txtNombreCliente.Text,
                 tipoDocumento = tipoDocumento,
                 numeroDocumento = numeroDocumento,
                 montoTotal = montoTotal,
@@ -263,26 +274,25 @@ namespace CpFarmacia2024
             };
         }
 
-        private void RegistrarDetallesCompra(int idCompraRegistrada)
+        private void RegistrarDetallesVenta(int idVentaRegistrada)
         {
             foreach (DataGridViewRow row in dgvCompras.Rows)
             {
                 if (row.Cells["IdMedicamento"].Value != null)
                 {
-                    if (!ValidarDetallesCompra(row, idCompraRegistrada, out var detalleCompra))
+                    if (!ValidarDetallesVenta(row, idVentaRegistrada, out var detalleVenta))
                     {
                         return; // Si hay un error de validación, detenemos la ejecución
                     }
 
-                    // Aquí es donde debes inicializar detalleCompra
-                    detalleCompra = new DetalleCompra
+                    // Aquí es donde debes inicializar detalleVenta
+                    detalleVenta = new DetalleVenta
                     {
-                        idCompra = idCompraRegistrada,
+                        idVenta = idVentaRegistrada,
                         idMedicamento = Convert.ToInt32(row.Cells["IdMedicamento"].Value),
-                        precioCompra = Convert.ToDecimal(row.Cells["PrecioCompra"].Value),
                         precioVenta = Convert.ToDecimal(row.Cells["PrecioVenta"].Value),
                         cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
-                        total = Convert.ToDecimal(row.Cells["Total"].Value),
+                        subTotal = Convert.ToDecimal(row.Cells["Total"].Value),
                         usuarioRegistro = Util.usuario.usuario1 ?? "Usuario Desconocido",
                         fechaRegistro = DateTime.Now,
                         estado = 1
@@ -290,7 +300,7 @@ namespace CpFarmacia2024
 
                     try
                     {
-                        DetalleCompraCln.RegistrarDetalleCompra(detalleCompra);
+                       
 
 
 
@@ -301,14 +311,14 @@ namespace CpFarmacia2024
                     }
                     catch (Exception ex)
                     {
-                        ManejarErrorRegistro(ex, "Error al registrar detalle de compra");
+                        ManejarErrorRegistro(ex, "Error al registrar detalle de venta");
                     }
                 }
             }
 
         }
 
-        private bool ValidarDetallesCompra(DataGridViewRow row, int idCompraRegistrada, out DetalleCompra detalleCompra)
+        private bool ValidarDetallesVenta(DataGridViewRow row, int idVentaRegistrada, out DetalleVenta detalleVenta)
         {
             var idMedicamento = Convert.ToInt32(row.Cells["idMedicamento"].Value);
             var precioCompra = Convert.ToDecimal(row.Cells["precioCompra"].Value);
@@ -319,19 +329,18 @@ namespace CpFarmacia2024
             if (precioCompra < 0 || precioVenta < 0 || cantidad <= 0)
             {
                 MessageBox.Show("Los valores de precio y cantidad deben ser positivos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                detalleCompra = null; // Asignar null ya que hay un error
+                detalleVenta = null; // Asignar null ya que hay un error
                 return false; // Indicar que la validación falló
             }
 
-            detalleCompra = new DetalleCompra
+            detalleVenta = new DetalleVenta
             {
-                idCompra = idCompraRegistrada, // ID de la compra registrada
+                idVenta = idVentaRegistrada, // ID de la venta registrada
                 idMedicamento = idMedicamento,
-                precioCompra = precioCompra,
                 precioVenta = precioVenta,
                 cantidad = cantidad
             };
-            Console.WriteLine($"DetalleCompra: {detalleCompra.ToString()}");
+            Console.WriteLine($"DetalleVenta: {detalleVenta.ToString()}");
             return true; // Indicar que la validación fue exitosa
         }
 
@@ -366,8 +375,8 @@ namespace CpFarmacia2024
 
                     try
                     {
-                        // Llama al método ActualizarStock con los parámetros correctos
-                        bool actualizado = MedicamentoCln.ActualizarStock(idMedicamento, precioCompra, precioVenta, cantidad);
+                        // Llama al método ActualizarStock con los parámetros correctos, restando cantidad para ventas
+                        bool actualizado = MedicamentoCln.ActualizarStock(idMedicamento, precioCompra, precioVenta, -cantidad);
 
                         if (!actualizado)
                         {
@@ -413,11 +422,9 @@ namespace CpFarmacia2024
             }
         }
 
-        private void btnBuscarProveedor_Click(object sender, EventArgs e)
+        private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
-            FrmPequeProveedor proveedorForm = new FrmPequeProveedor(this);
-            proveedorForm.ShowDialog();
-            HabilitarCamposProveedor();
+            HabilitarCamposCliente();
         }
 
         private void btnBuscarMedicamento_Click(object sender, EventArgs e)
@@ -427,15 +434,6 @@ namespace CpFarmacia2024
             HabilitarCamposMedicamentos();
         }
 
-        private void DesactivarCamposProveedor()
-        {
-            txtDocuProveedor.Enabled = false;
-            txtRazonSocial.Enabled = false;
-        }
-        private void HabilitarCamposProveedor()
-        {
-            txtDocuProveedor.Enabled = true;
-            txtRazonSocial.Enabled = true;
-        }
+
     }
 }

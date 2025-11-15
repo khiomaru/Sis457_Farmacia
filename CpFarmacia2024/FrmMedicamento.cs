@@ -2,6 +2,10 @@
 using ClnFarmacia2024;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CpFarmacia2024
@@ -9,236 +13,415 @@ namespace CpFarmacia2024
     public partial class FrmMedicamento : Form
     {
         private bool esNuevo = false;
+        private readonly Size CompactSize = new Size(900, 390);
+        private readonly Size ExpandedSize = new Size(900, 654);
+        private BindingSource bindingSource; // Para simplificar binding de datos
 
         public FrmMedicamento()
         {
             InitializeComponent();
-            CargarEstados();
-            DesactivarCampos();
+            InitializeBindingSource(); // Nueva: Inicializar binding
+            TryLoadCategorias();
+            WireEvents();
             Listar();
+            ToggleFormMode(false);
         }
 
-        private void CargarEstados()
+        private void InitializeBindingSource()
         {
-            cboEstado.Items.Clear();
-            cboEstado.Items.Add("Activo");
-            cboEstado.Items.Add("Inactivo");
-            cboEstado.SelectedIndex = 0;
+            bindingSource = new BindingSource();
+            dgvListaMedicamentos.DataSource = bindingSource;
         }
+
+        private void WireEvents()
+        {
+            txtParametro.KeyPress += TxtParametro_KeyPress;
+            dgvListaMedicamentos.SelectionChanged += DgvListaMedicamentos_SelectionChanged;
+            dgvListaMedicamentos.CellDoubleClick += DgvListaMedicamentos_CellDoubleClick;
+            // Nueva: Evitar recargas innecesarias en TextChanged
+            txtParametro.TextChanged += (s, e) => { /* Opcional: Implementar búsqueda en tiempo real si es necesario */ };
+        }
+
+        private void TryLoadCategorias()
+        {
+            try
+            {
+                var categorias = CategoriaCln.listar() ?? new List<Categoria>();
+                cbxCategoria.DataSource = categorias;
+                cbxCategoria.DisplayMember = "descripcion";
+                cbxCategoria.ValueMember = "id";
+                cbxCategoria.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                // Mejorado: Loggear error en lugar de ignorarlo
+                Debug.WriteLine($"Error al cargar categorías: {ex.Message}");
+                MessageBox.Show("Error al cargar categorías. Verifique la conexión a la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cbxCategoria.DataSource = null;
+            }
+
+            cbxEstado.SelectedIndex = 0; // Activo por defecto
+        }
+
+        // Nuevo: ErrorProvider para fecha de caducidad
+        private ErrorProvider erpFechaCaducidad = new ErrorProvider();
 
         private void Listar()
         {
-            var filtro = txtBuscar.Text.Trim();
-            var lista = MedicamentoCln.listar(filtro) ?? new List<Medicamento>();
-
-            dgvMedicamentos.DataSource = lista;
-
-            if (lista.Count > 0)
+            try
             {
-                if (dgvMedicamentos.Columns.Contains("id")) dgvMedicamentos.Columns["id"].Visible = false;
-                if (dgvMedicamentos.Columns.Contains("estado")) dgvMedicamentos.Columns["estado"].Visible = false;
-                if (dgvMedicamentos.Columns.Contains("fechaRegistro")) dgvMedicamentos.Columns["fechaRegistro"].Visible = false;
-                if (dgvMedicamentos.Columns.Contains("usuarioRegistro")) dgvMedicamentos.Columns["usuarioRegistro"].Visible = false;
+                var parametro = txtParametro.Text?.Trim() ?? string.Empty;
+                var listaPa = MedicamentoCln.listaaPa(parametro) ?? new List<paMedicamentoListar_Result>();
+                bindingSource.DataSource = listaPa; // Usar bindingSource para mejor control
+
+                if (listaPa.Any())
+                {
+                    foreach (var col in new[] { "estado", "fechaRegistro", "usuarioRegistro" })
+                        if (dgvListaMedicamentos.Columns.Contains(col))
+                            dgvListaMedicamentos.Columns[col].Visible = false;
+
+                    var headers = new Dictionary<string, string>
+                    {
+                        { "codigo", "Código" },
+                        { "descripcion", "Descripción" },
+                        { "Categoria", "Categoría" },
+                        { "precioVenta", "Precio de Venta" }
+                    };
+
+                    foreach (var kv in headers)
+                        if (dgvListaMedicamentos.Columns.Contains(kv.Key))
+                            dgvListaMedicamentos.Columns[kv.Key].HeaderText = kv.Value;
+
+                    dgvListaMedicamentos.Rows[0].Selected = true;
+                }
+
+                EnableActionButtons();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al listar medicamentos: {ex.Message}");
+                MessageBox.Show("Error al listar medicamentos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            btnEditar.Enabled = btnEliminar.Enabled = lista.Count > 0;
+            AdjustSizeForMode();
         }
 
-        private void LimpiarCampos()
+        private void TxtParametro_KeyPress(object sender, KeyPressEventArgs e)
         {
-            txtNombre.Clear();
-            txtDescripcion.Clear();
-            txtPrecio.Clear();
-            txtStock.Clear();
-            cboEstado.SelectedIndex = 0;
-        }
-
-        private void DesactivarCampos()
-        {
-            txtNombre.Enabled = false;
-            txtDescripcion.Enabled = false;
-            txtPrecio.Enabled = false;
-            txtStock.Enabled = false;
-            cboEstado.Enabled = false;
-        }
-
-        private void HabilitarCampos()
-        {
-            txtNombre.Enabled = true;
-            txtDescripcion.Enabled = true;
-            txtPrecio.Enabled = true;
-            txtStock.Enabled = true;
-            cboEstado.Enabled = true;
-        }
-
-        private bool Validar()
-        {
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            if (e.KeyChar == (char)Keys.Enter)
             {
-                MessageBox.Show("El nombre es obligatorio.", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNombre.Focus();
-                return false;
+                Listar();
+                e.Handled = true;
             }
-
-            if (!decimal.TryParse(txtPrecio.Text, out _))
-            {
-                MessageBox.Show("El precio debe ser un número válido.", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPrecio.Focus();
-                return false;
-            }
-
-            if (!int.TryParse(txtStock.Text, out _))
-            {
-                MessageBox.Show("El stock debe ser un número entero.", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtStock.Focus();
-                return false;
-            }
-
-            return true;
         }
 
-        private void btnNuevo_Click(object sender, EventArgs e)
+        private void DgvListaMedicamentos_SelectionChanged(object sender, EventArgs e) => EnableActionButtons();
+        private void DgvListaMedicamentos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0) btnEditar_Click_1(sender, EventArgs.Empty);
+        }
+
+        private void btnNuevo_Click_1(object sender, EventArgs e)
         {
             esNuevo = true;
-            LimpiarCampos();
-            HabilitarCampos();
-            txtNombre.Focus();
+            ClearForm();
+            ToggleFormMode(true);
+            txtCodigo.Focus();
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
+        private void btnEditar_Click_1(object sender, EventArgs e)
         {
-            if (!Validar()) return;
+            if (!GetSelectedId(out int id)) return;
 
-            if (!decimal.TryParse(txtPrecio.Text, out decimal precio))
+            esNuevo = false;
+            ToggleFormMode(true);
+
+            try
             {
-                MessageBox.Show("Precio inválido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                var medicamento = MedicamentoCln.obtenerUno(id);
+                if (medicamento == null)
+                {
+                    MessageBox.Show("Registro no encontrado.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // UI <- entidad (mejorado: usar un método helper)
+                PopulateFormFromEntity(medicamento);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al cargar registro: {ex.Message}");
+                MessageBox.Show("Error al cargar registro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            if (!int.TryParse(txtStock.Text, out int stock))
+            AdjustSizeForMode();
+        }
+
+        private void btnEliminar_Click_1(object sender, EventArgs e)
+        {
+            if (!GetSelectedId(out int id)) return;
+
+            string codigo = dgvListaMedicamentos.CurrentRow?.Cells["codigo"].Value?.ToString() ?? string.Empty;
+            var dialog = MessageBox.Show($"¿Está seguro que desea eliminar el medicamento con el código {codigo}?",
+                "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dialog != DialogResult.Yes) return;
+
+            try
             {
-                MessageBox.Show("Stock inválido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MedicamentoCln.eliminar(id, Util.usuario.usuario1 ?? "Usuario Desconocido");
+                Listar();
+                MessageBox.Show("Medicamento eliminado correctamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al eliminar: {ex.Message}");
+                MessageBox.Show("Error al eliminar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e) => Close();
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            ToggleFormMode(false);
+            ClearForm();
+        }
+
+        private void btnBuscar_Click_1(object sender, EventArgs e) => Listar();
+
+        private void ClearForm()
+        {
+            txtCodigo.Clear();
+            txtDescripcion.Clear();
+            txtMarca.Clear();
+            txtPresentacion.Clear();
+            nudStockActual.Value = 0;
+            dtpFechaCaducidad.Checked = false;
+            if (cbxCategoria.DataSource != null) cbxCategoria.SelectedIndex = -1;
+            nudPrecioVenta.Value = 0;
+            cbxEstado.SelectedIndex = 0;
+            ClearErrors();
+        }
+
+        private void ClearErrors()
+        {
+            erpCodigo.Clear();
+            erpDescripcion.Clear();
+            erpMarca.Clear();
+            erpCategoria.Clear();
+            erpPrecioVenta.Clear();
+            erpFechaCaducidad.Clear();
+        }
+
+        private bool ValidateForm()
+        {
+            ClearErrors();
+            bool esValido = true;
+
+            if (string.IsNullOrWhiteSpace(txtCodigo.Text))
+            {
+                esValido = false;
+                erpCodigo.SetError(txtCodigo, "El campo código es obligatorio.");
+            }
+            if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
+            {
+                esValido = false;
+                erpDescripcion.SetError(txtDescripcion, "El campo descripción es obligatorio.");
+            }
+            if (string.IsNullOrWhiteSpace(txtMarca.Text))
+            {
+                esValido = false;
+                erpMarca.SetError(txtMarca, "El campo marca es obligatorio.");
+            }
+            if (cbxCategoria.SelectedIndex < 0)
+            {
+                esValido = false;
+                erpCategoria.SetError(cbxCategoria, "El campo categoría es obligatorio.");
+            }
+            if (nudPrecioVenta.Value <= 0)
+            {
+                esValido = false;
+                erpPrecioVenta.SetError(nudPrecioVenta, "El precio de venta debe ser mayor que cero.");
+            }
+            // Nueva: Validar fecha de caducidad
+            if (dtpFechaCaducidad.Checked && dtpFechaCaducidad.Value < DateTime.Today)
+            {
+                esValido = false;
+                erpFechaCaducidad.SetError(dtpFechaCaducidad, "La fecha de caducidad no puede ser anterior a hoy.");
             }
 
-            var obj = new Medicamento
+            if (esValido && esNuevo)
             {
-                nombre = txtNombre.Text.Trim(),
+                try
+                {
+                    if (MedicamentoCln.ExisteCodigo(txtCodigo.Text.Trim()))
+                    {
+                        esValido = false;
+                        erpCodigo.SetError(txtCodigo, "El código ya existe.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error al verificar código: {ex.Message}");
+                    esValido = false;
+                    erpCodigo.SetError(txtCodigo, "Error al verificar código único.");
+                }
+            }
+
+            return esValido;
+        }
+
+        // Refactorizado: Método helper para poblar el formulario desde la entidad
+        private void PopulateFormFromEntity(Medicamento medicamento)
+        {
+            txtCodigo.Text = medicamento.codigo ?? string.Empty;
+            txtDescripcion.Text = medicamento.descripcion ?? string.Empty;
+            txtMarca.Text = medicamento.marca ?? string.Empty;
+            txtPresentacion.Text = medicamento.presentacion ?? string.Empty;
+            nudStockActual.Value = medicamento.stockActual;
+            dtpFechaCaducidad.Value = medicamento.fechaCaducidad ?? DateTime.Now;
+            dtpFechaCaducidad.Checked = medicamento.fechaCaducidad.HasValue;
+            nudPrecioVenta.Value = medicamento.precioVenta;
+            cbxEstado.SelectedIndex = medicamento.estado == 1 ? 0 : 1;
+            try
+            {
+                cbxCategoria.SelectedValue = medicamento.idCategoria;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al seleccionar categoría: {ex.Message}");
+                cbxCategoria.SelectedIndex = -1; // Seleccionar ninguno si falla
+            }
+        }
+
+        // Refactorizado: Método helper para crear entidad desde UI
+        private Medicamento CreateMedicamentoFromUi()
+        {
+            return new Medicamento
+            {
+                codigo = txtCodigo.Text.Trim(),
+                nombre = txtDescripcion.Text.Trim(),
                 descripcion = txtDescripcion.Text.Trim(),
-                precioVenta = precio,
-                stock = stock,
-                estado = (short)EstadoToInt(cboEstado.Text),
+                marca = txtMarca.Text.Trim(),
+                presentacion = txtPresentacion.Text.Trim(),
+                stockActual = (int)nudStockActual.Value,
+                fechaCaducidad = dtpFechaCaducidad.Checked ? dtpFechaCaducidad.Value : (DateTime?)null,
+                tipoUnidad = "Unidad", // Corregido: Establecer un valor por defecto razonable
+                precioVenta = nudPrecioVenta.Value,
+                usuarioRegistro = Util.usuario.usuario1 ?? "Usuario Desconocido",
                 fechaRegistro = DateTime.Now,
-                usuarioRegistro = "admin"
+                estado = cbxEstado.SelectedIndex == 0 ? (short)1 : (short)0,
+                idCategoria = Convert.ToInt32(cbxCategoria.SelectedValue)
             };
+        }
+
+        // Refactorizado: Método helper para actualizar entidad
+        private void UpdateEntityFromUi(Medicamento existente)
+        {
+            existente.codigo = txtCodigo.Text.Trim();
+            existente.nombre = txtDescripcion.Text.Trim();
+            existente.descripcion = txtDescripcion.Text.Trim();
+            existente.marca = txtMarca.Text.Trim();
+            existente.presentacion = txtPresentacion.Text.Trim();
+            existente.stockActual = (int)nudStockActual.Value;
+            existente.fechaCaducidad = dtpFechaCaducidad.Checked ? dtpFechaCaducidad.Value : (DateTime?)null;
+            existente.tipoUnidad = "Unidad"; // Corregido: Establecer un valor por defecto razonable
+            existente.precioVenta = nudPrecioVenta.Value;
+            existente.estado = cbxEstado.SelectedIndex == 0 ? (short)1 : (short)0;
+            existente.idCategoria = Convert.ToInt32(cbxCategoria.SelectedValue);
+        }
+
+        private void btnGuardar_Click_1(object sender, EventArgs e)
+        {
+            if (!ValidateForm()) return;
+
+            // Nueva: Confirmación antes de guardar
+            if (MessageBox.Show("¿Guardar los cambios?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
 
             try
             {
                 if (esNuevo)
                 {
-                    MedicamentoCln.insertar(obj);
-                    MessageBox.Show("Medicamento registrado correctamente.", "Éxito",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MedicamentoCln.insertar(CreateMedicamentoFromUi());
                 }
                 else
                 {
-                    if (dgvMedicamentos.CurrentRow == null)
+                    if (!GetSelectedId(out int id)) return;
+                    var existente = MedicamentoCln.obtenerUno(id);
+                    if (existente == null)
                     {
-                        MessageBox.Show("Seleccione un registro para actualizar.", "Atención",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Registro no encontrado.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-
-                    int id = Convert.ToInt32(dgvMedicamentos.CurrentRow.Cells["id"].Value);
-                    obj.id = id;
-
-                    MedicamentoCln.actualizar(obj);
-                    MessageBox.Show("Medicamento actualizado.", "Éxito",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    UpdateEntityFromUi(existente);
+                    MedicamentoCln.actualizar(existente);
                 }
+
+                Listar();
+                btnCancelar.PerformClick();
+                MessageBox.Show("Medicamento guardado correctamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.WriteLine($"Error al guardar: {ex.Message}");
+                MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            Listar();
-            LimpiarCampos();
-            DesactivarCampos();
         }
 
-        private void btnEditar_Click(object sender, EventArgs e)
+        private bool GetSelectedId(out int id)
         {
-            if (dgvMedicamentos.CurrentRow == null) return;
-
-            esNuevo = false;
-            HabilitarCampos();
-
-            var row = dgvMedicamentos.CurrentRow;
-            txtNombre.Text = row.Cells["nombre"].Value?.ToString() ?? string.Empty;
-            txtDescripcion.Text = row.Cells["descripcion"].Value?.ToString() ?? string.Empty;
-            txtPrecio.Text = row.Cells["precioVenta"].Value?.ToString() ?? string.Empty;
-            txtStock.Text = row.Cells["stock"].Value?.ToString() ?? string.Empty;
-
-            cboEstado.SelectedItem = IntToEstado(row.Cells["estado"].Value);
-        }
-
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if (dgvMedicamentos.CurrentRow == null) return;
-
-            int id = Convert.ToInt32(dgvMedicamentos.CurrentRow.Cells["id"].Value);
-
-            if (MessageBox.Show("¿Realmente deseas eliminar este medicamento?",
-                "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            id = 0;
+            try
             {
-                try
-                {
-                    MedicamentoCln.eliminar(id, "admin");
-                    Listar();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al eliminar: " + ex.Message, "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                if (dgvListaMedicamentos.CurrentRow == null) return false;
+                var cell = dgvListaMedicamentos.CurrentRow.Cells["id"];
+                if (cell?.Value == null) return false;
+                id = Convert.ToInt32(cell.Value);
+                return true;
             }
-        }
-
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            Listar();
-        }
-
-        private void txtBuscar_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
+            catch (Exception ex)
             {
-                Listar();
-                e.Handled = true;
-                e.SuppressKeyPress = true;
+                Debug.WriteLine($"Error al obtener ID seleccionado: {ex.Message}");
+                return false;
             }
         }
 
-        private int EstadoToInt(string estado)
+        private void EnableActionButtons()
         {
-            return string.Equals(estado, "Activo", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+            bool hasSelection = bindingSource.Current != null; // Mejorado: Usar bindingSource
+            btnEditar.Enabled = hasSelection;
+            btnEliminar.Enabled = hasSelection;
         }
 
-        private string IntToEstado(object value)
+        private void ToggleFormMode(bool editMode)
         {
-            if (value == null) return "Inactivo";
-            int v;
-            if (int.TryParse(value.ToString(), out v))
-            {
-                return v == 1 ? "Activo" : "Inactivo";
-            }
-            // si viene como texto
-            return value.ToString() == "1" ? "Activo" : "Inactivo";
+            this.Size = editMode ? ExpandedSize : CompactSize;
+            gbxDatos.Visible = editMode;
+            pnlAcciones.Enabled = !editMode;
+            txtParametro.Enabled = !editMode;
+            btnBuscar.Enabled = !editMode;
+            EnableActionButtons();
+            AdjustSizeForMode();
         }
+
+        private void AdjustSizeForMode()
+        {
+            this.ClientSize = gbxDatos.Visible ? ExpandedSize : CompactSize;
+        }
+
+        private void FrmMedicamento_Load(object sender, EventArgs e) { }
+
+        // Métodos vacíos referenciados por el diseñador
+        private void gbxDatos_Enter(object sender, EventArgs e) { }
+        private void txtParametro_TextChanged(object sender, EventArgs e) { }
+        private void dgvListaMedicamentos_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void pnlAcciones_Paint(object sender, PaintEventArgs e) { }
+        private void lblPrincipal_Click(object sender, EventArgs e) { }
+        private void lblBusqueda_Click(object sender, EventArgs e) { }
+        private void txtCodigo_TextChanged(object sender, EventArgs e) { }
+        private void txtDescripcion_TextChanged(object sender, EventArgs e) { }
+        private void txtMarca_TextChanged(object sender, EventArgs e) { }
+        private void nudPrecioVenta_ValueChanged(object sender, EventArgs e) { }
     }
 }
