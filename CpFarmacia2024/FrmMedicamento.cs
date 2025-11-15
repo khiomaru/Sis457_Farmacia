@@ -13,160 +13,232 @@ namespace CpFarmacia2024
         public FrmMedicamento()
         {
             InitializeComponent();
-            CargarCategorias();
-            Listar();
+            CargarEstados();
             DesactivarCampos();
+            Listar();
         }
 
-        private void CargarCategorias()
+        private void CargarEstados()
         {
-            var categorias = CategoriaCln.listar() ?? new List<Categoria>();
-            cbxCategoria.DataSource = categorias;
-            cbxCategoria.DisplayMember = "descripcion";
-            cbxCategoria.ValueMember = "id";
+            cboEstado.Items.Clear();
+            cboEstado.Items.Add("Activo");
+            cboEstado.Items.Add("Inactivo");
+            cboEstado.SelectedIndex = 0;
         }
 
         private void Listar()
         {
-            var lista = MedicamentoCln.listaaPa(txtParametroMedicamento.Text) ?? new List<paMedicamentoListar_Result>();
-            dgvListaMedicamento.DataSource = lista;
+            var filtro = txtBuscar.Text.Trim();
+            var lista = MedicamentoCln.listar(filtro) ?? new List<Medicamento>();
+
+            dgvMedicamentos.DataSource = lista;
 
             if (lista.Count > 0)
             {
-                dgvListaMedicamento.Columns["id"].Visible = false;
-                dgvListaMedicamento.Columns["estado"].Visible = false;
-                dgvListaMedicamento.Columns["codigo"].HeaderText = "Código";
-                dgvListaMedicamento.Columns["nombre"].HeaderText = "Nombre";
-                dgvListaMedicamento.Columns["descripcion"].HeaderText = "Descripción";
-                dgvListaMedicamento.Columns["Categoria"].HeaderText = "Categoría";
-                dgvListaMedicamento.Columns["stock"].HeaderText = "Stock";
-                dgvListaMedicamento.Columns["precioCompra"].HeaderText = "Precio Compra";
-                dgvListaMedicamento.Columns["precioVenta"].HeaderText = "Precio Venta";
+                if (dgvMedicamentos.Columns.Contains("id")) dgvMedicamentos.Columns["id"].Visible = false;
+                if (dgvMedicamentos.Columns.Contains("estado")) dgvMedicamentos.Columns["estado"].Visible = false;
+                if (dgvMedicamentos.Columns.Contains("fechaRegistro")) dgvMedicamentos.Columns["fechaRegistro"].Visible = false;
+                if (dgvMedicamentos.Columns.Contains("usuarioRegistro")) dgvMedicamentos.Columns["usuarioRegistro"].Visible = false;
             }
 
             btnEditar.Enabled = btnEliminar.Enabled = lista.Count > 0;
         }
 
-        private bool Validar()
-        {
-            bool valido = true;
-            erpCodigo.SetError(txtCodigo, "");
-            erpNombre.SetError(txtNombre, "");
-            erpDescripcion.SetError(txtDescripcion, "");
-
-            if (string.IsNullOrWhiteSpace(txtCodigo.Text)) { erpCodigo.SetError(txtCodigo, "Código obligatorio"); valido = false; }
-            if (string.IsNullOrWhiteSpace(txtNombre.Text)) { erpNombre.SetError(txtNombre, "Nombre obligatorio"); valido = false; }
-            if (string.IsNullOrWhiteSpace(txtDescripcion.Text)) { erpDescripcion.SetError(txtDescripcion, "Descripción obligatoria"); valido = false; }
-
-            return valido;
-        }
-
         private void LimpiarCampos()
         {
-            txtCodigo.Text = txtNombre.Text = txtDescripcion.Text = "";
+            txtNombre.Clear();
+            txtDescripcion.Clear();
+            txtPrecio.Clear();
+            txtStock.Clear();
+            cboEstado.SelectedIndex = 0;
         }
 
         private void DesactivarCampos()
         {
-            txtCodigo.Enabled = txtNombre.Enabled = txtDescripcion.Enabled = cbxCategoria.Enabled = false;
+            txtNombre.Enabled = false;
+            txtDescripcion.Enabled = false;
+            txtPrecio.Enabled = false;
+            txtStock.Enabled = false;
+            cboEstado.Enabled = false;
         }
 
         private void HabilitarCampos()
         {
-            txtCodigo.Enabled = txtNombre.Enabled = txtDescripcion.Enabled = cbxCategoria.Enabled = true;
+            txtNombre.Enabled = true;
+            txtDescripcion.Enabled = true;
+            txtPrecio.Enabled = true;
+            txtStock.Enabled = true;
+            cboEstado.Enabled = true;
+        }
+
+        private bool Validar()
+        {
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                MessageBox.Show("El nombre es obligatorio.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtPrecio.Text, out _))
+            {
+                MessageBox.Show("El precio debe ser un número válido.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPrecio.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(txtStock.Text, out _))
+            {
+                MessageBox.Show("El stock debe ser un número entero.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtStock.Focus();
+                return false;
+            }
+
+            return true;
         }
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             esNuevo = true;
-            HabilitarCampos();
             LimpiarCampos();
-            txtCodigo.Focus();
+            HabilitarCampos();
+            txtNombre.Focus();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             if (!Validar()) return;
 
-            var medicamento = new Medicamento
+            if (!decimal.TryParse(txtPrecio.Text, out decimal precio))
             {
-                codigo = txtCodigo.Text.Trim(),
+                MessageBox.Show("Precio inválido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!int.TryParse(txtStock.Text, out int stock))
+            {
+                MessageBox.Show("Stock inválido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var obj = new Medicamento
+            {
                 nombre = txtNombre.Text.Trim(),
                 descripcion = txtDescripcion.Text.Trim(),
-                idCategoria = (int)(cbxCategoria.SelectedValue ?? 0),
-                stock = 0,
-                precioCompra = 0,
-                precioVenta = 0,
-                usuarioRegistro = Util.usuario?.usuario1 ?? "Desconocido",
+                precioVenta = precio,
+                stock = stock,
+                estado = (short)EstadoToInt(cboEstado.Text),
                 fechaRegistro = DateTime.Now,
-                estado = 1
+                usuarioRegistro = "admin"
             };
 
             try
             {
                 if (esNuevo)
                 {
-                    if (MedicamentoCln.ExisteCodigo(medicamento.codigo))
-                    {
-                        MessageBox.Show("Código ya existente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    MedicamentoCln.insertar(medicamento);
+                    MedicamentoCln.insertar(obj);
+                    MessageBox.Show("Medicamento registrado correctamente.", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    if (dgvListaMedicamento.CurrentCell == null) return;
-                    int index = dgvListaMedicamento.CurrentCell.RowIndex;
-                    int id = Convert.ToInt32(dgvListaMedicamento.Rows[index].Cells["id"].Value);
-                    medicamento.id = id;
-                    MedicamentoCln.actualizar(medicamento);
-                }
+                    if (dgvMedicamentos.CurrentRow == null)
+                    {
+                        MessageBox.Show("Seleccione un registro para actualizar.", "Atención",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
-                Listar();
-                LimpiarCampos();
-                DesactivarCampos();
+                    int id = Convert.ToInt32(dgvMedicamentos.CurrentRow.Cells["id"].Value);
+                    obj.id = id;
+
+                    MedicamentoCln.actualizar(obj);
+                    MessageBox.Show("Medicamento actualizado.", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error al guardar: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            Listar();
+            LimpiarCampos();
+            DesactivarCampos();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (dgvListaMedicamento.CurrentCell == null) return;
+            if (dgvMedicamentos.CurrentRow == null) return;
 
             esNuevo = false;
-            int index = dgvListaMedicamento.CurrentCell.RowIndex;
-            int id = Convert.ToInt32(dgvListaMedicamento.Rows[index].Cells["id"].Value);
-            var medicamento = MedicamentoCln.obtenerUno(id);
-
-            txtCodigo.Text = medicamento.codigo;
-            txtNombre.Text = medicamento.nombre;
-            txtDescripcion.Text = medicamento.descripcion;
-            cbxCategoria.SelectedValue = medicamento.idCategoria;
-
             HabilitarCampos();
-            txtCodigo.Focus();
+
+            var row = dgvMedicamentos.CurrentRow;
+            txtNombre.Text = row.Cells["nombre"].Value?.ToString() ?? string.Empty;
+            txtDescripcion.Text = row.Cells["descripcion"].Value?.ToString() ?? string.Empty;
+            txtPrecio.Text = row.Cells["precioVenta"].Value?.ToString() ?? string.Empty;
+            txtStock.Text = row.Cells["stock"].Value?.ToString() ?? string.Empty;
+
+            cboEstado.SelectedItem = IntToEstado(row.Cells["estado"].Value);
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (dgvListaMedicamento.CurrentCell == null) return;
+            if (dgvMedicamentos.CurrentRow == null) return;
 
-            int index = dgvListaMedicamento.CurrentCell.RowIndex;
-            int id = Convert.ToInt32(dgvListaMedicamento.Rows[index].Cells["id"].Value);
-            string codigo = dgvListaMedicamento.Rows[index].Cells["codigo"].Value.ToString();
+            int id = Convert.ToInt32(dgvMedicamentos.CurrentRow.Cells["id"].Value);
 
-            if (MessageBox.Show($"¿Dar de baja el medicamento {codigo}?", "Confirmar", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            if (MessageBox.Show("¿Realmente deseas eliminar este medicamento?",
+                "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                MedicamentoCln.eliminar(id, Util.usuario?.usuario1 ?? "Desconocido");
-                Listar();
+                try
+                {
+                    MedicamentoCln.eliminar(id, "admin");
+                    Listar();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al eliminar: " + ex.Message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e) => Listar();
-        private void btnLimpiar_Click(object sender, EventArgs e) { txtParametroMedicamento.Text = ""; Listar(); }
-        private void btnCerrar_Click(object sender, EventArgs e) => this.Close();
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            Listar();
+        }
+
+        private void txtBuscar_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Listar();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private int EstadoToInt(string estado)
+        {
+            return string.Equals(estado, "Activo", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+        }
+
+        private string IntToEstado(object value)
+        {
+            if (value == null) return "Inactivo";
+            int v;
+            if (int.TryParse(value.ToString(), out v))
+            {
+                return v == 1 ? "Activo" : "Inactivo";
+            }
+            // si viene como texto
+            return value.ToString() == "1" ? "Activo" : "Inactivo";
+        }
     }
 }

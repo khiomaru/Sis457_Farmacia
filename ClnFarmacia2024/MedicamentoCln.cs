@@ -63,7 +63,7 @@ namespace ClnFarmacia2024
             }
         }
 
-        public static List<Medicamento> listar()
+        public static List<Medicamento> listar(string text)
         {
             using (var context = new Labsis457farmaciaEntities())
             {
