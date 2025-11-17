@@ -30,4 +30,3 @@ namespace CadFarmacia2024
         public virtual ICollection<Medicamento> Medicamento { get; set; }
     }
 }
-

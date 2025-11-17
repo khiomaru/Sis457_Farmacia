@@ -11,6 +11,18 @@
     <Property Name="estado" Type="Int16" Nullable="false" />
     <NavigationProperty Name="Medicamento" Relationship="Self.fk_Medicamento_Categoria" FromRole="Categoria" ToRole="Medicamento" />
   </EntityType>
+  <EntityType Name="ClasificacionATK">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="codigoATK" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Medicamento" Relationship="Self.fk_Medicamento_ClasificacionATK" FromRole="ClasificacionATK" ToRole="Medicamento" />
+  </EntityType>
   <EntityType Name="Compra">
     <Key>
       <PropertyRef Name="id" />
@@ -90,6 +102,28 @@
     <Property Name="estado" Type="Int16" Nullable="false" />
     <NavigationProperty Name="Usuario" Relationship="Self.fk_Usuario_Empleado" FromRole="Empleado" ToRole="Usuario" />
   </EntityType>
+  <EntityType Name="Grupo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Medicamento" Relationship="Self.fk_Medicamento_Grupo" FromRole="Grupo" ToRole="Medicamento" />
+  </EntityType>
+  <EntityType Name="Marca">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Medicamento" Relationship="Self.fk_Medicamento_Marca" FromRole="Marca" ToRole="Medicamento" />
+  </EntityType>
   <EntityType Name="Medicamento">
     <Key>
       <PropertyRef Name="id" />
@@ -107,9 +141,19 @@
     <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="estado" Type="Int16" Nullable="false" />
+    <Property Name="idMarca" Type="Int32" />
+    <Property Name="idPresentacion" Type="Int32" />
+    <Property Name="idGrupo" Type="Int32" />
+    <Property Name="idUnidadMedida" Type="Int32" />
+    <Property Name="idClasificacionATK" Type="Int32" />
     <NavigationProperty Name="Categoria" Relationship="Self.fk_Medicamento_Categoria" FromRole="Medicamento" ToRole="Categoria" />
+    <NavigationProperty Name="ClasificacionATK" Relationship="Self.fk_Medicamento_ClasificacionATK" FromRole="Medicamento" ToRole="ClasificacionATK" />
     <NavigationProperty Name="DetalleCompra" Relationship="Self.fk_DetalleCompra_Medicamento" FromRole="Medicamento" ToRole="DetalleCompra" />
     <NavigationProperty Name="DetalleVenta" Relationship="Self.fk_DetalleVenta_Medicamento" FromRole="Medicamento" ToRole="DetalleVenta" />
+    <NavigationProperty Name="Grupo" Relationship="Self.fk_Medicamento_Grupo" FromRole="Medicamento" ToRole="Grupo" />
+    <NavigationProperty Name="Marca" Relationship="Self.fk_Medicamento_Marca" FromRole="Medicamento" ToRole="Marca" />
+    <NavigationProperty Name="Presentacion" Relationship="Self.fk_Medicamento_Presentacion" FromRole="Medicamento" ToRole="Presentacion" />
+    <NavigationProperty Name="UnidadMedida" Relationship="Self.fk_Medicamento_UnidadMedida" FromRole="Medicamento" ToRole="UnidadMedida" />
   </EntityType>
   <EntityType Name="Paciente">
     <Key>
@@ -125,6 +169,17 @@
     <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="estado" Type="Int16" Nullable="false" />
   </EntityType>
+  <EntityType Name="Presentacion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Medicamento" Relationship="Self.fk_Medicamento_Presentacion" FromRole="Presentacion" ToRole="Medicamento" />
+  </EntityType>
   <EntityType Name="Proveedor">
     <Key>
       <PropertyRef Name="id" />
@@ -139,6 +194,17 @@
     <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="estado" Type="Int16" Nullable="false" />
     <NavigationProperty Name="Compra" Relationship="Self.fk_Compra_Proveedor" FromRole="Proveedor" ToRole="Compra" />
+  </EntityType>
+  <EntityType Name="UnidadMedida">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Medicamento" Relationship="Self.fk_Medicamento_UnidadMedida" FromRole="UnidadMedida" ToRole="Medicamento" />
   </EntityType>
   <EntityType Name="Usuario">
     <Key>
@@ -183,6 +249,18 @@
       </Principal>
       <Dependent Role="Medicamento">
         <PropertyRef Name="idCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Medicamento_ClasificacionATK">
+    <End Role="ClasificacionATK" Type="Self.ClasificacionATK" Multiplicity="0..1" />
+    <End Role="Medicamento" Type="Self.Medicamento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClasificacionATK">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Medicamento">
+        <PropertyRef Name="idClasificacionATK" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -270,6 +348,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_Medicamento_Grupo">
+    <End Role="Grupo" Type="Self.Grupo" Multiplicity="0..1" />
+    <End Role="Medicamento" Type="Self.Medicamento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupo">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Medicamento">
+        <PropertyRef Name="idGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Medicamento_Marca">
+    <End Role="Marca" Type="Self.Marca" Multiplicity="0..1" />
+    <End Role="Medicamento" Type="Self.Medicamento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marca">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Medicamento">
+        <PropertyRef Name="idMarca" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Medicamento_Presentacion">
+    <End Role="Presentacion" Type="Self.Presentacion" Multiplicity="0..1" />
+    <End Role="Medicamento" Type="Self.Medicamento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Presentacion">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Medicamento">
+        <PropertyRef Name="idPresentacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Medicamento_UnidadMedida">
+    <End Role="UnidadMedida" Type="Self.UnidadMedida" Multiplicity="0..1" />
+    <End Role="Medicamento" Type="Self.Medicamento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UnidadMedida">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Medicamento">
+        <PropertyRef Name="idUnidadMedida" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_Venta_Usuario">
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
     <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
@@ -282,20 +408,29 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="Labsis457farmaciaEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="Labsis457farmaciaEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+    <EntitySet Name="ClasificacionATK" EntityType="Self.ClasificacionATK" />
     <EntitySet Name="Compra" EntityType="Self.Compra" />
     <EntitySet Name="DetalleCompra" EntityType="Self.DetalleCompra" />
     <EntitySet Name="DetalleNegocio" EntityType="Self.DetalleNegocio" />
     <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" />
     <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+    <EntitySet Name="Grupo" EntityType="Self.Grupo" />
+    <EntitySet Name="Marca" EntityType="Self.Marca" />
     <EntitySet Name="Medicamento" EntityType="Self.Medicamento" />
     <EntitySet Name="Paciente" EntityType="Self.Paciente" />
+    <EntitySet Name="Presentacion" EntityType="Self.Presentacion" />
     <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
+    <EntitySet Name="UnidadMedida" EntityType="Self.UnidadMedida" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" />
     <EntitySet Name="Venta" EntityType="Self.Venta" />
     <AssociationSet Name="fk_Medicamento_Categoria" Association="Self.fk_Medicamento_Categoria">
       <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Medicamento" EntitySet="Medicamento" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Medicamento_ClasificacionATK" Association="Self.fk_Medicamento_ClasificacionATK">
+      <End Role="ClasificacionATK" EntitySet="ClasificacionATK" />
       <End Role="Medicamento" EntitySet="Medicamento" />
     </AssociationSet>
     <AssociationSet Name="fk_Compra_Proveedor" Association="Self.fk_Compra_Proveedor">
@@ -326,113 +461,25 @@
       <End Role="Empleado" EntitySet="Empleado" />
       <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
+    <AssociationSet Name="fk_Medicamento_Grupo" Association="Self.fk_Medicamento_Grupo">
+      <End Role="Grupo" EntitySet="Grupo" />
+      <End Role="Medicamento" EntitySet="Medicamento" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Medicamento_Marca" Association="Self.fk_Medicamento_Marca">
+      <End Role="Marca" EntitySet="Marca" />
+      <End Role="Medicamento" EntitySet="Medicamento" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Medicamento_Presentacion" Association="Self.fk_Medicamento_Presentacion">
+      <End Role="Presentacion" EntitySet="Presentacion" />
+      <End Role="Medicamento" EntitySet="Medicamento" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Medicamento_UnidadMedida" Association="Self.fk_Medicamento_UnidadMedida">
+      <End Role="UnidadMedida" EntitySet="UnidadMedida" />
+      <End Role="Medicamento" EntitySet="Medicamento" />
+    </AssociationSet>
     <AssociationSet Name="fk_Venta_Usuario" Association="Self.fk_Venta_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Venta" EntitySet="Venta" />
     </AssociationSet>
-    <FunctionImport Name="ObtenerDetallesCompras" ReturnType="Collection(Labsis457farmaciaModel.ObtenerDetallesCompras_Result)">
-      <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-    </FunctionImport>
-    <FunctionImport Name="paCategoriaListar" ReturnType="Collection(Labsis457farmaciaModel.paCategoriaListar_Result)">
-      <Parameter Name="parametro" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="paEmpleadoListar" ReturnType="Collection(Labsis457farmaciaModel.paEmpleadoListar_Result)">
-      <Parameter Name="parametro" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="paMedicamentoListar" ReturnType="Collection(Labsis457farmaciaModel.paMedicamentoListar_Result)">
-      <Parameter Name="parametro" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="paMedicamentoPequenoListar" ReturnType="Collection(Labsis457farmaciaModel.paMedicamentoPequenoListar_Result)">
-      <Parameter Name="parametro" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="paPacienteListar" ReturnType="Collection(Labsis457farmaciaModel.paPacienteListar_Result)">
-      <Parameter Name="parametro" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="paProveedorListar" ReturnType="Collection(Labsis457farmaciaModel.paProveedorListar_Result)">
-      <Parameter Name="parametro" Mode="In" Type="String" />
-    </FunctionImport>
   </EntityContainer>
-  <ComplexType Name="ObtenerDetallesCompras_Result">
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="String" Name="tipoDocumento" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="numeroDocumento" Nullable="true" MaxLength="50" />
-    <Property Type="Decimal" Name="montoTotal" Nullable="false" Precision="18" Scale="2" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="documentoProveedor" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="razonSocialProveedor" Nullable="false" MaxLength="150" />
-    <Property Type="String" Name="codigoMedicamento" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="nombreMedicamento" Nullable="false" MaxLength="150" />
-    <Property Type="String" Name="Categoria" Nullable="false" MaxLength="150" />
-    <Property Type="Decimal" Name="precioCompra" Nullable="false" Precision="18" Scale="2" />
-    <Property Type="Decimal" Name="precioVenta" Nullable="false" Precision="18" Scale="2" />
-    <Property Type="Int32" Name="cantidad" Nullable="false" />
-    <Property Type="Decimal" Name="total" Nullable="false" Precision="18" Scale="2" />
-  </ComplexType>
-  <ComplexType Name="paCategoriaListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
-    <Property Type="String" Name="descripcion" Nullable="false" MaxLength="150" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
-  </ComplexType>
-  <ComplexType Name="paEmpleadoListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
-    <Property Type="String" Name="cedulaIdentidad" Nullable="false" MaxLength="20" />
-    <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="primerApellido" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="segundoApellido" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="direccion" Nullable="true" MaxLength="250" />
-    <Property Type="String" Name="celular" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="cargo" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int32" Name="idUsuario" Nullable="false" />
-    <Property Type="String" Name="usuario" Nullable="false" MaxLength="50" />
-  </ComplexType>
-  <ComplexType Name="paMedicamentoListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
-    <Property Type="Int32" Name="idCategoria" Nullable="false" />
-    <Property Type="String" Name="codigo" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
-    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="250" />
-    <Property Type="String" Name="tipoUnidad" Nullable="true" MaxLength="70" />
-    <Property Type="Int32" Name="stock" Nullable="false" />
-    <Property Type="Decimal" Name="precioCompra" Nullable="false" Precision="18" Scale="2" />
-    <Property Type="Decimal" Name="precioVenta" Nullable="false" Precision="18" Scale="2" />
-    <Property Type="Boolean" Name="requiereReceta" Nullable="false" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
-    <Property Type="String" Name="Categoria" Nullable="false" MaxLength="150" />
-  </ComplexType>
-  <ComplexType Name="paMedicamentoPequenoListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
-    <Property Type="String" Name="codigo" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
-    <Property Type="String" Name="Categoria" Nullable="false" MaxLength="150" />
-    <Property Type="Int32" Name="stock" Nullable="false" />
-    <Property Type="Decimal" Name="precioVenta" Nullable="false" Precision="18" Scale="2" />
-  </ComplexType>
-  <ComplexType Name="paPacienteListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
-    <Property Type="String" Name="documento" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="nombreCompleto" Nullable="false" MaxLength="150" />
-    <Property Type="String" Name="email" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="telefono" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="direccion" Nullable="true" MaxLength="250" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
-  </ComplexType>
-  <ComplexType Name="paProveedorListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
-    <Property Type="String" Name="documento" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="razonSocial" Nullable="false" MaxLength="150" />
-    <Property Type="String" Name="email" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="telefono" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="direccion" Nullable="true" MaxLength="250" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
-  </ComplexType>
 </Schema>

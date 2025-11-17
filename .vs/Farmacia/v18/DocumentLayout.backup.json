@@ -1,22 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Laboratorio 2\\Sis457_Farmacia\\",
+  "WorkspaceRootPath": "C:\\Users\\HP\\Documents\\Sis457_Farmacia\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AEE393EE-D18B-4C91-8AD2-9687A9355485}|CpFarmacia2024\\CpFarmacia.csproj|d:\\laboratorio 2\\sis457_farmacia\\cpfarmacia2024\\frmventa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AEE393EE-D18B-4C91-8AD2-9687A9355485}|CpFarmacia2024\\CpFarmacia.csproj|solutionrelative:cpfarmacia2024\\frmventa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\HP\\Documents\\Sis457_Farmacia\\ddl_dml_LabSis457Farmacia.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ddl_dml_LabSis457Farmacia.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AEE393EE-D18B-4C91-8AD2-9687A9355485}|CpFarmacia2024\\CpFarmacia.csproj|d:\\laboratorio 2\\sis457_farmacia\\cpfarmacia2024\\frmmedicamento.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AEE393EE-D18B-4C91-8AD2-9687A9355485}|CpFarmacia2024\\CpFarmacia.csproj|solutionrelative:cpfarmacia2024\\frmmedicamento.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AEE393EE-D18B-4C91-8AD2-9687A9355485}|CpFarmacia2024\\CpFarmacia.csproj|D:\\Laboratorio 2\\Sis457_Farmacia\\cpfarmacia2024\\frmmedicamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{AEE393EE-D18B-4C91-8AD2-9687A9355485}|CpFarmacia2024\\CpFarmacia.csproj|solutionrelative:cpfarmacia2024\\frmmedicamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AEE393EE-D18B-4C91-8AD2-9687A9355485}|CpFarmacia2024\\CpFarmacia.csproj|D:\\Laboratorio 2\\Sis457_Farmacia\\cpfarmacia2024\\frmmedicamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AEE393EE-D18B-4C91-8AD2-9687A9355485}|CpFarmacia2024\\CpFarmacia.csproj|solutionrelative:cpfarmacia2024\\frmmedicamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\HP\\Documents\\Sis457_Farmacia\\ddl_dml_LabSis457Farmacia.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ddl_dml_LabSis457Farmacia.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,92 +18,18 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "FrmVenta.cs",
-              "DocumentMoniker": "D:\\Laboratorio 2\\Sis457_Farmacia\\CpFarmacia2024\\FrmVenta.cs",
-              "RelativeDocumentMoniker": "CpFarmacia2024\\FrmVenta.cs",
-              "ToolTip": "D:\\Laboratorio 2\\Sis457_Farmacia\\CpFarmacia2024\\FrmVenta.cs",
-              "RelativeToolTip": "CpFarmacia2024\\FrmVenta.cs",
-              "ViewState": "AgIAAKQBAAAAAAAAAAAiwKkBAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-15T12:11:16.743Z",
+              "Title": "ddl_dml_LabSis457Farmacia.sql ",
+              "DocumentMoniker": "C:\\Users\\HP\\Documents\\Sis457_Farmacia\\ddl_dml_LabSis457Farmacia.sql",
+              "RelativeDocumentMoniker": "ddl_dml_LabSis457Farmacia.sql",
+              "ToolTip": "ddl_dml_LabSis457Farmacia.sql ",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-17T16:32:44.11Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FrmMedicamento.Designer.cs",
-              "DocumentMoniker": "D:\\Laboratorio 2\\Sis457_Farmacia\\CpFarmacia2024\\FrmMedicamento.Designer.cs",
-              "RelativeDocumentMoniker": "CpFarmacia2024\\FrmMedicamento.Designer.cs",
-              "ToolTip": "D:\\Laboratorio 2\\Sis457_Farmacia\\CpFarmacia2024\\FrmMedicamento.Designer.cs",
-              "RelativeToolTip": "CpFarmacia2024\\FrmMedicamento.Designer.cs",
-              "ViewState": "AgIAACACAAAAAAAAAAAiwC0CAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-15T06:42:46.83Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FrmMedicamento.cs [Dise\u00F1o]",
-              "DocumentMoniker": "D:\\Laboratorio 2\\Sis457_Farmacia\\CpFarmacia2024\\FrmMedicamento.cs",
-              "RelativeDocumentMoniker": "CpFarmacia2024\\FrmMedicamento.cs",
-              "ToolTip": "D:\\Laboratorio 2\\Sis457_Farmacia\\CpFarmacia2024\\FrmMedicamento.cs [Dise\u00F1o]",
-              "RelativeToolTip": "CpFarmacia2024\\FrmMedicamento.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-15T06:35:22.672Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FrmMedicamento.cs",
-              "DocumentMoniker": "D:\\Laboratorio 2\\Sis457_Farmacia\\CpFarmacia2024\\FrmMedicamento.cs",
-              "RelativeDocumentMoniker": "CpFarmacia2024\\FrmMedicamento.cs",
-              "ToolTip": "D:\\Laboratorio 2\\Sis457_Farmacia\\CpFarmacia2024\\FrmMedicamento.cs",
-              "RelativeToolTip": "CpFarmacia2024\\FrmMedicamento.cs",
-              "ViewState": "AgIAAJ8BAAAAAAAAAAAAAKsBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-15T06:40:16.746Z"
             }
           ]
         }

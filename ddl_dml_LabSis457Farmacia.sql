@@ -142,6 +142,11 @@ GO
 CREATE TABLE Medicamento (
   id INT PRIMARY KEY IDENTITY(1,1),
   idCategoria INT NOT NULL,
+  idMarca INT NULL,
+  idPresentacion INT NULL,
+  idGrupo INT NULL,
+  idUnidadMedida INT NULL,
+  idClasificacionATK INT NULL,
   codigo VARCHAR(50) NOT NULL,
   nombre VARCHAR(150) NOT NULL,
   descripcion VARCHAR(250) NULL,
@@ -153,9 +158,17 @@ CREATE TABLE Medicamento (
   usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(),
   fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
   estado SMALLINT NOT NULL DEFAULT 1,
-  CONSTRAINT fk_Medicamento_Categoria FOREIGN KEY (idCategoria) REFERENCES Categoria(id)
+  CONSTRAINT fk_Medicamento_Marca FOREIGN KEY (idMarca) REFERENCES Marca(id),
+  CONSTRAINT fk_Medicamento_Presentacion FOREIGN KEY (idPresentacion) REFERENCES Presentacion(id),
+  CONSTRAINT fk_Medicamento_Grupo FOREIGN KEY (idGrupo) REFERENCES Grupo(id),
+  CONSTRAINT fk_Medicamento_UnidadMedida FOREIGN KEY (idUnidadMedida) REFERENCES UnidadMedida(id),
+  CONSTRAINT fk_Medicamento_ClasificacionATK FOREIGN KEY (idClasificacionATK) REFERENCES ClasificacionATK(id),
+  CONSTRAINT fk_Medicamento_Categoria FOREIGN KEY (idCategoria) REFERENCES Categoria(id),
+
 );
 GO
+
+
 
 -- Tabla: DetalleCompra (lineas de compra)
 CREATE TABLE DetalleCompra (
@@ -382,6 +395,127 @@ INSERT INTO Categoria(descripcion) VALUES
 ('Equipos Medicos');
 GO
 
+
+-- =========================================================================
+-- 1. MARCA (Brands)
+-- =========================================================================
+-- Almacena las marcas comerciales de los medicamentos.
+CREATE TABLE Marca (
+  id INT PRIMARY KEY IDENTITY(1,1),
+  descripcion VARCHAR(150) NOT NULL,
+  usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(),
+  fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+  estado SMALLINT NOT NULL DEFAULT 1 -- 1: Activo, 0: Inactivo, -1: Eliminado
+);
+GO
+
+-- Datos de ejemplo que ya tenías
+INSERT INTO Marca(descripcion) VALUES
+('Bayer'),
+('Novartis'),
+('Pfizer'),
+('Roche'),
+('Sanofi'),
+('Johnson'),
+('Abbott'),
+('Gilead');
+GO
+
+
+-- =========================================================================
+-- 2. PRESENTACION (Dosage Form / Packaging)
+-- =========================================================================
+-- Almacena la forma de presentación del medicamento (ej: Tableta, Jarabe, Ampolla).
+CREATE TABLE Presentacion (
+  id INT PRIMARY KEY IDENTITY(1,1),
+  descripcion VARCHAR(150) NOT NULL,
+  usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(),
+  fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+  estado SMALLINT NOT NULL DEFAULT 1 
+);
+GO
+
+-- Datos de ejemplo para Presentacion
+INSERT INTO Presentacion(descripcion) VALUES
+('Tabletas'),
+('Cápsulas'),
+('Jarabe'),
+('Inyectable'),
+('Crema'),
+('Supositorios');
+GO
+
+
+-- =========================================================================
+-- 3. GRUPO (Groups or Families)
+-- =========================================================================
+-- Almacena grupos o familias internas de medicamentos.
+CREATE TABLE Grupo (
+  id INT PRIMARY KEY IDENTITY(1,1),
+  descripcion VARCHAR(150) NOT NULL,
+  usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(),
+  fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+  estado SMALLINT NOT NULL DEFAULT 1 
+);
+GO
+
+-- Datos de ejemplo para Grupo
+INSERT INTO Grupo(descripcion) VALUES
+('Analgésicos'),
+('Antibióticos'),
+('Vitaminas'),
+('Antiinflamatorios'),
+('Antipiréticos');
+GO
+
+
+-- =========================================================================
+-- 4. UNIDAD MEDIDA (Unit of Measurement)
+-- =========================================================================
+-- Almacena unidades de medida (ej: mg, ml, mcg, UI).
+CREATE TABLE UnidadMedida (
+  id INT PRIMARY KEY IDENTITY(1,1),
+  descripcion VARCHAR(150) NOT NULL,
+  usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(),
+  fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+  estado SMALLINT NOT NULL DEFAULT 1 
+);
+GO
+
+-- Datos de ejemplo para UnidadMedida
+INSERT INTO UnidadMedida(descripcion) VALUES
+('mg'),
+('ml'),
+('g'),
+('UI (Unidades Internacionales)'),
+('mcg (Microgramos)');
+GO
+
+
+-- =========================================================================
+-- 5. CLASIFICACION ATK (Anatomical Therapeutic Chemical Classification)
+-- =========================================================================
+-- Almacena la clasificación ATC (o ATK, si es el acrónimo que usas).
+CREATE TABLE ClasificacionATK (
+  id INT PRIMARY KEY IDENTITY(1,1),
+  descripcion VARCHAR(250) NOT NULL, -- Se usa más longitud para descripciones de clasificación
+  codigoATK VARCHAR(10) UNIQUE NOT NULL, -- Se agrega un código para la clasificación
+  usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(),
+  fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+  estado SMALLINT NOT NULL DEFAULT 1 
+);
+GO
+
+-- Datos de ejemplo para ClasificacionATK (ejemplos simplificados)
+INSERT INTO ClasificacionATK(descripcion, codigoATK) VALUES
+('Tracto alimentario y metabolismo', 'A'),
+('Sangre y órganos hematopoyéticos', 'B'),
+('Sistema cardiovascular', 'C'),
+('Agentes antiinfecciosos', 'J');
+GO
+
+
+
 -- Medicamento de ejemplo
 INSERT INTO Medicamento(idCategoria, codigo, nombre, descripcion, tipoUnidad, stock, precioCompra, precioVenta)
 VALUES (1, '001', 'Paracetamol 500mg', 'Analgésico y antipirético', 'Caja', 100, 10.00, 15.00);
@@ -400,3 +534,8 @@ SELECT TOP 50 id, codigo, nombre, stock, precioVenta FROM Medicamento;
 GO
 
 -- FIN DEL SCRIPT
+select * from Categoria;
+select * from Grupo;
+select * from Presentacion;
+select * from UnidadMedida;
+select * from Marca;

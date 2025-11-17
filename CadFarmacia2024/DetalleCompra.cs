@@ -29,4 +29,3 @@ namespace CadFarmacia2024
         public virtual Medicamento Medicamento { get; set; }
     }
 }
-

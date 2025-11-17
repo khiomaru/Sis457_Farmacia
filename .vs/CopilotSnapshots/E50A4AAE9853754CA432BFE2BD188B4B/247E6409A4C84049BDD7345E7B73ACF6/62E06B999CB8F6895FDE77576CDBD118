@@ -1,0 +1,158 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+
+namespace CadFarmacia2024
+{
+    // Stubs mínimos para compilar la capa de negocio cuando el EDMX no está generado.
+    // No deben usarse en producción. Reemplace con el modelo EF real generado desde el .edmx.
+    public class Labsis457farmaciaEntities : IDisposable
+    {
+        public FakeMedicamentoSet Medicamento { get; } = new FakeMedicamentoSet();
+        public List<Categoria> Categoria { get; } = new List<Categoria>();
+        public List<Marca> Marca { get; } = new List<Marca>();
+        public List<Presentacion> Presentacion { get; } = new List<Presentacion>();
+        public List<Grupo> Grupo { get; } = new List<Grupo>();
+        public List<UnidadMedida> UnidadMedida { get; } = new List<UnidadMedida>();
+        public List<ClasificacionATK> ClasificacionATK { get; } = new List<ClasificacionATK>();
+        public object Compra { get; set; }
+
+        // Added stubs for Empleado and Usuario so Cln layer compiles
+        public List<Empleado> Empleado { get; } = new List<Empleado>();
+        public List<Usuario> Usuario { get; } = new List<Usuario>();
+
+        // Added stub for Paciente used by business layer
+        public FakePacienteSet Paciente { get; } = new FakePacienteSet();
+
+        public void Dispose() { }
+
+        public int SaveChanges() { return 1; }
+
+        // Métodos auxiliares que la capa Cln usa en llamadas como paMedicamentoListar / paPacienteListar
+        public IEnumerable<paMedicamentoListar_Result> paMedicamentoListar(string parametro)
+        {
+            return new List<paMedicamentoListar_Result>();
+        }
+
+        public IEnumerable<paPacienteListar_Result> paPacienteListar(string parametro)
+        {
+            return new List<paPacienteListar_Result>();
+        }
+
+        // ... otros procedimientos almacenados simulados si fueran necesarios
+    }
+
+    // Fake DbSet especializado para Medicamento
+    public class FakeMedicamentoSet : IEnumerable<Medicamento>
+    {
+        private readonly List<Medicamento> _items = new List<Medicamento>();
+
+        public void Add(Medicamento m)
+        {
+            _items.Add(m);
+        }
+
+        public Medicamento Find(int id)
+        {
+            return _items.FirstOrDefault(m => m.id == id);
+        }
+
+        public bool Any(Func<Medicamento, bool> predicate)
+        {
+            return _items.Any(predicate);
+        }
+
+        public IEnumerator<Medicamento> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public List<Medicamento> ToList()
+        {
+            return _items.ToList();
+        }
+    }
+
+    // Fake DbSet especializado para Paciente
+    public class FakePacienteSet : IEnumerable<Paciente>
+    {
+        private readonly List<Paciente> _items = new List<Paciente>();
+
+        public void Add(Paciente p)
+        {
+            _items.Add(p);
+        }
+
+        public Paciente Find(int id)
+        {
+            return _items.FirstOrDefault(p => p.id == id);
+        }
+
+        public bool Any(Func<Paciente, bool> predicate)
+        {
+            return _items.Any(predicate);
+        }
+
+        public IEnumerable<Paciente> Where(Func<Paciente, bool> predicate)
+        {
+            return _items.Where(predicate);
+        }
+
+        public Paciente FirstOrDefault(Func<Paciente, bool> predicate)
+        {
+            return _items.FirstOrDefault(predicate);
+        }
+
+        public IEnumerator<Paciente> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public List<Paciente> ToList()
+        {
+            return _items.ToList();
+        }
+    }
+
+    // Entidades simuladas
+    public partial class Categoria { }
+    public partial class ClasificacionATK { }
+    public partial class Marca { }
+    public partial class Presentacion { }
+    public partial class Grupo { }
+    public partial class UnidadMedida { }
+
+    public class paMedicamentoListar_Result { }
+    public class paPacienteListar_Result { }
+}
+
+// Provide minimal Include extension methods in the System.Data.Entity namespace so calls to .Include(...) compile
+namespace System.Data.Entity
+{
+    public static class DummyIncludeExtensions
+    {
+        // For IEnumerable<T> usage
+        public static IEnumerable<T> Include<T, TProperty>(this IEnumerable<T> source, Func<T, TProperty> path)
+        {
+            return source;
+        }
+
+        // For IQueryable<T> usage with expression (matches EF signature)
+        public static IQueryable<T> Include<T, TProperty>(this IQueryable<T> source, Expression<Func<T, TProperty>> path)
+        {
+            return source;
+        }
+    }
+}

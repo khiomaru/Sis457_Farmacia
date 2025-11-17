@@ -57,7 +57,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(845, 37);
+            this.panel1.Size = new System.Drawing.Size(784, 37);
             this.panel1.TabIndex = 0;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             // 
@@ -78,7 +78,7 @@
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(798, 0);
+            this.button1.Location = new System.Drawing.Point(737, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(47, 37);
             this.button1.TabIndex = 1;
@@ -93,6 +93,7 @@
             this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Location = new System.Drawing.Point(85, 214);
             this.button2.Name = "button2";
@@ -104,9 +105,10 @@
             // 
             // tbusername
             // 
+            this.tbusername.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbusername.Location = new System.Drawing.Point(69, 76);
             this.tbusername.Name = "tbusername";
-            this.tbusername.Size = new System.Drawing.Size(217, 23);
+            this.tbusername.Size = new System.Drawing.Size(217, 25);
             this.tbusername.TabIndex = 2;
             // 
             // panel2
@@ -121,7 +123,7 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.tbusername);
-            this.panel2.Location = new System.Drawing.Point(24, 102);
+            this.panel2.Location = new System.Drawing.Point(12, 121);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(337, 329);
             this.panel2.TabIndex = 3;
@@ -158,9 +160,10 @@
             // 
             // tbpassword
             // 
+            this.tbpassword.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbpassword.Location = new System.Drawing.Point(69, 128);
             this.tbpassword.Name = "tbpassword";
-            this.tbpassword.Size = new System.Drawing.Size(217, 23);
+            this.tbpassword.Size = new System.Drawing.Size(217, 25);
             this.tbpassword.TabIndex = 6;
             this.tbpassword.UseSystemPasswordChar = true;
             // 
@@ -177,11 +180,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(138, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 20);
+            this.label1.Size = new System.Drawing.Size(71, 25);
             this.label1.TabIndex = 4;
             this.label1.Text = "LOGIN";
             // 
@@ -191,7 +194,7 @@
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.Location = new System.Drawing.Point(0, 0);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(845, 597);
+            this.pictureBox3.Size = new System.Drawing.Size(784, 598);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 0;
             this.pictureBox3.TabStop = false;
@@ -202,7 +205,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(845, 597);
+            this.ClientSize = new System.Drawing.Size(784, 598);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox3);

@@ -38,4 +38,3 @@ namespace CadFarmacia2024
         public virtual Usuario Usuario { get; set; }
     }
 }
-

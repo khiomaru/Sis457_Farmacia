@@ -25,4 +25,3 @@ namespace CadFarmacia2024
         public short estado { get; set; }
     }
 }
-

@@ -34,12 +34,21 @@ namespace CadFarmacia2024
         public string usuarioRegistro { get; set; }
         public System.DateTime fechaRegistro { get; set; }
         public short estado { get; set; }
+        public Nullable<int> idMarca { get; set; }
+        public Nullable<int> idPresentacion { get; set; }
+        public Nullable<int> idGrupo { get; set; }
+        public Nullable<int> idUnidadMedida { get; set; }
+        public Nullable<int> idClasificacionATK { get; set; }
     
         public virtual Categoria Categoria { get; set; }
+        public virtual ClasificacionATK ClasificacionATK { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleCompra> DetalleCompra { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
+        public virtual Grupo Grupo { get; set; }
+        public virtual Marca Marca { get; set; }
+        public virtual Presentacion Presentacion { get; set; }
+        public virtual UnidadMedida UnidadMedida { get; set; }
     }
 }
-

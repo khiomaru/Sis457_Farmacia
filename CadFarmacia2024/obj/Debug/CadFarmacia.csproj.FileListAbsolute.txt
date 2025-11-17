@@ -1,15 +1,3 @@
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll.config
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.pdb
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.dll
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.SqlServer.dll
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.xml
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.SqlServer.xml
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia.csproj.AssemblyReference.cache
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia.csproj.CoreCompileInputs.cache
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\obj\Debug\CadFarma.02DCD473.Up2Date
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.dll
-D:\tarea del vaca laboratorio\Crud\SIS457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.pdb
 C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll.config
 C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll
 C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.pdb
@@ -22,15 +10,15 @@ C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarma
 C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarma.02DCD473.Up2Date
 C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.dll
 C:\Users\HP\Documents\SIS-457\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.pdb
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll.config
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.pdb
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.dll
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.SqlServer.dll
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.xml
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.SqlServer.xml
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia.csproj.AssemblyReference.cache
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia.csproj.CoreCompileInputs.cache
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarma.02DCD473.Up2Date
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.dll
-D:\Laboratorio 2\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.pdb
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll.config
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.dll
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\bin\Debug\CadFarmacia2024.pdb
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.dll
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.xml
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia.csproj.AssemblyReference.cache
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia.csproj.CoreCompileInputs.cache
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarma.02DCD473.Up2Date
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.dll
+C:\Users\HP\Documents\FARMACIA\Sis457_Farmacia\CadFarmacia2024\obj\Debug\CadFarmacia2024.pdb

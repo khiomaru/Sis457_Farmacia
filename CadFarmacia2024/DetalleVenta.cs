@@ -28,4 +28,3 @@ namespace CadFarmacia2024
         public virtual Venta Venta { get; set; }
     }
 }
-

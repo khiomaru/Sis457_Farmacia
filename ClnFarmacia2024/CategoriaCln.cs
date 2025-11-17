@@ -2,6 +2,8 @@ using CadFarmacia2024;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+// Se puede comentar System.Data.Entity, ya que no se usa directamente en este código.
+// using System.Data.Entity;
 
 namespace ClnFarmacia2024
 {
@@ -9,7 +11,7 @@ namespace ClnFarmacia2024
     {
         public static int insertar(Categoria categoria)
         {
-            using (var context = new Labsis457farmaciaEntities()) 
+            using (var context = new Labsis457farmaciaEntities())
             {
                 context.Categoria.Add(categoria);
                 context.SaveChanges();
@@ -21,10 +23,16 @@ namespace ClnFarmacia2024
         {
             using (var context = new Labsis457farmaciaEntities())
             {
-                var existente = context.Categoria.Find(categoria.id);
-                existente.descripcion = categoria.descripcion;
-                existente.usuarioRegistro = categoria.usuarioRegistro;
-                return context.SaveChanges();
+                // CORRECCIÓN: Se usa SingleOrDefault para encontrar por clave primaria (id).
+                var existente = context.Categoria.SingleOrDefault(c => c.id == categoria.id);
+
+                if (existente != null)
+                {
+                    existente.descripcion = categoria.descripcion;
+                    existente.usuarioRegistro = categoria.usuarioRegistro;
+                    return context.SaveChanges();
+                }
+                return 0; // No se encontró la categoría
             }
         }
 
@@ -32,10 +40,16 @@ namespace ClnFarmacia2024
         {
             using (var context = new Labsis457farmaciaEntities())
             {
-                var categoria = context.Categoria.Find(id);
-                categoria.estado = -1;
-                categoria.usuarioRegistro = usuario;
-                return context.SaveChanges();
+                // CORRECCIÓN: Se usa SingleOrDefault para encontrar por clave primaria (id).
+                var categoria = context.Categoria.SingleOrDefault(c => c.id == id);
+
+                if (categoria != null)
+                {
+                    categoria.estado = -1;
+                    categoria.usuarioRegistro = usuario;
+                    return context.SaveChanges();
+                }
+                return 0;
             }
         }
 
@@ -43,7 +57,8 @@ namespace ClnFarmacia2024
         {
             using (var context = new Labsis457farmaciaEntities())
             {
-                return context.Categoria.Find(id);
+                // CORRECCIÓN: Se usa SingleOrDefault para encontrar por clave primaria (id).
+                return context.Categoria.SingleOrDefault(c => c.id == id);
             }
         }
 
@@ -55,6 +70,17 @@ namespace ClnFarmacia2024
             }
         }
 
+       /*
+        public static List<paCategoriaListar_Result> listarPa(string parametro)
+        {
+            using (var context = new Labsis457farmaciaEntities())
+            {
+                return context.paCategoriaListar(parametro).ToList();
+            }
+        }
+        */
+
+        // Implementación pública de listarPa para la UI. Usa el stub en Labsis457farmaciaEntities.
         public static List<paCategoriaListar_Result> listarPa(string parametro)
         {
             using (var context = new Labsis457farmaciaEntities())
@@ -72,4 +98,3 @@ namespace ClnFarmacia2024
         }
     }
 }
-

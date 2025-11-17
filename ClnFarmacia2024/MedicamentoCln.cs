@@ -7,6 +7,9 @@ namespace ClnFarmacia2024
 {
     public class MedicamentoCln
     {
+        // ====================================================================
+        // MÉTODOS CRUD PRINCIPALES (MEDICAMENTO)
+        // ====================================================================
         public static int insertar(Medicamento medicamento)
         {
             using (var context = new Labsis457farmaciaEntities())
@@ -29,11 +32,21 @@ namespace ClnFarmacia2024
                     existente.nombre = medicamento.nombre;
                     existente.descripcion = medicamento.descripcion;
                     existente.tipoUnidad = medicamento.tipoUnidad;
-                    existente.stock = medicamento.stock;
+                    // Actualizar stockActual (campo adicional en el partial)
+                    existente.stockActual = medicamento.stockActual;
+                    // Se agregan campos de marca y presentación para la actualización
+                    existente.marca = medicamento.marca;
+                    existente.presentacion = medicamento.presentacion;
+                    existente.stockMinimo = medicamento.stockMinimo;
+                    existente.fechaCaducidad = medicamento.fechaCaducidad;
+
                     existente.precioCompra = medicamento.precioCompra;
                     existente.precioVenta = medicamento.precioVenta;
                     existente.requiereReceta = medicamento.requiereReceta;
+                    // Asegúrate de actualizar el estado si es necesario
+                    existente.estado = medicamento.estado;
                     existente.usuarioRegistro = medicamento.usuarioRegistro;
+
                     return context.SaveChanges();
                 }
                 return 0;
@@ -47,6 +60,7 @@ namespace ClnFarmacia2024
                 var medicamento = context.Medicamento.Find(id);
                 if (medicamento != null)
                 {
+                    // Eliminación lógica: marcar estado como -1
                     medicamento.estado = -1;
                     medicamento.usuarioRegistro = usuario;
                     return context.SaveChanges();
@@ -67,7 +81,21 @@ namespace ClnFarmacia2024
         {
             using (var context = new Labsis457farmaciaEntities())
             {
-                return context.Medicamento.Where(x => x.estado != -1).ToList();
+                var query = context.Medicamento.Where(x => x.estado != -1);
+
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    var filtro = text.Trim().ToLower();
+                    query = query.Where(x =>
+                        (x.nombre != null && x.nombre.ToLower().Contains(filtro)) ||
+                        (x.codigo != null && x.codigo.ToLower().Contains(filtro)) ||
+                        (x.descripcion != null && x.descripcion.ToLower().Contains(filtro)) ||
+                        (x.marca != null && x.marca.ToLower().Contains(filtro)) ||
+                        (x.presentacion != null && x.presentacion.ToLower().Contains(filtro))
+                    );
+                }
+
+                return query.ToList();
             }
         }
 
@@ -83,7 +111,13 @@ namespace ClnFarmacia2024
         {
             using (var context = new Labsis457farmaciaEntities())
             {
-                return context.Medicamento.Any(m => m.codigo.Equals(codigo, StringComparison.OrdinalIgnoreCase) && m.estado != -1);
+                if (string.IsNullOrWhiteSpace(codigo))
+                    return false;
+
+                var c = codigo.Trim().ToLower();
+                return context.Medicamento.Any(m => m.estado != -1
+                                                    && m.codigo != null
+                                                    && m.codigo.ToLower() == c);
             }
         }
 
@@ -94,7 +128,8 @@ namespace ClnFarmacia2024
                 var medicamento = context.Medicamento.Find(idMedicamento);
                 if (medicamento != null)
                 {
-                    medicamento.stock += cantidad;
+                    // Actualizar stockActual (suma) y precios
+                    medicamento.stockActual = (medicamento.stockActual) + cantidad;
                     medicamento.precioCompra = precioCompra;
                     medicamento.precioVenta = precioVenta;
                     context.SaveChanges();
@@ -109,15 +144,86 @@ namespace ClnFarmacia2024
             using (var context = new Labsis457farmaciaEntities())
             {
                 var medicamento = context.Medicamento.Find(idMedicamento);
-                if (medicamento != null && medicamento.stock >= cantidad)
+                if (medicamento != null && medicamento.stockActual >= cantidad)
                 {
-                    medicamento.stock -= cantidad;
+                    // Resta la cantidad del stockActual para una venta
+                    medicamento.stockActual -= cantidad;
                     context.SaveChanges();
                     return true;
                 }
                 return false;
             }
         }
+
+        // ====================================================================
+        // MÉTODOS DE LISTADO PARA TABLAS DE SOPORTE (LOOKUP TABLES)
+        // ====================================================================
+
+        /// <summary>
+        /// Obtiene la lista de Categorías (para cbxCategoria).
+        /// </summary>
+        public static List<Categoria> listarCategorias()
+        {
+            using (var context = new Labsis457farmaciaEntities())
+            {
+                return context.Categoria.Where(x => x.estado == 1).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene la lista de Marcas (para cboMarca).
+        /// </summary>
+        public static List<Marca> listarMarcas()
+        {
+            using (var context = new Labsis457farmaciaEntities())
+            {
+                return context.Marca.ToList();
+            }
+        }
+
+
+        /// <summary>
+        /// Obtiene la lista de Presentaciones (para cboPresentacion).
+        /// </summary>
+        public static List<Presentacion> listarPresentaciones()
+        {
+            using (var context = new Labsis457farmaciaEntities())
+            {
+                return context.Presentacion.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene la lista de Grupos.
+        /// </summary>
+        public static List<Grupo> listarGrupos()
+        {
+            using (var context = new Labsis457farmaciaEntities())
+            {
+                return context.Grupo.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene la lista de Unidades de Medida.
+        /// </summary>
+        public static List<UnidadMedida> listarUnidadesMedida()
+        {
+            using (var context = new Labsis457farmaciaEntities())
+            {
+                return context.UnidadMedida.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene la lista de Clasificaciones ATK.
+        /// </summary>
+        public static List<ClasificacionATK> listarClasificacionesATK()
+        {
+            using (var context = new Labsis457farmaciaEntities())
+            {
+                return context.ClasificacionATK.ToList();
+            }
+        }
     }
 }
-

@@ -36,4 +36,3 @@ namespace CadFarmacia2024
         public virtual ICollection<Venta> Venta { get; set; }
     }
 }
-

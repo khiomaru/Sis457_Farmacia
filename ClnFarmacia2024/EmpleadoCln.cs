@@ -1,7 +1,7 @@
 using CadFarmacia2024;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using System.Data.Entity; // Necesario para el método .Include()
 using System.Linq;
 
 namespace ClnFarmacia2024
@@ -33,11 +33,17 @@ namespace ClnFarmacia2024
         {
             using (var context = new Labsis457farmaciaEntities())
             {
-                var existente = context.Empleado.Find(empleado.id);
+                // CORRECCIÓN: Se usa SingleOrDefault para buscar por clave primaria.
+                var existente = context.Empleado.SingleOrDefault(e => e.id == empleado.id);
+
                 if (existente == null)
                 {
+                    // Se recomienda no lanzar excepciones de EF en la capa CLN, sino devolver un código de error o manejarlo.
+                    // Pero manteniendo tu estructura:
                     throw new Exception("Empleado no encontrado");
                 }
+
+                // Actualización de campos
                 existente.cedulaIdentidad = empleado.cedulaIdentidad;
                 existente.nombres = empleado.nombres;
                 existente.primerApellido = empleado.primerApellido;
@@ -46,6 +52,7 @@ namespace ClnFarmacia2024
                 existente.celular = empleado.celular;
                 existente.cargo = empleado.cargo;
                 existente.usuarioRegistro = empleado.usuarioRegistro;
+
                 return context.SaveChanges();
             }
         }
@@ -54,10 +61,16 @@ namespace ClnFarmacia2024
         {
             using (var context = new Labsis457farmaciaEntities())
             {
-                var empleado = context.Empleado.Find(id);
-                empleado.estado = -1;
-                empleado.usuarioRegistro = usuario;
-                return context.SaveChanges();
+                // CORRECCIÓN: Se usa SingleOrDefault para buscar por clave primaria.
+                var empleado = context.Empleado.SingleOrDefault(e => e.id == id);
+
+                if (empleado != null)
+                {
+                    empleado.estado = -1;
+                    empleado.usuarioRegistro = usuario;
+                    return context.SaveChanges();
+                }
+                return 0; // No se encontró el empleado
             }
         }
 
@@ -65,10 +78,11 @@ namespace ClnFarmacia2024
         {
             using (var context = new Labsis457farmaciaEntities())
             {
-
+                // Se usa FirstOrDefault o SingleOrDefault para obtener un registro.
+                // .Include(e => e.Usuario) requiere que 'Usuario' sea la propiedad de navegación en la entidad Empleado.
                 var empleado = context.Empleado
-                                      .Include(e => e.Usuario)
-                                      .FirstOrDefault(e => e.id == id);  // Obtener el empleado por su ID
+                    .Include(e => e.Usuario)
+                    .FirstOrDefault(e => e.id == id && e.estado != -1);
 
                 return empleado;
             }
@@ -82,6 +96,7 @@ namespace ClnFarmacia2024
             }
         }
 
+        // Implementación pública de listarPa usando el stub en Labsis457farmaciaEntities
         public static List<paEmpleadoListar_Result> listarPa(string parametro)
         {
             using (var context = new Labsis457farmaciaEntities())
@@ -97,16 +112,5 @@ namespace ClnFarmacia2024
                 return context.Empleado.Any(e => e.cedulaIdentidad.Equals(cedulaIdentidad, StringComparison.OrdinalIgnoreCase) && e.estado != -1);
             }
         }
-
-
     }
 }
-
-
-
-
-
-
-
-
-
