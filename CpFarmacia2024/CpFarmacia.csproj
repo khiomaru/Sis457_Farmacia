@@ -228,6 +228,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <EmbeddedResource Include="FrmCategoria.resx">
       <DependentUpon>FrmCategoria.cs</DependentUpon>
@@ -280,6 +285,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -425,6 +431,7 @@
   <ItemGroup>
     <Content Include="LogoEscritorio.ico" />
     <Content Include="LogoPrime.ico" />
+    <None Include="Resources\farmacia.jpg" />
     <None Include="Resources\Close1.png" />
     <None Include="Resources\descargar2.jpeg" />
     <None Include="Resources\descargar %281%2912.jpeg" />

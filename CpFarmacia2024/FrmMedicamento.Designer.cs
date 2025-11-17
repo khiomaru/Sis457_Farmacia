@@ -32,6 +32,10 @@ namespace CpFarmacia2024
             this.dgvListaMedicamentos = new System.Windows.Forms.DataGridView();
             this.gbxDatos = new System.Windows.Forms.GroupBox();
             this.pnlInfoBasica = new System.Windows.Forms.Panel();
+            this.txtDescripcion = new System.Windows.Forms.TextBox();
+            this.lblDescripcion = new System.Windows.Forms.Label();
+            this.cboPresentacion = new System.Windows.Forms.ComboBox();
+            this.cboMarca = new System.Windows.Forms.ComboBox();
             this.lblCodigo = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
@@ -39,11 +43,17 @@ namespace CpFarmacia2024
             this.lblMarca = new System.Windows.Forms.Label();
             this.lblPresentacion = new System.Windows.Forms.Label();
             this.pnlInventario = new System.Windows.Forms.Panel();
+            this.cboUnidadMedida = new System.Windows.Forms.ComboBox();
+            this.lblUnidadMedida = new System.Windows.Forms.Label();
+            this.cboGrupoo = new System.Windows.Forms.ComboBox();
+            this.cboGrupo = new System.Windows.Forms.Label();
             this.lblStockActual = new System.Windows.Forms.Label();
             this.nudStockActual = new System.Windows.Forms.NumericUpDown();
             this.lblFechaCaducidad = new System.Windows.Forms.Label();
             this.dtpFechaCaducidad = new System.Windows.Forms.DateTimePicker();
             this.pnlDetalles = new System.Windows.Forms.Panel();
+            this.txtClasificacionATK = new System.Windows.Forms.TextBox();
+            this.lblClasificacionATK = new System.Windows.Forms.Label();
             this.lblCategoria = new System.Windows.Forms.Label();
             this.cbxCategoria = new System.Windows.Forms.ComboBox();
             this.lblPrecioVenta = new System.Windows.Forms.Label();
@@ -53,16 +63,6 @@ namespace CpFarmacia2024
             this.pnlDatosAcciones = new System.Windows.Forms.Panel();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.cboMarca = new System.Windows.Forms.ComboBox();
-            this.cboPresentacion = new System.Windows.Forms.ComboBox();
-            this.lblDescripcion = new System.Windows.Forms.Label();
-            this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.cboGrupo = new System.Windows.Forms.Label();
-            this.cboGrupoo = new System.Windows.Forms.ComboBox();
-            this.lblUnidadMedida = new System.Windows.Forms.Label();
-            this.cboUnidadMedida = new System.Windows.Forms.ComboBox();
-            this.lblClasificacionATK = new System.Windows.Forms.Label();
-            this.txtClasificacionATK = new System.Windows.Forms.TextBox();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnEditar = new System.Windows.Forms.Button();
@@ -107,6 +107,7 @@ namespace CpFarmacia2024
             // 
             // lblPrincipal
             // 
+            this.lblPrincipal.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.lblPrincipal.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Bold);
             this.lblPrincipal.Location = new System.Drawing.Point(0, -2);
             this.lblPrincipal.Name = "lblPrincipal";
@@ -118,6 +119,7 @@ namespace CpFarmacia2024
             // lblBusqueda
             // 
             this.lblBusqueda.AutoSize = true;
+            this.lblBusqueda.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.lblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.lblBusqueda.Location = new System.Drawing.Point(51, 25);
             this.lblBusqueda.Name = "lblBusqueda";
@@ -146,6 +148,7 @@ namespace CpFarmacia2024
             // 
             // gbxLista
             // 
+            this.gbxLista.BackColor = System.Drawing.Color.White;
             this.gbxLista.Controls.Add(this.dgvListaMedicamentos);
             this.gbxLista.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.gbxLista.Location = new System.Drawing.Point(55, 76);
@@ -199,6 +202,40 @@ namespace CpFarmacia2024
             this.pnlInfoBasica.Name = "pnlInfoBasica";
             this.pnlInfoBasica.Size = new System.Drawing.Size(770, 101);
             this.pnlInfoBasica.TabIndex = 11;
+            // 
+            // txtDescripcion
+            // 
+            this.txtDescripcion.Location = new System.Drawing.Point(90, 74);
+            this.txtDescripcion.MaxLength = 500;
+            this.txtDescripcion.Multiline = true;
+            this.txtDescripcion.Name = "txtDescripcion";
+            this.txtDescripcion.Size = new System.Drawing.Size(250, 26);
+            this.txtDescripcion.TabIndex = 11;
+            // 
+            // lblDescripcion
+            // 
+            this.lblDescripcion.AutoSize = true;
+            this.lblDescripcion.Location = new System.Drawing.Point(3, 77);
+            this.lblDescripcion.Name = "lblDescripcion";
+            this.lblDescripcion.Size = new System.Drawing.Size(84, 19);
+            this.lblDescripcion.TabIndex = 10;
+            this.lblDescripcion.Text = "Descripcion:";
+            // 
+            // cboPresentacion
+            // 
+            this.cboPresentacion.FormattingEnabled = true;
+            this.cboPresentacion.Location = new System.Drawing.Point(570, 57);
+            this.cboPresentacion.Name = "cboPresentacion";
+            this.cboPresentacion.Size = new System.Drawing.Size(169, 27);
+            this.cboPresentacion.TabIndex = 9;
+            // 
+            // cboMarca
+            // 
+            this.cboMarca.FormattingEnabled = true;
+            this.cboMarca.Location = new System.Drawing.Point(570, 9);
+            this.cboMarca.Name = "cboMarca";
+            this.cboMarca.Size = new System.Drawing.Size(169, 27);
+            this.cboMarca.TabIndex = 8;
             // 
             // lblCodigo
             // 
@@ -268,6 +305,40 @@ namespace CpFarmacia2024
             this.pnlInventario.Size = new System.Drawing.Size(308, 133);
             this.pnlInventario.TabIndex = 12;
             // 
+            // cboUnidadMedida
+            // 
+            this.cboUnidadMedida.FormattingEnabled = true;
+            this.cboUnidadMedida.Location = new System.Drawing.Point(130, 98);
+            this.cboUnidadMedida.Name = "cboUnidadMedida";
+            this.cboUnidadMedida.Size = new System.Drawing.Size(140, 27);
+            this.cboUnidadMedida.TabIndex = 9;
+            // 
+            // lblUnidadMedida
+            // 
+            this.lblUnidadMedida.AutoSize = true;
+            this.lblUnidadMedida.Location = new System.Drawing.Point(-2, 98);
+            this.lblUnidadMedida.Name = "lblUnidadMedida";
+            this.lblUnidadMedida.Size = new System.Drawing.Size(126, 19);
+            this.lblUnidadMedida.TabIndex = 8;
+            this.lblUnidadMedida.Text = "Unidad de Medida:";
+            // 
+            // cboGrupoo
+            // 
+            this.cboGrupoo.FormattingEnabled = true;
+            this.cboGrupoo.Location = new System.Drawing.Point(130, 63);
+            this.cboGrupoo.Name = "cboGrupoo";
+            this.cboGrupoo.Size = new System.Drawing.Size(140, 27);
+            this.cboGrupoo.TabIndex = 7;
+            // 
+            // cboGrupo
+            // 
+            this.cboGrupo.AutoSize = true;
+            this.cboGrupo.Location = new System.Drawing.Point(3, 66);
+            this.cboGrupo.Name = "cboGrupo";
+            this.cboGrupo.Size = new System.Drawing.Size(51, 19);
+            this.cboGrupo.TabIndex = 6;
+            this.cboGrupo.Text = "Grupo:";
+            // 
             // lblStockActual
             // 
             this.lblStockActual.AutoSize = true;
@@ -321,6 +392,22 @@ namespace CpFarmacia2024
             this.pnlDetalles.Name = "pnlDetalles";
             this.pnlDetalles.Size = new System.Drawing.Size(444, 133);
             this.pnlDetalles.TabIndex = 13;
+            // 
+            // txtClasificacionATK
+            // 
+            this.txtClasificacionATK.Location = new System.Drawing.Point(130, 63);
+            this.txtClasificacionATK.Name = "txtClasificacionATK";
+            this.txtClasificacionATK.Size = new System.Drawing.Size(224, 26);
+            this.txtClasificacionATK.TabIndex = 9;
+            // 
+            // lblClasificacionATK
+            // 
+            this.lblClasificacionATK.AutoSize = true;
+            this.lblClasificacionATK.Location = new System.Drawing.Point(3, 66);
+            this.lblClasificacionATK.Name = "lblClasificacionATK";
+            this.lblClasificacionATK.Size = new System.Drawing.Size(118, 19);
+            this.lblClasificacionATK.TabIndex = 8;
+            this.lblClasificacionATK.Text = "Clasificacion ATK";
             // 
             // lblCategoria
             // 
@@ -411,90 +498,6 @@ namespace CpFarmacia2024
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
-            // cboMarca
-            // 
-            this.cboMarca.FormattingEnabled = true;
-            this.cboMarca.Location = new System.Drawing.Point(570, 9);
-            this.cboMarca.Name = "cboMarca";
-            this.cboMarca.Size = new System.Drawing.Size(169, 27);
-            this.cboMarca.TabIndex = 8;
-            // 
-            // cboPresentacion
-            // 
-            this.cboPresentacion.FormattingEnabled = true;
-            this.cboPresentacion.Location = new System.Drawing.Point(570, 57);
-            this.cboPresentacion.Name = "cboPresentacion";
-            this.cboPresentacion.Size = new System.Drawing.Size(169, 27);
-            this.cboPresentacion.TabIndex = 9;
-            // 
-            // lblDescripcion
-            // 
-            this.lblDescripcion.AutoSize = true;
-            this.lblDescripcion.Location = new System.Drawing.Point(3, 77);
-            this.lblDescripcion.Name = "lblDescripcion";
-            this.lblDescripcion.Size = new System.Drawing.Size(84, 19);
-            this.lblDescripcion.TabIndex = 10;
-            this.lblDescripcion.Text = "Descripcion:";
-            // 
-            // txtDescripcion
-            // 
-            this.txtDescripcion.Location = new System.Drawing.Point(90, 74);
-            this.txtDescripcion.MaxLength = 500;
-            this.txtDescripcion.Multiline = true;
-            this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(250, 26);
-            this.txtDescripcion.TabIndex = 11;
-            // 
-            // cboGrupo
-            // 
-            this.cboGrupo.AutoSize = true;
-            this.cboGrupo.Location = new System.Drawing.Point(3, 66);
-            this.cboGrupo.Name = "cboGrupo";
-            this.cboGrupo.Size = new System.Drawing.Size(51, 19);
-            this.cboGrupo.TabIndex = 6;
-            this.cboGrupo.Text = "Grupo:";
-            // 
-            // cboGrupoo
-            // 
-            this.cboGrupoo.FormattingEnabled = true;
-            this.cboGrupoo.Location = new System.Drawing.Point(130, 63);
-            this.cboGrupoo.Name = "cboGrupoo";
-            this.cboGrupoo.Size = new System.Drawing.Size(140, 27);
-            this.cboGrupoo.TabIndex = 7;
-            // 
-            // lblUnidadMedida
-            // 
-            this.lblUnidadMedida.AutoSize = true;
-            this.lblUnidadMedida.Location = new System.Drawing.Point(-2, 98);
-            this.lblUnidadMedida.Name = "lblUnidadMedida";
-            this.lblUnidadMedida.Size = new System.Drawing.Size(126, 19);
-            this.lblUnidadMedida.TabIndex = 8;
-            this.lblUnidadMedida.Text = "Unidad de Medida:";
-            // 
-            // cboUnidadMedida
-            // 
-            this.cboUnidadMedida.FormattingEnabled = true;
-            this.cboUnidadMedida.Location = new System.Drawing.Point(130, 98);
-            this.cboUnidadMedida.Name = "cboUnidadMedida";
-            this.cboUnidadMedida.Size = new System.Drawing.Size(140, 27);
-            this.cboUnidadMedida.TabIndex = 9;
-            // 
-            // lblClasificacionATK
-            // 
-            this.lblClasificacionATK.AutoSize = true;
-            this.lblClasificacionATK.Location = new System.Drawing.Point(3, 66);
-            this.lblClasificacionATK.Name = "lblClasificacionATK";
-            this.lblClasificacionATK.Size = new System.Drawing.Size(118, 19);
-            this.lblClasificacionATK.TabIndex = 8;
-            this.lblClasificacionATK.Text = "Clasificacion ATK";
-            // 
-            // txtClasificacionATK
-            // 
-            this.txtClasificacionATK.Location = new System.Drawing.Point(130, 63);
-            this.txtClasificacionATK.Name = "txtClasificacionATK";
-            this.txtClasificacionATK.Size = new System.Drawing.Size(224, 26);
-            this.txtClasificacionATK.TabIndex = 9;
-            // 
             // btnCerrar
             // 
             this.btnCerrar.Font = new System.Drawing.Font("Times New Roman", 12F);
@@ -555,6 +558,7 @@ namespace CpFarmacia2024
             // FrmMedicamento
             // 
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.BackgroundImage = global::CpFarmacia2024.Properties.Resources.farmacia;
             this.ClientSize = new System.Drawing.Size(893, 633);
             this.Controls.Add(this.gbxDatos);
             this.Controls.Add(this.pnlAcciones);
