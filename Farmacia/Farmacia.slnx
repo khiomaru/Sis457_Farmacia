@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="CadFarmacia/CadFarmacia.csproj" />
   <Project Path="ClnFarmacia/ClnFarmacia.csproj" />
+  <Project Path="CpFarmacia/CpFarmacia.csproj" />
 </Solution>
