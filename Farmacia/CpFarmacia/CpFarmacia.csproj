@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C1.Win.4, Version=4.0.20193.393, Culture=neutral, PublicKeyToken=944ae1ea0e47ca04" />
+    <Reference Include="C1.Win.C1Command.4, Version=4.0.20193.393, Culture=neutral, PublicKeyToken=e808566f358766d8" />
+    <Reference Include="C1.Win.C1Input.4, Version=4.0.20193.393, Culture=neutral, PublicKeyToken=7e7ff60f0c214f9a, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -44,6 +47,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Entity.Design" />
@@ -59,6 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmCategorias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCategorias.Designer.cs">
+      <DependentUpon>FrmCategorias.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmClientes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +89,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmCategorias.resx">
+      <DependentUpon>FrmCategorias.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmClientes.resx">
       <DependentUpon>FrmClientes.cs</DependentUpon>
     </EmbeddedResource>
@@ -88,6 +101,7 @@
     <EmbeddedResource Include="FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
