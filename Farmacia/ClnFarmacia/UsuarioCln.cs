@@ -14,11 +14,10 @@ namespace ClnFarmacia
         {
             using (var context = new Labsis457FarmaciaEntities())
             {
-                string claveEncriptada = Encriptar(clave);
                 return context.Usuario
                     .Include("Empleado")
                     .FirstOrDefault(u => u.usuario1 == usuario &&
-                                        u.clave == claveEncriptada &&
+                                        u.clave == clave &&
                                         u.estado == 1);
             }
         }

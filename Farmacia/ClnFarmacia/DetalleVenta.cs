@@ -7,7 +7,7 @@ namespace ClnFarmacia
 {
     public class DetalleVentaCln
     {
-        public static List<DetalleVenta> ObtenerPorVenta(int idVenta)
+        public static List<CadFarmacia.DetalleVenta> ObtenerPorVenta(int idVenta)
         {
             using (var context = new Labsis457FarmaciaEntities())
             {

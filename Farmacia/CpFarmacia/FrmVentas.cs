@@ -299,10 +299,10 @@ namespace CpFarmacia
                     };
 
                     // Crear lista de detalles
-                    List<DetalleVenta> detalles = new List<DetalleVenta>();
+                    List<CadFarmacia.DetalleVenta> detalles = new List<CadFarmacia.DetalleVenta>();
                     foreach (DataRow row in dtDetalle.Rows)
                     {
-                        DetalleVenta detalle = new DetalleVenta
+                        CadFarmacia.DetalleVenta detalle = new CadFarmacia.DetalleVenta
                         {
                             idMedicamento = Convert.ToInt32(row["idMedicamento"]),
                             cantidad = Convert.ToInt32(row["cantidad"]),

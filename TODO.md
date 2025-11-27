@@ -1,0 +1,1 @@
+- [x] Fix login encryption mismatch by changing Util.Encrypt to UsuarioCln.Encriptar in FrmLogin.cs
