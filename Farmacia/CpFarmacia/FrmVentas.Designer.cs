@@ -20,7 +20,7 @@
             base.Dispose(disposing);
         }
 
-           #region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -160,9 +160,6 @@
             // gbProducto
             // 
             this.gbProducto.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.gbProducto.Controls.Add(this.txtBusqueda);
-            this.gbProducto.Controls.Add(this.btnBuscar);
-            this.gbProducto.Controls.Add(this.btnListarTodos);
             this.gbProducto.Controls.Add(this.chkReceta);
             this.gbProducto.Controls.Add(this.btnAgregar);
             this.gbProducto.Controls.Add(this.nudCantidad);
@@ -290,33 +287,6 @@
             this.chkReceta.TabIndex = 9;
             this.chkReceta.Text = "Requiere Receta";
             this.chkReceta.UseVisualStyleBackColor = true;
-            // 
-            // txtBusqueda
-            // 
-            this.txtBusqueda.Location = new System.Drawing.Point(100, 60);
-            this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(260, 20);
-            this.txtBusqueda.TabIndex = 10;
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.Location = new System.Drawing.Point(370, 58);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(80, 25);
-            this.btnBuscar.TabIndex = 11;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
-            // 
-            // btnListarTodos
-            // 
-            this.btnListarTodos.Location = new System.Drawing.Point(460, 58);
-            this.btnListarTodos.Name = "btnListarTodos";
-            this.btnListarTodos.Size = new System.Drawing.Size(80, 25);
-            this.btnListarTodos.TabIndex = 12;
-            this.btnListarTodos.Text = "Listar Todos";
-            this.btnListarTodos.UseVisualStyleBackColor = true;
-            this.btnListarTodos.Click += new System.EventHandler(this.btnListarTodos_Click);
             // 
             // dgvDetalle
             // 
@@ -457,9 +427,5 @@
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnLimpiar;
-        private System.Windows.Forms.TextBox txtBusqueda;
-        private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.Button btnListarTodos;
-        private System.Windows.Forms.Button btnCerrar;
     }
 }
