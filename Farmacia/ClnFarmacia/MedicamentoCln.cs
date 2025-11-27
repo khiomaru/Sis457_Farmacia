@@ -7,7 +7,20 @@ namespace ClnFarmacia
 {
     public class MedicamentoCln
     {
-        public static List<paMedicamentoListar_Result> Listar(string parametro)
+        public static List<Medicamento> Listar(string parametro)
+        {
+            using (var context = new Labsis457FarmaciaEntities())
+            {
+                return context.Medicamento
+                    .Include("Categoria")
+                    .Include("Laboratorio")
+                    .Where(m => m.estado == 1 && m.nombre.Contains(parametro))
+                    .OrderBy(m => m.nombre)
+                    .ToList();
+            }
+        }
+
+        public static List<paMedicamentoListar_Result> ListarPA(string parametro)
         {
             using (var context = new Labsis457FarmaciaEntities())
             {

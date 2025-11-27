@@ -56,9 +56,18 @@ namespace CpFarmacia
             CargarMedicamentos();
         }
 
-        private void CargarMedicamentos()
+        private void CargarMedicamentos(string parametro = null)
         {
-            var medicamentos = MedicamentoCln.ListarActivos();
+            List<Medicamento> medicamentos;
+            if (string.IsNullOrEmpty(parametro))
+            {
+                medicamentos = MedicamentoCln.ListarActivos();
+            }
+            else
+            {
+                medicamentos = MedicamentoCln.Listar(parametro);
+            }
+
             cboMedicamento.DataSource = medicamentos.Select(m => new {
                 id = m.id,
                 descripcion = m.codigo + " - " + m.nombre + " (Stock: " + m.stock + ")"
@@ -332,6 +341,17 @@ namespace CpFarmacia
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            CargarMedicamentos(txtBusqueda.Text);
+        }
+
+        private void btnListarTodos_Click(object sender, EventArgs e)
+        {
+            CargarMedicamentos();
+            txtBusqueda.Text = "";
         }
     }
 }
