@@ -350,13 +350,13 @@ VALUES ('99887766', 'Sofía', 'Mendoza', 'Vargas', 'Av. Circunvalación #987', 6
 -- Clave encriptada: i0hcoO/nssY6WOs9pOp5Xw== (para "hola123")
 -- Usaré la misma clave encriptada para el ejemplo
 INSERT INTO Usuario(idEmpleado, usuario, clave)
-VALUES (1, 'adolfo', 'i0hcoO/nssY6WOs9pOp5Xw==');
+VALUES (1, 'adolfo',  'I0HCOO/NSSY6WOS9POP5XW==');
 
 INSERT INTO Usuario(idEmpleado, usuario, clave)
-VALUES (2, 'luisramirez', 'i0hcoO/nssY6WOs9pOp5Xw==');
+VALUES (2, 'luisramirez',  'I0HCOO/NSSY6WOS9POP5XW==');
 
 INSERT INTO Usuario(idEmpleado, usuario, clave)
-VALUES (3, 'sofiamendoza', 'i0hcoO/nssY6WOs9pOp5Xw==');
+VALUES (3, 'sofiamendoza',  'I0HCOO/NSSY6WOS9POP5XW==');
 
 -- Ventas de ejemplo
 INSERT INTO Venta(idUsuario, idCliente, total, fechaVenta)
@@ -378,3 +378,4 @@ SELECT 'Base de datos creada exitosamente' AS Mensaje;
 SELECT name AS TablaCreada FROM sys.tables WHERE type = 'U';
 SELECT name AS ProcedimientoCreado FROM sys.procedures;
 GO
+SELECT * FROM Usuario WHERE usuario = 'adolfo';

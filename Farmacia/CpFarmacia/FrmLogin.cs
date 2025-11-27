@@ -32,7 +32,9 @@ namespace CpFarmacia
             }
 
             // Validar acceso
-            var usuario = UsuarioCln.ValidarAcceso(txtUsuario.Text.Trim(), txtClave.Text);
+            var usuario = UsuarioCln.ValidarAcceso(txtUsuario.Text.Trim(), Util.Encrypt(txtClave.Text));
+
+
 
             if (usuario != null)
             {
