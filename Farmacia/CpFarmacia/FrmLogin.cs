@@ -13,7 +13,7 @@ namespace CpFarmacia
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            // Validar usuario
+            // 1. Validar usuario vacío
             if (string.IsNullOrWhiteSpace(txtUsuario.Text))
             {
                 MessageBox.Show("Ingrese el usuario", "Validación",
@@ -22,7 +22,7 @@ namespace CpFarmacia
                 return;
             }
 
-            // Validar contraseña
+            // 2. Validar contraseña vacía
             if (string.IsNullOrWhiteSpace(txtClave.Text))
             {
                 MessageBox.Show("Ingrese la contraseña", "Validación",
@@ -31,15 +31,21 @@ namespace CpFarmacia
                 return;
             }
 
-            // Validar acceso
-            var usuario = UsuarioCln.ValidarAcceso(txtUsuario.Text.Trim(), UsuarioCln.Encriptar(txtClave.Text.Trim()));
-
-
+            // 3. Encriptar clave y Consultar BD
+            // Usamos Trim() para quitar espacios en blanco accidentales
+            string claveEncriptada = UsuarioCln.Encriptar(txtClave.Text.Trim());
+            var usuario = UsuarioCln.ValidarAcceso(txtUsuario.Text.Trim(), claveEncriptada);
 
             if (usuario != null)
             {
                 // Login exitoso
-                UsuarioCln.UsuarioLogueado = usuario;
+                UsuarioCln.UsuarioLogueado = usuario; // Guardar en Capa Lógica
+                Util.usuario = usuario;               // Guardar en Utilidades (Capa Presentación)
+
+                // --- MODIFICADO AQUÍ ---
+                // Ahora mostramos usuario.usuario1 (que es 'adolfo')
+                MessageBox.Show($"Bienvenido: {usuario.usuario1}",
+                                "Farmacia", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 FrmPrincipal frmPrincipal = new FrmPrincipal();
                 frmPrincipal.Show();
@@ -48,7 +54,7 @@ namespace CpFarmacia
             else
             {
                 // Login fallido
-                MessageBox.Show("Usuario o contraseña incorrectos", "Error de acceso",
+                MessageBox.Show("Usuario o contraseña incorrectos.", "Error de acceso",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtClave.Clear();
                 txtClave.Focus();
