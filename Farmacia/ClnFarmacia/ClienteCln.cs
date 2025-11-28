@@ -20,6 +20,7 @@ namespace ClnFarmacia
             using (var context = new Labsis457FarmaciaEntities())
             {
                 return context.Cliente
+                    .Include("Venta") // Eager load the Venta navigation property
                     .Where(c => c.estado == 1)
                     .OrderBy(c => c.nombres)
                     .ThenBy(c => c.apellidos)
@@ -31,7 +32,9 @@ namespace ClnFarmacia
         {
             using (var context = new Labsis457FarmaciaEntities())
             {
-                return context.Cliente.Find(id);
+                return context.Cliente
+                    .Include("Venta") // Eager load the Venta navigation property
+                    .FirstOrDefault(c => c.id == id);
             }
         }
 
@@ -39,9 +42,23 @@ namespace ClnFarmacia
         {
             using (var context = new Labsis457FarmaciaEntities())
             {
-                context.Cliente.Add(cliente);
-                context.SaveChanges();
-                return cliente.id;
+                try
+                {
+                    context.Cliente.Add(cliente);
+                    context.SaveChanges();
+                    return cliente.id;
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    var errorMessages = ex.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => $"- {x.PropertyName}: {x.ErrorMessage}");
+
+                    var fullErrorMessage = string.Join("\n", errorMessages);
+                    var exceptionMessage = $"Error de validación al guardar el cliente:\n{fullErrorMessage}";
+                    
+                    throw new System.Exception(exceptionMessage);
+                }
             }
         }
 

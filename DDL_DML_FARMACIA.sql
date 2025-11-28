@@ -347,10 +347,8 @@ VALUES ('55667788', 'Luis', 'Ramírez', 'Flores', 'Calle 10 #654', 71122334, 'T�
 INSERT INTO Empleado(cedulaIdentidad, nombres, primerApellido, segundoApellido, direccion, celular, cargo)
 VALUES ('99887766', 'Sofía', 'Mendoza', 'Vargas', 'Av. Circunvalación #987', 69988776, 'Cajero');
 
--- Clave encriptada: i0hcoO/nssY6WOs9pOp5Xw== (para "hola123")
--- Usaré la misma clave encriptada para el ejemplo
 INSERT INTO Usuario(idEmpleado, usuario, clave)
-VALUES (1, 'adolfo',  'I0HCOO/NSSY6WOS9POP5XW==');
+VALUES (1, 'adolfo', 'I0HCOO/NSSY6WOS9POP5XW==');
 
 INSERT INTO Usuario(idEmpleado, usuario, clave)
 VALUES (2, 'luisramirez',  'I0HCOO/NSSY6WOS9POP5XW==');
@@ -372,10 +370,3 @@ VALUES (1, 2, 1, 8.75);
 -- FIN DEL SCRIPT
 -- =============================================
 GO
-
--- Verificar creación de objetos
-SELECT 'Base de datos creada exitosamente' AS Mensaje;
-SELECT name AS TablaCreada FROM sys.tables WHERE type = 'U';
-SELECT name AS ProcedimientoCreado FROM sys.procedures;
-GO
-SELECT * FROM Usuario WHERE usuario = 'adolfo';

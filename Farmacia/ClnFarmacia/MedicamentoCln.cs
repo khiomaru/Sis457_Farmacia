@@ -14,6 +14,7 @@ namespace ClnFarmacia
                 return context.Medicamento
                     .Include("Categoria")
                     .Include("Laboratorio")
+                    .Include("DetalleVenta")
                     .Where(m => m.estado == 1 && m.nombre.Contains(parametro))
                     .OrderBy(m => m.nombre)
                     .ToList();
@@ -35,6 +36,7 @@ namespace ClnFarmacia
                 return context.Medicamento
                     .Include("Categoria")
                     .Include("Laboratorio")
+                    .Include("DetalleVenta")
                     .Where(m => m.estado == 1 && m.stock > 0)
                     .OrderBy(m => m.nombre)
                     .ToList();
@@ -48,6 +50,7 @@ namespace ClnFarmacia
                 return context.Medicamento
                     .Include("Categoria")
                     .Include("Laboratorio")
+                    .Include("DetalleVenta")
                     .FirstOrDefault(m => m.id == id);
             }
         }

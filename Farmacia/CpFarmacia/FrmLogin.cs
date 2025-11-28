@@ -6,6 +6,9 @@ namespace CpFarmacia
 {
     public partial class FrmLogin : Form
     {
+        private int intentosFallidos = 0;
+        private const int maxIntentos = 3;
+
         public FrmLogin()
         {
             InitializeComponent();
@@ -31,10 +34,12 @@ namespace CpFarmacia
                 return;
             }
 
-            // 3. Encriptar clave y Consultar BD
+            // 3. Consultar BD (SIN ENCRIPTAR)
             // Usamos Trim() para quitar espacios en blanco accidentales
-            string claveEncriptada = UsuarioCln.Encriptar(txtClave.Text.Trim());
-            var usuario = UsuarioCln.ValidarAcceso(txtUsuario.Text.Trim(), claveEncriptada);
+            string usuarioTrim = txtUsuario.Text.Trim();
+            string claveTrim = txtClave.Text.Trim();
+
+            var usuario = UsuarioCln.ValidarAcceso(usuarioTrim, claveTrim);
 
             if (usuario != null)
             {
@@ -54,10 +59,20 @@ namespace CpFarmacia
             else
             {
                 // Login fallido
-                MessageBox.Show("Usuario o contraseña incorrectos.", "Error de acceso",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtClave.Clear();
-                txtClave.Focus();
+                intentosFallidos++;
+                if (intentosFallidos >= maxIntentos)
+                {
+                    MessageBox.Show("Demasiados intentos fallidos. La aplicación se cerrará.", "Bloqueo de seguridad",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.Exit();
+                }
+                else
+                {
+                    MessageBox.Show($"Usuario o contraseña incorrectos. Intentos restantes: {maxIntentos - intentosFallidos}", "Error de acceso",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtClave.Clear();
+                    txtClave.Focus();
+                }
             }
         }
 

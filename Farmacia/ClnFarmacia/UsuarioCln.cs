@@ -19,7 +19,7 @@ namespace ClnFarmacia
                 // Nota: EF renombra la columna 'usuario' a 'usuario1' porque la clase se llama 'Usuario'
                 return context.Usuario
                     .Include("Empleado")
-                    .FirstOrDefault(u => u.usuario1 == usuario &&
+                    .FirstOrDefault(u => u.usuario1.ToLower() == usuario.ToLower() &&
                                         u.clave == clave &&
                                         u.estado == 1);
             }

@@ -1,4 +1,4 @@
-﻿using ClnFarmacia;
+﻿﻿using ClnFarmacia;
 using System;
 using System.Windows.Forms;
 
@@ -53,45 +53,38 @@ namespace CpFarmacia
         // ==================== MENÚ MANTENIMIENTO ====================
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // AbrirFormulario(new FrmClientes()); // Pendiente de crear
-            MessageBox.Show("Módulo de Clientes en construcción");
+            AbrirFormulario(new FrmClientes());
         }
 
         private void medicamentosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // AbrirFormulario(new FrmMedicamentos()); // Pendiente de crear
-            MessageBox.Show("Módulo de Medicamentos en construcción");
+            AbrirFormulario(new FrmMedicamentos());
         }
 
         private void categoriasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // AbrirFormulario(new FrmCategorias()); // Pendiente de crear
-            MessageBox.Show("Módulo de Categorías en construcción");
+            AbrirFormulario(new FrmCategorias());
         }
 
         private void laboratoriosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // AbrirFormulario(new FrmLaboratorios()); // Pendiente de crear
-            MessageBox.Show("Módulo de Laboratorios en construcción");
+            AbrirFormulario(new FrmLaboratorios());
         }
 
         private void empleadosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // AbrirFormulario(new FrmEmpleados()); // Pendiente de crear
-            MessageBox.Show("Módulo de Empleados en construcción");
+            AbrirFormulario(new FrmEmpleados());
         }
 
         // ==================== MENÚ OPERACIONES ====================
         private void nuevaVentaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // AbrirFormulario(new FrmVentas()); // Pendiente de crear
-            MessageBox.Show("Módulo de Ventas en construcción");
+            AbrirFormulario(new FrmVentas());
         }
 
         private void listaDeVentasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // AbrirFormulario(new FrmListaVentas()); // Pendiente de crear
-            MessageBox.Show("Módulo de Lista de Ventas en construcción");
+            AbrirFormulario(new FrmListaVentas());
         }
 
         private void FrmPrincipal_FormClosed(object sender, FormClosedEventArgs e)

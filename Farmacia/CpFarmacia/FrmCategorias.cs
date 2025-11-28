@@ -23,7 +23,7 @@ namespace CpFarmacia
 
         private void Listar()
         {
-            dgvCategorias.DataSource = CategoriaCln.Listar();
+            dgvCategorias.DataSource = CategoriaCln.Listar(txtBuscar.Text.Trim());
             FormatearGrilla();
         }
 

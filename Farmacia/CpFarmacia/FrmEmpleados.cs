@@ -1,6 +1,7 @@
 ﻿using CadFarmacia;
 using ClnFarmacia;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CpFarmacia
@@ -146,6 +147,16 @@ namespace CpFarmacia
                 return;
             }
 
+            // Validar formato de CI (solo números, longitud típica)
+            string ci = txtCI.Text.Trim();
+            if (!ci.All(char.IsDigit) || ci.Length < 7 || ci.Length > 10)
+            {
+                MessageBox.Show("Ingrese una cédula de identidad válida (solo números, 7-10 dígitos)", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCI.Focus();
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtNombres.Text))
             {
                 MessageBox.Show("Ingrese los nombres", "Validación",
@@ -165,6 +176,15 @@ namespace CpFarmacia
             if (string.IsNullOrWhiteSpace(txtCelular.Text))
             {
                 MessageBox.Show("Ingrese el celular", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCelular.Focus();
+                return;
+            }
+
+            // Validar formato de celular (solo números, longitud típica)
+            if (!long.TryParse(txtCelular.Text.Trim(), out _) || txtCelular.Text.Trim().Length < 7 || txtCelular.Text.Trim().Length > 8)
+            {
+                MessageBox.Show("Ingrese un celular válido (solo números, 7-8 dígitos)", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCelular.Focus();
                 return;

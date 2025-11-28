@@ -10,6 +10,12 @@ namespace CpFarmacia
 {
     public partial class FrmVentas : Form
     {
+        private class MedicamentoComboItem
+        {
+            public int Id { get; set; }
+            public string Descripcion { get; set; }
+        }
+
         private DataTable dtDetalle;
         private decimal totalVenta = 0;
 
@@ -68,12 +74,13 @@ namespace CpFarmacia
                 medicamentos = MedicamentoCln.Listar(parametro);
             }
 
-            cboMedicamento.DataSource = medicamentos.Select(m => new {
-                id = m.id,
-                descripcion = m.codigo + " - " + m.nombre + " (Stock: " + m.stock + ")"
+            cboMedicamento.DataSource = medicamentos.Select(m => new MedicamentoComboItem
+            {
+                Id = m.id,
+                Descripcion = m.codigo + " - " + m.nombre + " (Stock: " + m.stock + ")"
             }).ToList();
-            cboMedicamento.DisplayMember = "descripcion";
-            cboMedicamento.ValueMember = "id";
+            cboMedicamento.DisplayMember = "Descripcion";
+            cboMedicamento.ValueMember = "Id";
             cboMedicamento.SelectedIndex = -1;
 
             txtPrecio.Clear();
@@ -117,9 +124,10 @@ namespace CpFarmacia
 
         private void cboMedicamento_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboMedicamento.SelectedIndex >= 0 && cboMedicamento.SelectedValue != null)
+            if (cboMedicamento.SelectedIndex >= 0 && cboMedicamento.SelectedItem != null)
             {
-                int idMedicamento = Convert.ToInt32(cboMedicamento.SelectedValue);
+                MedicamentoComboItem selectedItem = (MedicamentoComboItem)cboMedicamento.SelectedItem;
+                int idMedicamento = selectedItem.Id;
                 var medicamento = MedicamentoCln.ObtenerPorId(idMedicamento);
 
                 if (medicamento != null)
@@ -149,7 +157,8 @@ namespace CpFarmacia
                 return;
             }
 
-            int idMedicamento = Convert.ToInt32(cboMedicamento.SelectedValue);
+            MedicamentoComboItem selectedItem = (MedicamentoComboItem)cboMedicamento.SelectedItem;
+            int idMedicamento = selectedItem.Id;
             int cantidad = Convert.ToInt32(nudCantidad.Value);
 
             // Verificar si ya está en el detalle
@@ -308,10 +317,10 @@ namespace CpFarmacia
                     };
 
                     // Crear lista de detalles
-                    List<CadFarmacia.DetalleVenta> detalles = new List<CadFarmacia.DetalleVenta>();
+                    List<DetalleVenta> detalles = new List<DetalleVenta>();
                     foreach (DataRow row in dtDetalle.Rows)
                     {
-                        CadFarmacia.DetalleVenta detalle = new CadFarmacia.DetalleVenta
+                        DetalleVenta detalle = new DetalleVenta
                         {
                             idMedicamento = Convert.ToInt32(row["idMedicamento"]),
                             cantidad = Convert.ToInt32(row["cantidad"]),
@@ -341,17 +350,6 @@ namespace CpFarmacia
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            CargarMedicamentos(txtBusqueda.Text);
-        }
-
-        private void btnListarTodos_Click(object sender, EventArgs e)
-        {
-            CargarMedicamentos();
-            txtBusqueda.Text = "";
         }
     }
 }

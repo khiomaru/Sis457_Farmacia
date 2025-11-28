@@ -1,6 +1,8 @@
 ﻿using CadFarmacia;
 using ClnFarmacia;
 using System;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Windows.Forms;
 
 namespace CpFarmacia
@@ -194,6 +196,15 @@ namespace CpFarmacia
                 return;
             }
 
+            // Validar fecha de vencimiento (no puede ser en el pasado)
+            if (dtpFechaVencimiento.Value.Date < DateTime.Now.Date)
+            {
+                MessageBox.Show("La fecha de vencimiento no puede ser en el pasado", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtpFechaVencimiento.Focus();
+                return;
+            }
+
             try
             {
                 if (esNuevo)
@@ -210,7 +221,9 @@ namespace CpFarmacia
                         stock = Convert.ToInt32(txtStock.Text),
                         fechaVencimiento = dtpFechaVencimiento.Value,
                         requiereReceta = chkRequiereReceta.Checked,
-                        estado = 1
+                        estado = 1,
+                        usuarioRegistro = Util.usuario?.usuario1 ?? "Sistema",
+                        fechaRegistro = DateTime.Now
                     };
 
                     MedicamentoCln.Insertar(medicamento);
@@ -230,6 +243,7 @@ namespace CpFarmacia
                     medicamento.stock = Convert.ToInt32(txtStock.Text);
                     medicamento.fechaVencimiento = dtpFechaVencimiento.Value;
                     medicamento.requiereReceta = chkRequiereReceta.Checked;
+                    // No se actualiza usuarioRegistro ni fechaRegistro para una edición
 
                     MedicamentoCln.Actualizar(medicamento);
                     MessageBox.Show("Medicamento actualizado correctamente", "Éxito",
@@ -238,6 +252,28 @@ namespace CpFarmacia
 
                 Listar();
                 EstadoInicial();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errorMessage = "Errores de validación:\n";
+                foreach (var validationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorMessage += $"- Propiedad: {validationError.PropertyName}, Error: {validationError.ErrorMessage}\n";
+                    }
+                }
+                MessageBox.Show(errorMessage, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (DbUpdateException ex)
+            {
+                string innerMessage = ex.InnerException?.Message ?? "Sin detalles adicionales";
+                if (ex.InnerException?.InnerException != null)
+                {
+                    innerMessage += "\n\nDetalles internos: " + ex.InnerException.InnerException.Message;
+                }
+                MessageBox.Show("Error al actualizar la base de datos: " + innerMessage, "Error de Base de Datos",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
@@ -280,6 +316,11 @@ namespace CpFarmacia
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Listar();
                     EstadoInicial();
+                }
+                catch (DbUpdateException ex)
+                {
+                    MessageBox.Show("Error al eliminar el medicamento. Es posible que existan registros relacionados que impidan la eliminación: " + ex.InnerException?.Message, "Error de Base de Datos",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {

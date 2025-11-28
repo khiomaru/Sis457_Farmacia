@@ -1,6 +1,9 @@
 ﻿using CadFarmacia;
 using ClnFarmacia;
 using System;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CpFarmacia
@@ -109,6 +112,16 @@ namespace CpFarmacia
                 return;
             }
 
+            // Validar formato de CI (solo números, longitud típica)
+            string ci = txtCI.Text.Trim();
+            if (!ci.All(char.IsDigit) || ci.Length < 7 || ci.Length > 10)
+            {
+                MessageBox.Show("Ingrese una cédula de identidad válida (solo números, 7-10 dígitos)", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCI.Focus();
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtNombres.Text))
             {
                 MessageBox.Show("Ingrese los nombres", "Validación",
@@ -137,6 +150,8 @@ namespace CpFarmacia
                         apellidos = txtApellidos.Text.Trim(),
                         telefono = string.IsNullOrEmpty(txtTelefono.Text) ? (long?)null : long.Parse(txtTelefono.Text),
                         direccion = txtDireccion.Text.Trim(),
+                        usuarioRegistro = Util.usuario.usuario1,
+                        fechaRegistro = DateTime.Now,
                         estado = 1
                     };
 
@@ -161,6 +176,23 @@ namespace CpFarmacia
 
                 Listar();
                 EstadoInicial();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errorMessage = "Errores de validación:\n";
+                foreach (var validationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        errorMessage += $"- Propiedad: {validationError.PropertyName}, Error: {validationError.ErrorMessage}\n";
+                    }
+                }
+                MessageBox.Show(errorMessage, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (DbUpdateException ex)
+            {
+                MessageBox.Show("Error al actualizar la base de datos: " + ex.InnerException?.Message, "Error de Base de Datos",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
@@ -203,6 +235,11 @@ namespace CpFarmacia
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Listar();
                     EstadoInicial();
+                }
+                catch (DbUpdateException ex)
+                {
+                    MessageBox.Show("Error al eliminar el cliente. Es posible que existan registros relacionados que impidan la eliminación: " + ex.InnerException?.Message, "Error de Base de Datos",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {

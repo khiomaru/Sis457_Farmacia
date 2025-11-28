@@ -18,6 +18,17 @@ namespace ClnFarmacia
             }
         }
 
+        public static List<Categoria> Listar(string valor)
+        {
+            using (var context = new Labsis457FarmaciaEntities())
+            {
+                return context.Categoria
+                    .Where(c => c.estado == 1 && c.nombre.Contains(valor))
+                    .OrderBy(c => c.nombre)
+                    .ToList();
+            }
+        }
+
         public static Categoria ObtenerPorId(int id)
         {
             using (var context = new Labsis457FarmaciaEntities())
