@@ -60,7 +60,7 @@ namespace ClnFarmacia
                 var laboratorio = context.Laboratorio.Find(id);
                 if (laboratorio != null)
                 {
-                    laboratorio.estado = -1;
+                    laboratorio.estado = 0;
                     context.SaveChanges();
                 }
             }

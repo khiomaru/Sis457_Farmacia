@@ -81,7 +81,7 @@ namespace ClnFarmacia
                 var medicamento = context.Medicamento.Find(id);
                 if (medicamento != null)
                 {
-                    medicamento.estado = -1;
+                    medicamento.estado = 0;
                     context.SaveChanges();
                 }
             }

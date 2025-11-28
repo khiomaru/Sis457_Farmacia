@@ -78,7 +78,7 @@ namespace ClnFarmacia
                 var cliente = context.Cliente.Find(id);
                 if (cliente != null)
                 {
-                    cliente.estado = -1;
+                    cliente.estado = 0;
                     context.SaveChanges();
                 }
             }

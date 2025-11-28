@@ -186,9 +186,13 @@ BEGIN
     FROM Venta v
     INNER JOIN Cliente c ON c.id = v.idCliente
     INNER JOIN Usuario u ON u.id = v.idUsuario
-    WHERE v.estado <> -1
-    AND (c.nombres + ' ' + c.apellidos + u.usuario + v.numeroFactura) 
-        LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE v.estado = 1
+    AND (
+        c.nombres LIKE '%' + @parametro + '%' OR
+        c.apellidos LIKE '%' + @parametro + '%' OR
+        u.usuario LIKE '%' + @parametro + '%' OR
+        v.numeroFactura LIKE '%' + @parametro + '%'
+    )
     ORDER BY v.fechaVenta DESC;
 END
 GO
@@ -210,9 +214,12 @@ BEGIN
         c.fechaRegistro, 
         c.estado
     FROM Cliente c
-    WHERE c.estado <> -1
-    AND (c.cedulaIdentidad + c.nombres + c.apellidos) 
-        LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE c.estado = 1
+    AND (
+        c.cedulaIdentidad LIKE '%' + @parametro + '%' OR
+        c.nombres LIKE '%' + @parametro + '%' OR
+        c.apellidos LIKE '%' + @parametro + '%'
+    )
     ORDER BY c.nombres, c.apellidos;
 END
 GO
@@ -243,9 +250,15 @@ BEGIN
     FROM Medicamento m
     INNER JOIN Categoria ca ON ca.id = m.idCategoria
     INNER JOIN Laboratorio l ON l.id = m.idLaboratorio
-    WHERE m.estado <> -1 
-    AND (m.nombre + m.codigo + m.descripcion + m.composicion + ca.nombre + l.nombre) 
-        LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE m.estado = 1 
+    AND (
+        m.nombre LIKE '%' + @parametro + '%' OR
+        m.codigo LIKE '%' + @parametro + '%' OR
+        m.descripcion LIKE '%' + @parametro + '%' OR
+        m.composicion LIKE '%' + @parametro + '%' OR
+        ca.nombre LIKE '%' + @parametro + '%' OR
+        l.nombre LIKE '%' + @parametro + '%'
+    )
     ORDER BY m.estado DESC, m.nombre ASC;
 END
 GO
@@ -267,14 +280,19 @@ BEGIN
         e.cargo,
         e.usuarioRegistro, 
         e.fechaRegistro,
-        ISNULL(u.id, 0) as idUsuario, 
-        ISNULL(u.usuario, '') as usuario,
+        ISNULL(u.id, 0) AS idUsuario, 
+        ISNULL(u.usuario, '') AS usuario,
         e.estado
     FROM Empleado e
     LEFT JOIN Usuario u ON e.id = u.idEmpleado
-    WHERE e.estado <> -1
-    AND (e.cedulaIdentidad + e.nombres + e.primerApellido + e.segundoApellido + e.cargo) 
-        LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE e.estado = 1
+    AND (
+        e.cedulaIdentidad LIKE '%' + @parametro + '%' OR
+        e.nombres LIKE '%' + @parametro + '%' OR
+        ISNULL(e.primerApellido, '') LIKE '%' + @parametro + '%' OR
+        ISNULL(e.segundoApellido, '') LIKE '%' + @parametro + '%' OR
+        e.cargo LIKE '%' + @parametro + '%'
+    )
     ORDER BY e.nombres, e.primerApellido;
 END
 GO
@@ -291,11 +309,14 @@ BEGIN
         pais,
         estado
     FROM Laboratorio
-    WHERE estado <> -1
-    AND (nombre + ISNULL(pais, '')) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE estado = 1
+    AND (
+        nombre LIKE '%' + @parametro + '%' OR
+        ISNULL(pais, '') LIKE '%' + @parametro + '%'
+    )
     ORDER BY nombre;
 END
-GO
+
 
 -- =============================================
 -- INSERTAR DATOS DE EJEMPLO (DML)
@@ -339,7 +360,7 @@ VALUES ('11223344', 'Carlos', 'Rodríguez Martínez', 70987654, 'Av. Principal #
 
 -- Empleados
 INSERT INTO Empleado(cedulaIdentidad, nombres, primerApellido, segundoApellido, direccion, celular, cargo)
-VALUES ('9876543', 'Ana', 'Torres', 'Luna', 'Av. Los Leones #321', 69876543, 'Farmaceútico');
+VALUES ('9876543', 'Adolfo', 'Soto', '-', 'Av. Los Leones #321', 69876543, 'Farmacéutico'); -- ✅ Ortografía corregida
 
 INSERT INTO Empleado(cedulaIdentidad, nombres, primerApellido, segundoApellido, direccion, celular, cargo)
 VALUES ('55667788', 'Luis', 'Ramírez', 'Flores', 'Calle 10 #654', 71122334, 'Técnico Farmacéutico');
@@ -347,14 +368,15 @@ VALUES ('55667788', 'Luis', 'Ramírez', 'Flores', 'Calle 10 #654', 71122334, 'T�
 INSERT INTO Empleado(cedulaIdentidad, nombres, primerApellido, segundoApellido, direccion, celular, cargo)
 VALUES ('99887766', 'Sofía', 'Mendoza', 'Vargas', 'Av. Circunvalación #987', 69988776, 'Cajero');
 
+-- Usuarios (¡manteniendo 'adolfo' como solicitaste!)
 INSERT INTO Usuario(idEmpleado, usuario, clave)
 VALUES (1, 'adolfo', 'I0HCOO/NSSY6WOS9POP5XW==');
 
 INSERT INTO Usuario(idEmpleado, usuario, clave)
-VALUES (2, 'luisramirez',  'I0HCOO/NSSY6WOS9POP5XW==');
+VALUES (2, 'luisramirez', 'I0HCOO/NSSY6WOS9POP5XW==');
 
 INSERT INTO Usuario(idEmpleado, usuario, clave)
-VALUES (3, 'sofiamendoza',  'I0HCOO/NSSY6WOS9POP5XW==');
+VALUES (3, 'sofiamendoza', 'I0HCOO/NSSY6WOS9POP5XW==');
 
 -- Ventas de ejemplo
 INSERT INTO Venta(idUsuario, idCliente, total, fechaVenta)

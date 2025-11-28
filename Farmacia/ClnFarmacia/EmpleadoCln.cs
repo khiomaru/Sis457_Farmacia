@@ -49,7 +49,7 @@ namespace ClnFarmacia
                 var empleado = context.Empleado.Find(id);
                 if (empleado != null)
                 {
-                    empleado.estado = -1;
+                    empleado.estado = 0;
                     context.SaveChanges();
                 }
             }

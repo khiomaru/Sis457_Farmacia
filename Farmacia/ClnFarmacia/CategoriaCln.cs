@@ -63,7 +63,7 @@ namespace ClnFarmacia
                 var categoria = context.Categoria.Find(id);
                 if (categoria != null)
                 {
-                    categoria.estado = -1;
+                    categoria.estado = 0;
                     context.SaveChanges();
                 }
             }
