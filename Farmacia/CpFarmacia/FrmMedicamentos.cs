@@ -41,7 +41,7 @@ namespace CpFarmacia
 
         private void Listar()
         {
-            dgvMedicamentos.DataSource = MedicamentoCln.Listar(txtBuscar.Text.Trim());
+           dgvMedicamentos.DataSource = MedicamentoCln.ListarConProcedimiento(txtBuscar.Text.Trim());
             FormatearGrilla();
         }
 
