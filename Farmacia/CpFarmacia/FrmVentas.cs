@@ -299,6 +299,7 @@ namespace CpFarmacia
                 return;
             }
 
+            // ✅ DECLARAR 'result' AQUÍ, ANTES DE USARLA
             DialogResult result = MessageBox.Show("¿Está seguro de guardar esta venta?",
                 "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -313,7 +314,10 @@ namespace CpFarmacia
                         idUsuario = UsuarioCln.UsuarioLogueado.id,
                         total = totalVenta,
                         fechaVenta = DateTime.Now,
-                        estado = 1
+                        estado = 1,
+                        // ✅ AGREGAR CAMPOS OBLIGATORIOS
+                        usuarioRegistro = UsuarioCln.UsuarioLogueado.usuario1,
+                        fechaRegistro = DateTime.Now
                     };
 
                     // Crear lista de detalles
@@ -325,7 +329,10 @@ namespace CpFarmacia
                             idMedicamento = Convert.ToInt32(row["idMedicamento"]),
                             cantidad = Convert.ToInt32(row["cantidad"]),
                             precioUnitario = Convert.ToDecimal(row["precioUnitario"]),
-                            estado = 1
+                            estado = 1,
+                            // ✅ AGREGAR CAMPOS OBLIGATORIOS
+                            usuarioRegistro = UsuarioCln.UsuarioLogueado.usuario1,
+                            fechaRegistro = DateTime.Now
                         };
                         detalles.Add(detalle);
                     }
@@ -341,8 +348,19 @@ namespace CpFarmacia
                     CalcularTotal();
                     cboCliente.SelectedIndex = -1;
                     cboMedicamento.SelectedIndex = -1;
-                    CargarMedicamentos(); // Recargar para actualizar stock
+                    CargarMedicamentos();
 
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    // ✅ MEJOR MANEJO DE ERRORES DE VALIDACIÓN
+                    var errorMessages = ex.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => $"- {x.PropertyName}: {x.ErrorMessage}");
+
+                    var fullErrorMessage = string.Join("\n", errorMessages);
+                    MessageBox.Show($"Errores de validación:\n{fullErrorMessage}", "Error de Validación",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {
