@@ -12,16 +12,21 @@ namespace ClnFarmacia
         // Propiedad estática para guardar la sesión en la capa lógica
         public static Usuario UsuarioLogueado { get; set; }
 
+        // En UsuarioCln.cs
         public static Usuario ValidarAcceso(string usuario, string clave)
         {
+            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(clave))
+                return null;
+
+            // ⚠️ SOLO PARA DESARROLLO - NO USAR EN PRODUCCIÓN
             using (var context = new Labsis457FarmaciaEntities())
             {
-                // Nota: EF renombra la columna 'usuario' a 'usuario1' porque la clase se llama 'Usuario'
                 return context.Usuario
                     .Include("Empleado")
-                    .FirstOrDefault(u => u.usuario1.ToLower() == usuario.ToLower() &&
-                                        u.clave == clave &&
-                                        u.estado == 1);
+                    .FirstOrDefault(u =>
+                        u.usuario1.Equals(usuario.Trim(), StringComparison.OrdinalIgnoreCase) &&
+                        u.clave == clave.Trim() &&  // ← Comparar texto claro
+                        u.estado == 1);
             }
         }
 
