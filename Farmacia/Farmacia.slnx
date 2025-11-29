@@ -2,4 +2,5 @@
   <Project Path="CadFarmacia/CadFarmacia.csproj" Id="fc94de00-1fdd-4c65-8f88-b607891c21d1" />
   <Project Path="ClnFarmacia/ClnFarmacia.csproj" Id="2bf2eb7d-8aed-4093-9c1a-5d403f865eb0" />
   <Project Path="CpFarmacia/CpFarmacia.csproj" Id="385ad50c-52b0-4e48-b92e-dc73422384f4" />
+  <Project Path="WebFarmacia/WebFarmacia.csproj" Id="bab89764-5537-477f-9ec3-e47a7774024d" />
 </Solution>
