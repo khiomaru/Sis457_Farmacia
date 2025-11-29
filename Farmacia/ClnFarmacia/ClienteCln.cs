@@ -20,7 +20,6 @@ namespace ClnFarmacia
             using (var context = new Labsis457FarmaciaEntities())
             {
                 return context.Cliente
-                    .Include("Venta") // Eager load the Venta navigation property
                     .Where(c => c.estado == 1)
                     .OrderBy(c => c.nombres)
                     .ThenBy(c => c.apellidos)
