@@ -6,7 +6,7 @@
 -- =============================================
 
 -- Crear base de datos
-CREATE DATABASE Labsis457Farmacia;
+CREATE DATABASE FinalFarmacia;
 GO
 
 -- Usar la base de datos master para crear el login
@@ -16,13 +16,13 @@ GO
 -- Crear login de usuario para la aplicación
 CREATE LOGIN [usrfarmacia] WITH 
     PASSWORD = N'123456',  
-    DEFAULT_DATABASE = [Labsis457Farmacia],
+    DEFAULT_DATABASE = [FinalFarmacia],
     CHECK_EXPIRATION = OFF,
     CHECK_POLICY = ON;
 GO
 
 -- Asignar permisos en la base de datos
-USE [Labsis457Farmacia]
+USE [FinalFarmacia]
 GO
 
 -- Crear usuario en la base de datos
