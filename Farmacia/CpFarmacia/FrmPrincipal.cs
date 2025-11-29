@@ -19,7 +19,7 @@ namespace CpFarmacia
             // Mostrar nombre del usuario (ej: adolfo) en el título
             if (Util.usuario != null)
             {
-                this.Text = $"Sistema de Farmacia - Usuario: {Util.usuario.usuario1}";
+                this.Text = $"Sistema de Farmacia - Usuario: {UsuarioCln.UsuarioLogueado.usuario1}";
 
                 // Si quieres mostrar también el cargo, puedes descomentar esto:
                 // this.Text += $" ({Util.usuario.Empleado.cargo})";
