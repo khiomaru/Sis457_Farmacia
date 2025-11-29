@@ -21,7 +21,7 @@ namespace ClnFarmacia
             }
         }
 
-        public static List<paMedicamentoListar_Result> ListarPA(string parametro)
+        public static List<paMedicamentoListar_Result> ListarConProcedimiento(string parametro)
         {
             using (var context = new Labsis457FarmaciaEntities())
             {
