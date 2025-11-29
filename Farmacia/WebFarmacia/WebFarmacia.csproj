@@ -6,4 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CadFarmacia\CadFarmacia.csproj" />
+    <ProjectReference Include="..\ClnFarmacia\ClnFarmacia.csproj" />
+    <ProjectReference Include="..\CpFarmacia\CpFarmacia.csproj" />
+  </ItemGroup>
+
 </Project>
