@@ -17,5 +17,5 @@ public partial class Usuario
 
     public short Estado { get; set; }
 
-    public virtual ICollection<Venta> Ventas { get; set; } = new List<Venta>();
+    public virtual ICollection<Venta> Ventas { get; set; } = [];
 }

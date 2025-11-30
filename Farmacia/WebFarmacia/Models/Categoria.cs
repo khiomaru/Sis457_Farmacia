@@ -15,5 +15,5 @@ public partial class Categorium
 
     public short Estado { get; set; }
 
-    public virtual ICollection<Producto> Medicamentos { get; set; } = new List<Producto>();
+    public virtual ICollection<Producto> Medicamentos { get; set; } = [];
 }

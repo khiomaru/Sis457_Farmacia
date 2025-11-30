@@ -37,5 +37,5 @@ public partial class Producto
 
     public virtual Laboratorio? IdLaboratorioNavigation { get; set; }
 
-    public virtual ICollection<VentaDetalle> VentaDetalles { get; set; } = new List<VentaDetalle>();
+    public virtual ICollection<VentaDetalle> VentaDetalles { get; set; } = [];
 }
