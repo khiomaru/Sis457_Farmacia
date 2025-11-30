@@ -30,7 +30,7 @@ namespace WebFarmacia.Controllers
                 .Where(p => p.Estado == 1 && p.Stock > 0)
                 .Select(p => new
                 {
-                    p.IdProducto,
+                    p.Id,
                     p.Nombre,
                     p.PrecioVenta,
                     p.Stock
@@ -42,8 +42,13 @@ namespace WebFarmacia.Controllers
         // Buscar cliente por documento
         [Route("Ventas/BuscarCliente")]
         [HttpGet]
-        public JsonResult BuscarCliente(string documento)
+        public JsonResult BuscarCliente(string? documento)
         {
+            if (string.IsNullOrWhiteSpace(documento))
+            {
+                return Json(new { success = false, message = "Debe proporcionar un documento" });
+            }
+
             var cliente = _context.Clientes
                 .Where(c => c.CedulaIdentidad == documento)
                 .Select(c => new
@@ -60,21 +65,21 @@ namespace WebFarmacia.Controllers
             return Json(new { success = true, cliente });
         }
 
-        // Buscar producto por código
+        // Buscar medicamento por código
 [HttpGet]
-public JsonResult BuscarProducto(string codigo = null, int? idProducto = null)
+public JsonResult BuscarProducto(string? codigo = null, int? idMedicamento = null)
 {
-    if (string.IsNullOrWhiteSpace(codigo) && idProducto == null)
+    if (string.IsNullOrWhiteSpace(codigo) && idMedicamento == null)
     {
-        return Json(new { success = false, message = "Debe proporcionar un código o un ID de producto." });
+        return Json(new { success = false, message = "Debe proporcionar un código o un ID de medicamento." });
     }
 
-    var producto = _context.Medicamentos
+    var medicamento = _context.Medicamentos
         .Where(p => p.Estado == 1 && 
-                    (p.Codigo == codigo || p.IdProducto == idProducto)) // Filtra por código o ID
+                    (p.Codigo == codigo || p.Id == idMedicamento)) // Filtra por código o ID
         .Select(p => new
         {
-            p.IdProducto, // Asegúrate de incluir el IdProducto para usarlo al registrar la venta
+            p.Id, // ID del medicamento para usarlo al registrar la venta
             p.Nombre,
             p.Descripcion,
             p.PrecioVenta,
@@ -82,12 +87,12 @@ public JsonResult BuscarProducto(string codigo = null, int? idProducto = null)
         })
         .FirstOrDefault();
 
-    if (producto == null)
+    if (medicamento == null)
     {
-        return Json(new { success = false, message = "Producto no encontrado." });
+        return Json(new { success = false, message = "Medicamento no encontrado." });
     }
 
-    return Json(new { success = true, producto });
+    return Json(new { success = true, producto = medicamento });
 }
 
 
@@ -115,7 +120,7 @@ public JsonResult BuscarProducto(string codigo = null, int? idProducto = null)
                 {
                     // Registrar la venta
                     nuevaVenta.FechaRegistro = DateTime.Now;
-                    nuevaVenta.UsuarioRegistro = User.Identity.Name;
+                    nuevaVenta.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
                     nuevaVenta.Estado = 1;
                     _context.Ventas.Add(nuevaVenta);
                     await _context.SaveChangesAsync();
@@ -124,15 +129,15 @@ public JsonResult BuscarProducto(string codigo = null, int? idProducto = null)
                     foreach (var detalle in nuevaVenta.VentaDetalles)
                     {
                         // Convertir Código a IdMedicamento si es necesario
-                        var producto = await _context.Medicamentos
+                        var medicamento = await _context.Medicamentos
                             .FirstOrDefaultAsync(p => p.Codigo == detalle.IdMedicamento.ToString());
 
-                        if (producto == null)
+                        if (medicamento == null)
                         {
-                            return BadRequest(new { success = false, message = $"Producto con código {detalle.IdMedicamento} no encontrado." });
+                            return BadRequest(new { success = false, message = $"Medicamento con código {detalle.IdMedicamento} no encontrado." });
                         }
 
-                        detalle.IdMedicamento = producto.IdProducto; // Asignar el ID real
+                        detalle.IdMedicamento = medicamento.Id; // Asignar el ID real
                         detalle.IdVenta = nuevaVenta.IdVenta;
                         detalle.FechaRegistro = DateTime.Now;
                         detalle.UsuarioRegistro = nuevaVenta.UsuarioRegistro;
@@ -190,7 +195,7 @@ public JsonResult BuscarProducto(string codigo = null, int? idProducto = null)
         {
             if (ModelState.IsValid)
             {
-                ventum.UsuarioRegistro = User.Identity.Name;
+                ventum.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
                 ventum.FechaRegistro = DateTime.Now;
                 ventum.Estado = 1;
                 _context.Ventas.Add(ventum);
@@ -281,7 +286,7 @@ public JsonResult BuscarProducto(string codigo = null, int? idProducto = null)
             var ventum = await _context.Ventas.FindAsync(id);
             if (ventum != null)
             {
-                ventum.UsuarioRegistro = User.Identity.Name; ;
+                ventum.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
                 ventum.Estado = -1;
                 //_context.Venta.Remove(ventum);
             }

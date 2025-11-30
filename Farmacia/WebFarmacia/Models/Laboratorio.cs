@@ -13,5 +13,5 @@ public partial class Laboratorio
 
     public short Estado { get; set; } = 1;
 
-    public virtual ICollection<Producto> Medicamentos { get; set; } = [];
+    public virtual ICollection<Medicamento> Medicamentos { get; set; } = [];
 }

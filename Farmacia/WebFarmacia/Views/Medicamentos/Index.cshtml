@@ -1,11 +1,11 @@
-﻿@model IEnumerable<WebFarmacia.Models.Medicamento>
+@model IEnumerable<WebFarmacia.Models.Medicamento>
 
 @{
-    ViewData["Title"] = "Productos";
+    ViewData["Title"] = "Medicamentos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Productos</h1>
+<h1>Medicamentos</h1>
 
 <p>
     <a asp-action="Create"><i class="fa fa-plus"></i> Crear nuevo</a>
@@ -17,6 +17,7 @@
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Categoría</th>
+            <th>Laboratorio</th>
             <th>Stock</th>
             <th>Precio Venta</th>
             <th>Usuario Registro</th>
@@ -37,10 +38,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Descripcion)
                 </td>
-
-                <td>@(item.IdCategoriaNavigation?.Descripcion ?? "N/A")</td>
-                
-
+                <td>@(item.IdCategoriaNavigation?.Nombre ?? "N/A")</td>
+                <td>@(item.IdLaboratorioNavigation?.Nombre ?? "N/A")</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Stock)
                 </td>
@@ -53,8 +52,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaRegistro)
                 </td>
-
-
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" title="Editar"><i class="fa fa-edit"></i></a> |
                     <a asp-action="Details" asp-route-id="@item.Id" title="Listar"><i class="fa fa-list"></i></a> |

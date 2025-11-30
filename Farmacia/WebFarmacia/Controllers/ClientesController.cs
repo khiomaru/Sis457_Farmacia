@@ -59,7 +59,7 @@ namespace WebFarmacia.Controllers
         {
             if (!string.IsNullOrEmpty(cliente.CedulaIdentidad) && !string.IsNullOrEmpty(cliente.Nombres) && !string.IsNullOrEmpty(cliente.Apellidos))
             {
-                cliente.UsuarioRegistro = User.Identity.Name;
+                cliente.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
                 cliente.FechaRegistro = DateTime.Now;
                 cliente.Estado = 1;
                 _context.Clientes.Add(cliente);
@@ -146,7 +146,7 @@ namespace WebFarmacia.Controllers
             var cliente = await _context.Clientes.FindAsync(id);
             if (cliente != null)
             {
-                cliente.UsuarioRegistro = User.Identity.Name; ;
+                cliente.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
                 cliente.Estado = -1;
                 //_context.Clientes.Remove(cliente);
             }

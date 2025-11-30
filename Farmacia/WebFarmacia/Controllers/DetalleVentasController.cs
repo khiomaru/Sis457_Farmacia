@@ -21,7 +21,7 @@ namespace WebFarmacia.Controllers
         // GET: VentaDetalles
         public async Task<IActionResult> Index()
         {
-            var ventaDetalles = _context.VentaDetalles.Where(x => x.Estado != -1).Include(v => v.IdProductoNavigation).Include(v => v.IdVentaNavigation);
+            var ventaDetalles = _context.VentaDetalles.Where(x => x.Estado != -1).Include(v => v.IdMedicamentoNavigation).Include(v => v.IdVentaNavigation);
             return View(await ventaDetalles.ToListAsync());
         }
 
@@ -36,7 +36,7 @@ namespace WebFarmacia.Controllers
             var venta = await _context.Ventas
                 .Include(v => v.IdUsuarioNavigation)
                 .Include(v => v.VentaDetalles) // Incluir detalles de la venta
-                .ThenInclude(d => d.IdProductoNavigation) // Incluir información del producto
+                .ThenInclude(d => d.IdMedicamentoNavigation) // Incluir información del medicamento
                 .FirstOrDefaultAsync(m => m.IdVenta == id);
 
             if (venta == null)
@@ -50,7 +50,7 @@ namespace WebFarmacia.Controllers
         // GET: VentaDetalles/Create
         public IActionResult Create()
         {
-            ViewData["IdProducto"] = new SelectList(_context.Medicamentos, "IdProducto", "Nombre");
+            ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "Id", "Nombre");
             ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta");
             return View();
         }
@@ -64,14 +64,14 @@ namespace WebFarmacia.Controllers
         {
             if (ModelState.IsValid)
             {
-                ventaDetalle.UsuarioRegistro = User.Identity.Name;
+                ventaDetalle.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
                 ventaDetalle.FechaRegistro = DateTime.Now;
                 ventaDetalle.Estado = 1;
                 _context.VentaDetalles.Add(ventaDetalle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "IdProducto", "Nombre", ventaDetalle.IdMedicamento);
+            ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "Id", "Nombre", ventaDetalle.IdMedicamento);
             ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta", ventaDetalle.IdVenta);
             return View(ventaDetalle);
         }
@@ -89,7 +89,7 @@ namespace WebFarmacia.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "IdProducto", "Nombre", ventaDetalle.IdMedicamento);
+            ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "Id", "Nombre", ventaDetalle.IdMedicamento);
             ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta", ventaDetalle.IdVenta);
             return View(ventaDetalle);
         }
@@ -126,7 +126,7 @@ namespace WebFarmacia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "IdProducto", "Nombre", ventaDetalle.IdMedicamento);
+            ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "Id", "Nombre", ventaDetalle.IdMedicamento);
             ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta", ventaDetalle.IdVenta);
             return View(ventaDetalle);
         }
@@ -140,7 +140,7 @@ namespace WebFarmacia.Controllers
             }
 
             var ventaDetalle = await _context.VentaDetalles
-                .Include(v => v.IdProductoNavigation)
+                .Include(v => v.IdMedicamentoNavigation)
                 .Include(v => v.IdVentaNavigation)
                 .FirstOrDefaultAsync(m => m.IdDetalleVenta == id);
             if (ventaDetalle == null)

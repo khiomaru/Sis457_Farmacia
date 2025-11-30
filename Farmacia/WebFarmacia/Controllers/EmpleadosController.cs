@@ -57,7 +57,7 @@ namespace WebFarmacia.Controllers
         {
             if (!string.IsNullOrEmpty(empleado.CedulaIdentidad))
             {
-                empleado.UsuarioRegistro = User.Identity.Name;
+                empleado.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
                 empleado.FechaRegistro = DateTime.Now;
                 empleado.Estado = 1;
                 _context.Empleados.Add(empleado);
@@ -144,7 +144,7 @@ namespace WebFarmacia.Controllers
             var empleado = await _context.Empleados.FindAsync(id);
             if (empleado != null)
             {
-                empleado.UsuarioRegistro = User.Identity.Name; ;
+                empleado.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
                 empleado.Estado = -1;
                 //_context.Empleados.Remove(empleado);
             }

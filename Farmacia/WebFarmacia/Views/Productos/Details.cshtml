@@ -1,4 +1,4 @@
-﻿@model WebFarmacia.Models.Producto
+﻿@model WebFarmacia.Models.Medicamento
 
 @{
     ViewData["Title"] = "Detalle Producto";
@@ -25,7 +25,7 @@
         </dd>
         <dt class="col-sm-2">Categoría</dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdCategoriaNavigation.IdCategoria)
+            @(Model.IdCategoriaNavigation?.Descripcion ?? "N/A")
         </dd>
         <dt class="col-sm-2">Stock</dt>
         <dd class="col-sm-10">
@@ -46,6 +46,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdProducto"><i class="fa fa-edit"></i> Editar</a>|
+    <a asp-action="Edit" asp-route-id="@Model?.Id"><i class="fa fa-edit"></i> Editar</a>|
     <a asp-action="Index"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
 </div>

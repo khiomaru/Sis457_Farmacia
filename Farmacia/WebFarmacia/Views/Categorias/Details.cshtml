@@ -1,4 +1,4 @@
-﻿@model WebFarmacia.Models.Categorium
+﻿@model WebFarmacia.Models.Categoria
 
 @{
     ViewData["Title"] = "Detalle Categoria";
@@ -11,27 +11,21 @@
   
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">Categoría</dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Descripcion)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsuarioRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsuarioRegistro)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaRegistro)
-        </dd>
-   
-      
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.IdCategoria"><i class="fa fa-edit"></i> Editar</a>|
+    <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i> Editar</a>|
     <a asp-action="Index"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
 </div>

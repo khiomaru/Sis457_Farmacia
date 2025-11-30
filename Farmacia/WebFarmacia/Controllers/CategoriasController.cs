@@ -33,7 +33,7 @@ namespace WebFarmacia.Controllers
             }
 
             var categorium = await _context.Categorias
-                .FirstOrDefaultAsync(m => m.IdCategoria == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (categorium == null)
             {
                 return NotFound();
@@ -53,12 +53,10 @@ namespace WebFarmacia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCategoria,Descripcion,UsuarioRegistro,FechaRegistro,Estado")] Categorium categorium)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion,Estado")] Categoria categorium)
         {
-            if (!string.IsNullOrEmpty(categorium.Descripcion))
+            if (!string.IsNullOrEmpty(categorium.Nombre))
             {
-                categorium.UsuarioRegistro = User.Identity.Name;
-                categorium.FechaRegistro = DateTime.Now;
                 categorium.Estado = 1;
                 _context.Categorias.Add(categorium);
                 await _context.SaveChangesAsync();
@@ -88,9 +86,9 @@ namespace WebFarmacia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCategoria,Descripcion,UsuarioRegistro,FechaRegistro,Estado")] Categorium categorium)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,Estado")] Categoria categorium)
         {
-            if (id != categorium.IdCategoria)
+            if (id != categorium.Id)
             {
                 return NotFound();
             }
@@ -104,7 +102,7 @@ namespace WebFarmacia.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoriumExists(categorium.IdCategoria))
+                    if (!CategoriumExists(categorium.Id))
                     {
                         return NotFound();
                     }
@@ -127,7 +125,7 @@ namespace WebFarmacia.Controllers
             }
 
             var categorium = await _context.Categorias
-                .FirstOrDefaultAsync(m => m.IdCategoria == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (categorium == null)
             {
                 return NotFound();
@@ -144,7 +142,6 @@ namespace WebFarmacia.Controllers
             var categorium = await _context.Categorias.FindAsync(id);
             if (categorium != null)
             {
-                categorium.UsuarioRegistro = User.Identity.Name; ;
                 categorium.Estado = -1;
                 //_context.Categoria.Remove(categorium);
             }
@@ -155,7 +152,7 @@ namespace WebFarmacia.Controllers
 
         private bool CategoriumExists(int id)
         {
-            return _context.Categorias.Any(e => e.IdCategoria == id);
+            return _context.Categorias.Any(e => e.Id == id);
         }
     }
 }

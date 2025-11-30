@@ -1,13 +1,13 @@
-﻿@model WebFarmacia.Models.Medicamento
+@model WebFarmacia.Models.Medicamento
 
 @{
-    ViewData["Title"] = "Eliminar Producto";
+    ViewData["Title"] = "Eliminar Medicamento";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Eliminar Producto</h1>
+<h1>Eliminar Medicamento</h1>
 
-<h3>Está seguro que desea eliminar el registro?</h3>
+<h3>¿Está seguro que desea eliminar el registro?</h3>
 <div>
   
     <dl class="row">
@@ -23,9 +23,21 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Descripcion)
         </dd>
+        <dt class="col-sm-2">Composición</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Composicion)
+        </dd>
         <dt class="col-sm-2">Categoría</dt>
         <dd class="col-sm-10">
-            @(Model.IdCategoriaNavigation?.Descripcion ?? "N/A")
+            @(Model.IdCategoriaNavigation?.Nombre ?? "N/A")
+        </dd>
+        <dt class="col-sm-2">Laboratorio</dt>
+        <dd class="col-sm-10">
+            @(Model.IdLaboratorioNavigation?.Nombre ?? "N/A")
+        </dd>
+        <dt class="col-sm-2">Fecha de Vencimiento</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaVencimiento)
         </dd>
         <dt class="col-sm-2">Stock</dt>
         <dd class="col-sm-10">
@@ -34,6 +46,10 @@
         <dt class="col-sm-2">Precio de Venta</dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PrecioVenta)
+        </dd>
+        <dt class="col-sm-2">Requiere Receta</dt>
+        <dd class="col-sm-10">
+            @(Model.RequiereReceta ? "Sí" : "No")
         </dd>
         <dt class="col-sm-2">Usuario de Registro</dt>
         <dd class="col-sm-10">

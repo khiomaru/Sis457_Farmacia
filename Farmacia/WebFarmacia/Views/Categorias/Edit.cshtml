@@ -1,4 +1,4 @@
-﻿@model WebFarmacia.Models.Categorium
+﻿@model WebFarmacia.Models.Categoria
 
 @{
     ViewData["Title"] = "Editar Categoria";
@@ -13,17 +13,18 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdCategoria" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label class="control-label">Categoría</label>
+                <label asp-for="Nombre" class="control-label">Nombre</label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label">Descripción</label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
 
-            <!-- Campos ocultos para valores automáticos -->
-            @* Si estos valores no son modificables, asegúrate de asignarlos correctamente en el controlador *@
-            <input type="hidden" asp-for="UsuarioRegistro" />
-            <input type="hidden" asp-for="FechaRegistro" />
             <input type="hidden" asp-for="Estado" />
 
             <div class="form-group">

@@ -6,11 +6,11 @@ namespace WebFarmacia.Models
     {
         [Required]
         [Display(Name = "Usuario")]
-        public string Usuario { get; set; }
+        public required string Usuario { get; set; }
         [Required]
         [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
-        public string Clave { get; set; }
+        public required string Clave { get; set; }
         [Display(Name = "Recordarme")]
         public bool Recordarme { get; set; }
     }
