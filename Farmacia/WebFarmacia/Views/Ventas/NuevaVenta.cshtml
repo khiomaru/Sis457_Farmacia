@@ -271,8 +271,8 @@ function registrarVenta() {
         MontoCambio: parseFloat(document.getElementById("Cambio").value),
         MontoTotal: parseFloat(document.getElementById("TotalPagar").value),
           VentaDetalles: productos.map(p => ({
-            IdProducto: p.idProducto, // Asegúrate de que este valor sea el entero correcto
-            PrecioVenta: p.precio,
+            IdMedicamento: p.idProducto, // Asegúrate de que este valor sea el entero correcto
+            PrecioUnitario: p.precio,
             Cantidad: p.cantidad,
             SubTotal: p.subtotal
         }))
