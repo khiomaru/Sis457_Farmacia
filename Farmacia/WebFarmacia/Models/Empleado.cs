@@ -7,8 +7,6 @@ namespace WebFarmacia.Models;
 
 public partial class Empleado
 {
-    [Key]
-    [Column("idEmpleado")] // Asegura que se mapee a "id" en la base de datos
     public int Id { get; set; }
 
     public string CedulaIdentidad { get; set; } = null!;

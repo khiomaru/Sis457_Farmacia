@@ -9,8 +9,7 @@ using WebFarmacia.Models;
 
 namespace WebFarmacia.Controllers
 {
-        [Authorize]
-        public class AccountController : Controller
+    public class AccountController : Controller
         {
             private readonly FarmaciaContext _context;
 
@@ -41,7 +40,9 @@ namespace WebFarmacia.Controllers
                 }
 
                 var usuario = _context.Usuarios
-                    .Where(x => x.Estado == 1 && x.Usuario1 == model.Usuario && x.Clave == Encrypt(model.Clave))
+                    .Where(x => x.Estado == 1 
+                        && x.Usuario1.ToLower() == model.Usuario.ToLower().Trim() 
+                        && x.Clave == model.Clave.Trim())
                     .FirstOrDefault();
 
                 if (usuario != null)

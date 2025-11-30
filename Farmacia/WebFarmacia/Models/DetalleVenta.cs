@@ -23,7 +23,7 @@ public partial class VentaDetalle
 
     public short Estado { get; set; }
 
-    public virtual Medicamento IdMedicamentoNavigation { get; set; } = null!;
+    public virtual Medicamento? IdMedicamentoNavigation { get; set; }
 
-    public virtual Venta IdVentaNavigation { get; set; } = null!;
+    public virtual Venta? IdVentaNavigation { get; set; }
 }

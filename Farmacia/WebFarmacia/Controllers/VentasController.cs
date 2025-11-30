@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebFarmacia.Models;
@@ -7,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebFarmacia.Controllers
 {
+    [Authorize]
     public class VentasController : Controller
     {
         private readonly FarmaciaContext _context;
@@ -102,48 +105,90 @@ public JsonResult BuscarProducto(string? codigo = null, int? idMedicamento = nul
         // POST: Ventas/RegistrarVenta
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegistrarVenta([FromBody] Venta nuevaVenta)
+        public async Task<IActionResult> RegistrarVenta([FromBody] VentaViewModel ventaViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new { success = false, message = "Los datos enviados no son válidos." });
-            }
-
-            if (nuevaVenta.VentaDetalles == null || !nuevaVenta.VentaDetalles.Any())
+            if (ventaViewModel == null || ventaViewModel.VentaDetalles == null || !ventaViewModel.VentaDetalles.Any())
             {
                 return BadRequest(new { success = false, message = "Debe incluir al menos un producto en la venta." });
+            }
+
+            if (string.IsNullOrWhiteSpace(ventaViewModel.DocumentoCliente))
+            {
+                return BadRequest(new { success = false, message = "Debe proporcionar el documento del cliente." });
             }
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    // Registrar la venta
-                    nuevaVenta.FechaRegistro = DateTime.Now;
-                    nuevaVenta.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
-                    nuevaVenta.Estado = 1;
+                    // Buscar el cliente por documento
+                    var cliente = await _context.Clientes
+                        .FirstOrDefaultAsync(c => c.CedulaIdentidad == ventaViewModel.DocumentoCliente && c.Estado == 1);
+
+                    if (cliente == null)
+                    {
+                        return BadRequest(new { success = false, message = "Cliente no encontrado o inactivo." });
+                    }
+
+                    // Obtener el usuario autenticado
+                    var usuarioNombre = User.Identity?.Name ?? "Sistema";
+                    var usuario = await _context.Usuarios
+                        .FirstOrDefaultAsync(u => u.Usuario1 == usuarioNombre && u.Estado == 1);
+
+                    if (usuario == null)
+                    {
+                        return BadRequest(new { success = false, message = "Usuario no encontrado o inactivo." });
+                    }
+
+                    // Crear la venta
+                    var nuevaVenta = new Venta
+                    {
+                        IdCliente = cliente.Id,
+                        IdUsuario = usuario.IdUsuario,
+                        Total = ventaViewModel.MontoTotal,
+                        FechaVenta = DateTime.Now,
+                        FechaRegistro = DateTime.Now,
+                        UsuarioRegistro = usuarioNombre,
+                        Estado = 1,
+                        VentaDetalles = ventaViewModel.VentaDetalles.Select(vd => new VentaDetalle
+                        {
+                            IdMedicamento = vd.IdMedicamento,
+                            PrecioUnitario = vd.PrecioUnitario,
+                            Cantidad = (int)vd.Cantidad,
+                            Estado = 1,
+                            FechaRegistro = DateTime.Now,
+                            UsuarioRegistro = usuarioNombre
+                        }).ToList()
+                    };
+
                     _context.Ventas.Add(nuevaVenta);
                     await _context.SaveChangesAsync();
 
-                    // Procesar los detalles de la venta
+                    // Procesar los detalles de la venta y actualizar stock
                     foreach (var detalle in nuevaVenta.VentaDetalles)
                     {
-                        // Convertir Código a IdMedicamento si es necesario
+                        // Verificar que el medicamento existe
                         var medicamento = await _context.Medicamentos
-                            .FirstOrDefaultAsync(p => p.Codigo == detalle.IdMedicamento.ToString());
+                            .FirstOrDefaultAsync(p => p.Id == detalle.IdMedicamento);
 
                         if (medicamento == null)
                         {
-                            return BadRequest(new { success = false, message = $"Medicamento con código {detalle.IdMedicamento} no encontrado." });
+                            await transaction.RollbackAsync();
+                            return BadRequest(new { success = false, message = $"Medicamento con ID {detalle.IdMedicamento} no encontrado." });
                         }
 
-                        detalle.IdMedicamento = medicamento.Id; // Asignar el ID real
-                        detalle.IdVenta = nuevaVenta.IdVenta;
-                        detalle.FechaRegistro = DateTime.Now;
-                        detalle.UsuarioRegistro = nuevaVenta.UsuarioRegistro;
-                        detalle.Estado = 1;
+                        // Verificar stock disponible
+                        if (medicamento.Stock < detalle.Cantidad)
+                        {
+                            await transaction.RollbackAsync();
+                            return BadRequest(new { success = false, message = $"Stock insuficiente para {medicamento.Nombre}. Disponible: {medicamento.Stock}, Solicitado: {detalle.Cantidad}." });
+                        }
 
-                        _context.VentaDetalles.Add(detalle);
+                        // Reducir el stock
+                        medicamento.Stock -= detalle.Cantidad;
+
+                        // Asignar el IdVenta al detalle
+                        detalle.IdVenta = nuevaVenta.IdVenta;
                     }
 
                     await _context.SaveChangesAsync();

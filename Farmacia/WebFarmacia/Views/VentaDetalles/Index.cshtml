@@ -1,54 +1,75 @@
 ﻿@model IEnumerable<WebFarmacia.Models.VentaDetalle>
 
 @{
-    ViewData["Title"] = "Venta Detalle";
+    ViewData["Title"] = "Detalles de Ventas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Venta Detalle</h1>
+<div class="container mt-4">
+    <h1 class="mb-4"><i class="fa fa-list-alt"></i> Detalles de Ventas</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Precio Unitario
-            </th>
-            <th>Cantidad
-            </th>
-            <th>SubTotal
-            </th>
-            <th>Usuario Registro
-            </th>
-            <th>Fecha Registro
-            </th>
-    
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecioUnitario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaRegistro)
-            </td>
-    
-            <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdDetalleVenta" title="Editar"><i class="fa fa-edit"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.IdDetalleVenta" title="Listar"><i class="fa fa-list"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdDetalleVenta" title="Eliminar"><i class="fa fa-trash"></i></a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>SubTotal</th>
+                        <th>Número Factura</th>
+                        <th>Usuario Registro</th>
+                        <th>Fecha Registro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @(item.IdMedicamentoNavigation?.Nombre ?? "N/A")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrecioUnitario)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cantidad)
+                            </td>
+                            <td>
+                                <strong>@Html.DisplayFor(modelItem => item.SubTotal)</strong>
+                            </td>
+                            <td>
+                                @(item.IdVentaNavigation?.NumeroFactura ?? "N/A")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UsuarioRegistro)
+                            </td>
+                            <td>
+                                @item.FechaRegistro.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.IdDetalleVenta" class="btn btn-sm btn-info" title="Ver Detalles">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.IdDetalleVenta" class="btn btn-sm btn-warning" title="Editar">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.IdDetalleVenta" class="btn btn-sm btn-danger" title="Eliminar">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            <i class="fa fa-info-circle"></i> No hay detalles de ventas registrados.
+        </div>
+    }
+</div>

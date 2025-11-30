@@ -55,7 +55,7 @@ namespace WebFarmacia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CedulaIdentidad,Nombres,Apellidos,Correo,Telefono")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Id,CedulaIdentidad,Nombres,Apellidos,Telefono,Direccion")] Cliente cliente)
         {
             if (!string.IsNullOrEmpty(cliente.CedulaIdentidad) && !string.IsNullOrEmpty(cliente.Nombres) && !string.IsNullOrEmpty(cliente.Apellidos))
             {
@@ -90,7 +90,7 @@ namespace WebFarmacia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Documento,NombreCompleto,Correo,Telefono,UsuarioRegistro,FechaRegistro,Estado")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CedulaIdentidad,Nombres,Apellidos,Telefono,Direccion,UsuarioRegistro,FechaRegistro,Estado")] Cliente cliente)
         {
             if (id != cliente.Id)
             {

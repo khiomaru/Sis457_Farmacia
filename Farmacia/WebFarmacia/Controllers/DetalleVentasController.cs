@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using WebFarmacia.Models;
 
 namespace WebFarmacia.Controllers
 {
+    [Authorize]
     public class DetalleVentasController : Controller
     {
         private readonly FarmaciaContext _context;
@@ -21,8 +23,20 @@ namespace WebFarmacia.Controllers
         // GET: VentaDetalles
         public async Task<IActionResult> Index()
         {
-            var ventaDetalles = _context.VentaDetalles.Where(x => x.Estado != -1).Include(v => v.IdMedicamentoNavigation).Include(v => v.IdVentaNavigation);
-            return View(await ventaDetalles.ToListAsync());
+            try
+            {
+                var ventaDetalles = await _context.VentaDetalles
+                    .Where(x => x.Estado != -1)
+                    .Include(v => v.IdMedicamentoNavigation)
+                    .Include(v => v.IdVentaNavigation)
+                    .ToListAsync();
+                return View("~/Views/VentaDetalles/Index.cshtml", ventaDetalles);
+            }
+            catch (Exception ex)
+            {
+                // Log del error (en producción usar ILogger)
+                return View("~/Views/VentaDetalles/Index.cshtml", new List<VentaDetalle>());
+            }
         }
 
         // GET: VentaDetalles/Details/5
@@ -33,18 +47,17 @@ namespace WebFarmacia.Controllers
                 return NotFound();
             }
 
-            var venta = await _context.Ventas
-                .Include(v => v.IdUsuarioNavigation)
-                .Include(v => v.VentaDetalles) // Incluir detalles de la venta
-                .ThenInclude(d => d.IdMedicamentoNavigation) // Incluir información del medicamento
-                .FirstOrDefaultAsync(m => m.IdVenta == id);
+            var ventaDetalle = await _context.VentaDetalles
+                .Include(v => v.IdMedicamentoNavigation)
+                .Include(v => v.IdVentaNavigation)
+                .FirstOrDefaultAsync(m => m.IdDetalleVenta == id);
 
-            if (venta == null)
+            if (ventaDetalle == null)
             {
                 return NotFound();
             }
 
-            return View(venta);
+            return View("~/Views/VentaDetalles/Details.cshtml", ventaDetalle);
         }
 
         // GET: VentaDetalles/Create
@@ -52,7 +65,7 @@ namespace WebFarmacia.Controllers
         {
             ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "Id", "Nombre");
             ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta");
-            return View();
+            return View("~/Views/VentaDetalles/Create.cshtml");
         }
 
         // POST: VentaDetalles/Create
@@ -73,7 +86,7 @@ namespace WebFarmacia.Controllers
             }
             ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "Id", "Nombre", ventaDetalle.IdMedicamento);
             ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta", ventaDetalle.IdVenta);
-            return View(ventaDetalle);
+            return View("~/Views/VentaDetalles/Create.cshtml", ventaDetalle);
         }
 
         // GET: VentaDetalles/Edit/5
@@ -91,7 +104,7 @@ namespace WebFarmacia.Controllers
             }
             ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "Id", "Nombre", ventaDetalle.IdMedicamento);
             ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta", ventaDetalle.IdVenta);
-            return View(ventaDetalle);
+            return View("~/Views/VentaDetalles/Edit.cshtml", ventaDetalle);
         }
 
         // POST: VentaDetalles/Edit/5
@@ -128,7 +141,7 @@ namespace WebFarmacia.Controllers
             }
             ViewData["IdMedicamento"] = new SelectList(_context.Medicamentos, "Id", "Nombre", ventaDetalle.IdMedicamento);
             ViewData["IdVenta"] = new SelectList(_context.Ventas, "IdVenta", "IdVenta", ventaDetalle.IdVenta);
-            return View(ventaDetalle);
+            return View("~/Views/VentaDetalles/Edit.cshtml", ventaDetalle);
         }
 
         // GET: VentaDetalles/Delete/5
@@ -148,7 +161,7 @@ namespace WebFarmacia.Controllers
                 return NotFound();
             }
 
-            return View(ventaDetalle);
+            return View("~/Views/VentaDetalles/Delete.cshtml", ventaDetalle);
         }
 
         // POST: VentaDetalles/Delete/5

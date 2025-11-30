@@ -157,10 +157,10 @@ async function buscarProducto() {
         if (result.success) {
             const producto = result.producto;
             // Asigna los valores obtenidos del producto
-            document.getElementById("Codigo").dataset.idProducto = producto.idProducto; // Guarda el idProducto en el dataset
+            document.getElementById("Codigo").dataset.idMedicamento = producto.id; // Guarda el id del medicamento en el dataset
             document.getElementById("Nombre").value = producto.nombre;
-            document.getElementById("Descripcion").value = producto.descripcion;
-            document.getElementById("PrecioVenta").value = producto.precioUnitario.toFixed(2);
+            document.getElementById("Descripcion").value = producto.descripcion || '';
+            document.getElementById("PrecioVenta").value = producto.precioVenta.toFixed(2);
             document.getElementById("Stock").value = producto.stock;
         } else {
             alert(result.message || "Producto no encontrado.");
@@ -181,10 +181,11 @@ async function buscarProducto() {
     const precioVenta = parseFloat(document.getElementById("PrecioVenta").value); // Este es el precio unitario
     const stock = parseInt(document.getElementById("Stock").value);
     const cantidad = parseInt(document.getElementById("Cantidad").value);
-    const idProducto = document.getElementById("Codigo").value.trim();
+    const codigoInput = document.getElementById("Codigo");
+    const idMedicamento = codigoInput.dataset.idMedicamento;
 
-    if (!nombre || !precioVenta || isNaN(stock) || isNaN(cantidad)) {
-        alert("Por favor, completa todos los datos del producto.");
+    if (!nombre || !precioVenta || isNaN(stock) || isNaN(cantidad) || !idMedicamento) {
+        alert("Por favor, completa todos los datos del producto y busca el medicamento primero.");
         return;
     }
 
@@ -202,7 +203,7 @@ async function buscarProducto() {
 
     // Crear el objeto del producto
     const producto = {
-        idProducto, 
+        idMedicamento: parseInt(idMedicamento), 
         nombre,
         descripcion,
         precio: precioVenta,
@@ -271,7 +272,7 @@ function registrarVenta() {
         MontoCambio: parseFloat(document.getElementById("Cambio").value),
         MontoTotal: parseFloat(document.getElementById("TotalPagar").value),
           VentaDetalles: productos.map(p => ({
-            IdMedicamento: p.idProducto, // Asegúrate de que este valor sea el entero correcto
+            IdMedicamento: p.idMedicamento, // ID del medicamento
             PrecioUnitario: p.precio,
             Cantidad: p.cantidad,
             SubTotal: p.subtotal
