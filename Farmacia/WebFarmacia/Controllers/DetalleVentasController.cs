@@ -156,10 +156,10 @@ namespace WebFarmacia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ventaDetalle = await _context.DetalleVentas.FindAsync(id);
+            var ventaDetalle = await _context.VentaDetalles.FindAsync(id);
             if (ventaDetalle != null)
             {
-                _context.DetalleVentas.Remove(ventaDetalle);
+                _context.VentaDetalles.Remove(ventaDetalle);
             }
 
             await _context.SaveChangesAsync();
@@ -168,7 +168,7 @@ namespace WebFarmacia.Controllers
 
         private bool VentaDetalleExists(int id)
         {
-            return _context.DetalleVentas.Any(e => e.IdDetalleVenta == id);
+            return _context.VentaDetalles.Any(e => e.IdDetalleVenta == id);
         }
     }
 }
