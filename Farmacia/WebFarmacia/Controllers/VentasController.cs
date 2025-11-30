@@ -223,7 +223,7 @@ public JsonResult BuscarProducto(string codigo = null, int? idProducto = null)
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdVenta,IdUsuario,TipoDocumento,DocumentoCliente,NombreCliente,MontoPago,MontoCambio,MontoTotal,UsuarioRegistro,FechaRegistro,Estado")] Venta ventum)
+        public async Task<IActionResult> Edit(int id, [Bind("IdVenta,IdUsuario,IdCliente,NumeroFactura,Total,FechaVenta,UsuarioRegistro,FechaRegistro,Estado")] Venta ventum)
         {
             if (id != ventum.IdVenta)
             {

@@ -15,8 +15,8 @@ namespace WebFarmacia.Models
 
     public class VentaDetalleDTO
     {
-        public int IdProducto { get; set; }
-        public decimal PrecioVenta { get; set; }
+        public int IdMedicamento { get; set; }
+        public decimal PrecioUnitario { get; set; }
         public decimal Cantidad { get; set; }
         public decimal SubTotal { get; set; }
     }

@@ -11,35 +11,29 @@
 
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">Tipo de Documento
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdVenta)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoDocumento)
+            @Html.DisplayFor(model => model.IdVenta)
         </dd>
-        <dt class = "col-sm-2">Documento Cliente
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumeroFactura)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DocumentoCliente)
+            @Html.DisplayFor(model => model.NumeroFactura)
         </dd>
-        <dt class = "col-sm-2">Nombre Cliente
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaVenta)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreCliente)
+            @Html.DisplayFor(model => model.FechaVenta)
         </dd>
-        <dt class = "col-sm-2">Monto de Pago
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Total)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MontoPago)
-        </dd>
-        <dt class = "col-sm-2">Monto de Cambio
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MontoCambio)
-        </dd>
-        <dt class = "col-sm-2">Monto Total
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MontoTotal)
+            @Html.DisplayFor(model => model.Total)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UsuarioRegistro)
@@ -53,7 +47,6 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FechaRegistro)
         </dd>
-
     </dl>
 </div>
 <div>
