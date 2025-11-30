@@ -1,0 +1,46 @@
+﻿@model WebFarmacia.Models.VentaDetalle
+
+@{
+    ViewData["Title"] = "Detalle de Venta Detalle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Detalle de Venta Detalle</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">Précio de Venta
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PrecioUnitario)
+        </dd>
+        <dt class = "col-sm-2">Cantidad
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cantidad)
+        </dd>
+        <dt class = "col-sm-2">SubTotal
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SubTotal)
+        </dd>
+        <dt class = "col-sm-2">Usuario Registro
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UsuarioRegistro)
+        </dd>
+        <dt class = "col-sm-2">Fecha Registro
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FechaRegistro)
+        </dd>
+       
+    </dl>
+</div>
+<div>
+  
+    <a asp-action="Edit" asp-route-id="@Model.IdDetalleVenta"><i class="fa fa-edit"></i> Editar</a>|
+    <a asp-action="Index"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+</div>

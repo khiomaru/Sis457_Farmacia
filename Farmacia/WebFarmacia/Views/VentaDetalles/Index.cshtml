@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebFarmacia.Models.VentaDetalle>
+
+@{
+    ViewData["Title"] = "Venta Detalle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Venta Detalle</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Precio Unitario
+            </th>
+            <th>Cantidad
+            </th>
+            <th>SubTotal
+            </th>
+            <th>Usuario Registro
+            </th>
+            <th>Fecha Registro
+            </th>
+    
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioUnitario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioRegistro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaRegistro)
+            </td>
+    
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdDetalleVenta" title="Editar"><i class="fa fa-edit"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.IdDetalleVenta" title="Listar"><i class="fa fa-list"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdDetalleVenta" title="Eliminar"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

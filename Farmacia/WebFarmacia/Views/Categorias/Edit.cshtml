@@ -1,0 +1,41 @@
+﻿@model WebFarmacia.Models.Categorium
+
+@{
+    ViewData["Title"] = "Editar Categoria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Editar Categoría</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdCategoria" />
+            <div class="form-group">
+                <label class="control-label">Categoría</label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+
+            <!-- Campos ocultos para valores automáticos -->
+            @* Si estos valores no son modificables, asegúrate de asignarlos correctamente en el controlador *@
+            <input type="hidden" asp-for="UsuarioRegistro" />
+            <input type="hidden" asp-for="FechaRegistro" />
+            <input type="hidden" asp-for="Estado" />
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+</div>
+

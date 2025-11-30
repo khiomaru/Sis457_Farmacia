@@ -1,0 +1,39 @@
+﻿@model WebFarmacia.Models.Categorium
+
+@{
+    ViewData["Title"] = "Eliminar Categoria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Eliminar Categoría</h1>
+
+<h3>Está seguro que desea eliminar el registro?</h3>
+<div>
+ 
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Categoría</dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UsuarioRegistro)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UsuarioRegistro)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaRegistro)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FechaRegistro)
+        </dd>
+     
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdCategoria" />
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</button> |
+        <a asp-action="Index"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+    </form>
+</div>

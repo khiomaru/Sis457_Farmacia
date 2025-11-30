@@ -4,47 +4,186 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebFarmacia</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap.css" />
+    <!--owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- nice select  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
+    <!-- font awesome style -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+
+    <!-- responsive style -->
+    <link href="css/responsive.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/WebFarmacia.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebFarmacia</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+<body data-bs-spy="scroll" data-bs-target="#header" tabindex="0">
+    <!-- Header Section Starts -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container" style="background-color: black; width: 100%; padding: 0;">
+                <!-- Logo -->
+                <a class="navbar-brand" href="index.html" style="color: white;">
+                    <span>Feane</span>
+                </a>
+
+                <!-- Navbar Toggle Button (for mobile view) -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+                <!-- Navbar Content -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Navigation Links -->
+                    <ul class="navbar-nav mx-auto">
+                        @if (User.Identity?.IsAuthenticated == true)
+
+                        {
+                            <!-- Show only for authenticated users -->
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-controller="Productos" asp-action="Index" style="color: white;">Productos</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-controller="Clientes" asp-action="Index" style="color: white;">Clientes</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-controller="Empleados" asp-action="Index" style="color: white;">Empleados</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-controller="Categorias" asp-action="Index" style="color: white;">Categorias</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-controller="Ventas" asp-action="Index" style="color: white;">Ventas</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-controller="VentaDetalles" asp-action="Index" style="color: white;">Detalles de la Venta</a>
+                            </li>
+                        }
+
+                        else
+
+                        {
+                            <!-- Show for non-authenticated users -->
+                            <li class="nav-item active">
+                                <a class="nav-link" href="index.html" style="color: white;">Home</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="menu.html" style="color: white;">Menu</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="about.html" style="color: white;">About</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="book.html" style="color: white;">Book Table</a>
+                            </li>
+                            <!-- Dropdown Menu for Tables -->
+                            <li class="nav-item active">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                                    Tables
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="table_clients.html" style="color: black;">Clients</a></li>
+                                    <li><a class="dropdown-item" href="table_orders.html" style="color: black;">Orders</a></li>
+                                    <li><a class="dropdown-item" href="table_products.html" style="color: black;">Products</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+
+                    <!-- User Options -->
+                    <div class="user_option">
+                        @if (User.Identity?.IsAuthenticated == true)
+
+                        {
+                            <!-- Authenticated User Greeting -->
+                            <span class="nav-link" style="color: white;">Hola, @User.Identity.Name</span>
+
+                            <!-- Logout Button -->
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+                            </form>
+                        }
+
+                        else
+
+                        {
+                            <!-- Non-authenticated User Options -->
+                            <a asp-controller="Account" asp-action="Login" class="user_link" title="Iniciar Sesión" style="color: white;">
+                                <i class="fa fa-user" aria-hidden="true"></i> Iniciar Sesión
+                            </a>
+                        }
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- End Header Section -->
+
+    <div class="container">
+        @RenderBody()
+    </div>
+    <!-- Footer Section Starts -->
+    <footer class="footer_section">
         <div class="container">
-            &copy; 2025 - WebFarmacia - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            @if (!(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ||
+            ViewContext.RouteData.Values["action"]?.ToString() == "Edit" ||
+            ViewContext.RouteData.Values["action"]?.ToString() == "Delete" ||
+            ViewContext.RouteData.Values["action"]?.ToString() == "Login"))
+            {
+                <div class="row">
+                    <!-- Contact Information -->
+                    <div class="col-md-4">
+                        <h4>Contact Us</h4>
+                        <p>Location</p>
+                        <p>Call +01 1234567890</p>
+                        <p>demo@gmail.com</p>
+                    </div>
+
+                    <!-- Feane Description -->
+                    <div class="col-md-4">
+                        <h4>Feane</h4>
+                        <p>Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with</p>
+                    </div>
+
+                    <!-- Opening Hours -->
+                    <div class="col-md-4">
+                        <h4>Opening Hours</h4>
+                        <p>Everyday</p>
+                        <p>10.00 Am - 10.00 Pm</p>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <p>© All Rights Reserved By Free Html Templates</p>
+                    <p>© Distributed By ThemeWagon</p>
+                </div>
+            }
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Footer Section Ends -->
+    <!-- jQery -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- popper js -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <!-- bootstrap js -->
+    <script src="js/bootstrap.js"></script>
+    <!-- owl slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+    </script>
+    <!-- isotope js -->
+    <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+    <!-- nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+    <!-- custom js -->
+    <script src="js/custom.js"></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+    </script>
+    <!-- End Google Map -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,79 @@
+﻿@model WebFarmacia.Models.Producto
+
+@{
+    ViewData["Title"] = "Editar Producto";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Editar Producto</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- Campo oculto para el ID del Producto -->
+            <input type="hidden" asp-for="IdProducto" />
+
+            <!-- Código -->
+            <div class="form-group">
+                <label class="control-label">Código</label>
+                <input asp-for="Codigo" class="form-control" />
+                <span asp-validation-for="Codigo" class="text-danger"></span>
+            </div>
+
+            <!-- Nombre -->
+            <div class="form-group">
+                <label class="control-label">Nombre</label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <!-- Descripción -->
+            <div class="form-group">
+                <label class="control-label">Descripción</label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+
+            <!-- Categoría -->
+            <div class="form-group">
+                <label class="control-label">Categoría</label>
+                <select asp-for="IdCategoria" class="form-control" asp-items="ViewBag.IdCategoria"></select>
+                <span asp-validation-for="IdCategoria" class="text-danger"></span>
+            </div>
+
+            <!-- Stock -->
+            <div class="form-group">
+                <label class="control-label">Stock</label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+
+            <!-- Precio de Venta -->
+            <div class="form-group">
+                <label class="control-label">Precio De Venta</label>
+                <input asp-for="PrecioVenta" class="form-control" />
+                <span asp-validation-for="PrecioVenta" class="text-danger"></span>
+            </div>
+
+            <!-- Campos ocultos para valores automáticos -->
+            @* Si estos valores no son modificables, asegúrate de asignarlos correctamente en el controlador *@
+            <input type="hidden" asp-for="UsuarioRegistro" />
+            <input type="hidden" asp-for="FechaRegistro" />
+            <input type="hidden" asp-for="Estado" />
+
+            <!-- Botón de Guardar -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+</div>

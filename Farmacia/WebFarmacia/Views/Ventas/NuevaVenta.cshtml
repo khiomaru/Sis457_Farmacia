@@ -1,0 +1,313 @@
+﻿@{
+    ViewData["Title"] = "Nueva Venta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Nueva Venta</h1>
+
+<div class="container">
+    <div class="row">
+        <!-- Información del cliente -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="TipoDocumento">Tipo de Documento:</label>
+                <select id="TipoDocumento" class="form-control">
+                    <option value="Factura">Factura</option>
+                    <option value="Boleta">Boleta</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Documento">Cédula de Identidad:</label>
+                <div class="input-group">
+                    <input type="text" id="Documento" class="form-control" placeholder="Ingrese Cédula">
+                    <button class="btn btn-outline-secondary" type="button" onclick="buscarCliente()">Buscar</button>
+                </div>
+            </div>
+         <div class="form-group">
+    <label for="NombreCompleto">Nombre del Cliente:</label>
+    <input type="text" id="NombreCompleto" class="form-control" readonly>
+</div>
+        </div>
+
+         <!-- Información del producto -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Codigo">Código del Producto:</label>
+                <div class="input-group">
+                    <input type="text" id="Codigo" class="form-control" placeholder="Ingrese Código">
+                    <button class="btn btn-outline-secondary" type="button" onclick="buscarProducto()">Buscar</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Nombre">Nombre del Producto:</label>
+                <input type="text" id="Nombre" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="Descripcion">Descripción:</label>
+                <input type="text" id="Descripcion" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="PrecioVenta">Precio de Venta:</label>
+                <input type="number" id="PrecioVenta" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="Stock">Stock:</label>
+                <input type="text" id="Stock" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="Cantidad">Cantidad:</label>
+                <input type="number" id="Cantidad" class="form-control" value="1" min="1">
+            </div>
+            <button class="btn btn-primary" type="button" onclick="agregarProducto()">Agregar</button>
+        </div>
+    </div>
+
+    <!-- Tabla de productos agregados -->
+    <h3>Productos</h3>
+    <table class="table table-bordered" id="tablaProductos">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se agregarán los productos dinámicamente -->
+        </tbody>
+    </table>
+
+    <!-- Totales -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="TotalPagar">Total a Pagar:</label>
+                <input type="text" id="TotalPagar" class="form-control" readonly>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="MontoPago">Monto de Pago:</label>
+                <input type="number" id="MontoPago" class="form-control" oninput="calcularCambio()">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Cambio">Cambio:</label>
+                <input type="text" id="Cambio" class="form-control" readonly>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón para registrar la venta -->
+    <button class="btn btn-success w-100" type="button" onclick="registrarVenta()">Registrar Venta</button>
+</div>
+
+@section Scripts {
+    <script>
+        let productos = [];
+
+// Función para buscar cliente
+function buscarCliente() {
+    const documento = document.getElementById('Documento').value;
+
+    if (!documento) {
+        alert("Por favor, ingrese un número de documento.");
+        return;
+    }
+
+    fetch(`/Ventas/BuscarCliente?documento=${documento}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al buscar cliente. Código de estado: " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                document.getElementById('NombreCompleto').value = data.cliente.nombreCompleto;
+            } else {
+                alert(data.message);
+                document.getElementById('NombreCompleto').value = ''; // Limpiar si no hay cliente
+            }
+        })
+        .catch(error => {
+            console.error("Error al buscar cliente:", error);
+            alert("No se pudo buscar el cliente. Intenta nuevamente.");
+        });
+}
+
+
+
+async function buscarProducto() {
+    const codigo = document.getElementById("Codigo").value.trim();
+
+    if (!codigo) {
+        alert("Por favor, ingresa el código del producto.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`/Ventas/BuscarProducto?codigo=${codigo}`);
+        const result = await response.json();
+
+        if (result.success) {
+            const producto = result.producto;
+            // Asigna los valores obtenidos del producto
+            document.getElementById("Codigo").dataset.idProducto = producto.idProducto; // Guarda el idProducto en el dataset
+            document.getElementById("Nombre").value = producto.nombre;
+            document.getElementById("Descripcion").value = producto.descripcion;
+            document.getElementById("PrecioVenta").value = producto.precioVenta.toFixed(2);
+            document.getElementById("Stock").value = producto.stock;
+        } else {
+            alert(result.message || "Producto no encontrado.");
+        }
+    } catch (error) {
+        console.error("Error al buscar el producto:", error);
+        alert("Ocurrió un error al buscar el producto.");
+    }
+}
+
+
+
+
+
+ function agregarProducto() {
+    const nombre = document.getElementById("Nombre").value;
+    const descripcion = document.getElementById("Descripcion").value;
+    const precioVenta = parseFloat(document.getElementById("PrecioVenta").value);
+    const stock = parseInt(document.getElementById("Stock").value);
+    const cantidad = parseInt(document.getElementById("Cantidad").value);
+    const idProducto = document.getElementById("Codigo").value.trim();
+
+    if (!nombre || !precioVenta || isNaN(stock) || isNaN(cantidad)) {
+        alert("Por favor, completa todos los datos del producto.");
+        return;
+    }
+
+    if (cantidad > stock) {
+        alert("La cantidad solicitada supera el stock disponible.");
+        return;
+    }
+
+    if (cantidad <= 0) {
+        alert("La cantidad debe ser mayor a 0.");
+        return;
+    }
+
+    const subtotal = precioVenta * cantidad;
+
+    // Crear el objeto del producto
+    const producto = {
+        idProducto, 
+        nombre,
+        descripcion,
+        precio: precioVenta,
+        cantidad,
+        subtotal
+    };
+
+    // Agregar el producto al array
+    productos.push(producto);
+
+    // Actualizar la tabla de productos
+    actualizarTablaProductos();
+}
+
+
+  function actualizarTablaProductos() {
+    const tbody = document.getElementById("tablaProductos").querySelector("tbody");
+    tbody.innerHTML = "";
+    let total = 0;
+
+    productos.forEach((producto, index) => {
+        const row = `
+            <tr>
+                <td>${producto.nombre}</td>
+                <td>${producto.descripcion}</td>
+                <td>${producto.precio.toFixed(2)}</td>
+                <td>${producto.cantidad}</td>
+                <td>${producto.subtotal.toFixed(2)}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">Eliminar</button>
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+        total += producto.subtotal;
+    });
+
+    document.getElementById("TotalPagar").value = total.toFixed(2);
+}
+
+
+    function eliminarProducto(index) {
+        productos.splice(index, 1);
+        actualizarTablaProductos();
+    }
+
+    function calcularCambio() {
+        const montoPago = parseFloat(document.getElementById('MontoPago').value) || 0;
+        const totalPagar = parseFloat(document.getElementById('TotalPagar').value) || 0;
+        const cambio = montoPago - totalPagar;
+        document.getElementById('Cambio').value = cambio.toFixed(2);
+    }
+
+
+function registrarVenta() {
+    if (productos.length === 0) {
+        alert("Debe agregar al menos un producto.");
+        return;
+    }
+
+    const venta = {
+        TipoDocumento: document.getElementById("TipoDocumento").value,
+        DocumentoCliente: document.getElementById("Documento").value,
+        NombreCliente: document.getElementById("NombreCompleto").value,
+        MontoPago: parseFloat(document.getElementById("MontoPago").value),
+        MontoCambio: parseFloat(document.getElementById("Cambio").value),
+        MontoTotal: parseFloat(document.getElementById("TotalPagar").value),
+          VentaDetalles: productos.map(p => ({
+            IdProducto: p.idProducto, // Asegúrate de que este valor sea el entero correcto
+            PrecioVenta: p.precio,
+            Cantidad: p.cantidad,
+            SubTotal: p.subtotal
+        }))
+
+    };
+
+    console.log("Datos enviados:", venta);
+
+    fetch('/Ventas/RegistrarVenta', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(venta)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Venta registrada exitosamente.");
+            console.log("Datos de la Venta Registrada:", data.data);
+            mostrarVentaRegistrada(data.data);
+        } else {
+            alert(data.message || "Error al registrar la venta.");
+            console.error("Error del servidor:", data);
+        }
+    })
+    .catch(error => {
+        console.error("Error al registrar la venta:", error);
+        alert("Ocurrió un error al registrar la venta.");
+    });
+}
+
+
+
+
+
+    </script>
+}

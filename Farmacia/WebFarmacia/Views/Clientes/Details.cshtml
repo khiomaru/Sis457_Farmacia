@@ -1,0 +1,44 @@
+﻿@model WebFarmacia.Models.Cliente
+
+@{
+    ViewData["Title"] = "Detalle Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Detalle Cliente</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Cédula de Identidad</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CedulaIdentidad)
+        </dd>
+        <dt class="col-sm-2">Nombres</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nombres)
+        </dd>
+        <dt class="col-sm-2">Apellidos</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apellidos)
+        </dd>
+        <dt class="col-sm-2">Teléfono</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+        <dt class="col-sm-2">Usuario Registro</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UsuarioRegistro)
+        </dd>
+        <dt class="col-sm-2"> Fecha Registro</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaRegistro)
+        </dd>
+     
+     
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
+    <a asp-action="Index">Volver a la Lista</a>
+</div>

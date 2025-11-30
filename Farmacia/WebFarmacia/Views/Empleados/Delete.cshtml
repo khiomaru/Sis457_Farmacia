@@ -1,0 +1,58 @@
+﻿@model WebFarmacia.Models.Empleado
+
+@{
+    ViewData["Title"] = "Eliminar Empleado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Eliminar Empleado</h1>
+
+<h3>Está seguro que desea eliminar el registro?</h3>
+<div>
+   
+    <dl class="row">
+        <dt class="col-sm-2">CI </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CedulaIdentidad)
+        </dd>
+        <dt class="col-sm-2">Nombres </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nombres)
+        </dd>
+        <dt class="col-sm-2">Primer Apellido </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PrimerApellido)
+        </dd>
+        <dt class="col-sm-2">Segundo Apellido </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SegundoApellido)
+        </dd>
+        <dt class="col-sm-2">Dirección </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+        <dt class="col-sm-2">Célular </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Celular)
+        </dd>
+        <dt class="col-sm-2">Cargo </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cargo)
+        </dd>
+        <dt class="col-sm-2">Usuario Registro </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UsuarioRegistro)
+        </dd>
+        <dt class="col-sm-2">Fecha Registro </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaRegistro)
+        </dd>
+
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</button> |
+        <a asp-action="Index"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+    </form>
+</div>
