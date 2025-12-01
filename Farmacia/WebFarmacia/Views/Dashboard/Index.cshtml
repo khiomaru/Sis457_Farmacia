@@ -1,0 +1,266 @@
+@model WebFarmacia.Controllers.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Hero Section -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate mb-5 text-center">
+                <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Dashboard <i class="fa fa-chevron-right"></i></span></p>
+                <h2 class="mb-0 bread">Panel de Control</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="ftco-section">
+    <div class="container">
+        <!-- Error Message -->
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-triangle mr-2"></i>
+                <strong>Error:</strong> @ViewBag.ErrorMessage
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+        <!-- Métricas Principales -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Reservas Pendientes</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.ReservasPendientes</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clock fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Reservas Confirmadas</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.ReservasConfirmadas</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Medicamentos Bajo Stock</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.MedicamentosBajoStock</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-pills fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Clientes Activos</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.ClientesActivos</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métricas del Mes -->
+        <div class="row mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="m-0 font-weight-bold">Reservas del Mes</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="display-4 font-weight-bold">@Model.ReservasMesActual</div>
+                            <div class="text-muted">Total reservas en @DateTime.Now.ToString("MMMM")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h6 class="m-0 font-weight-bold">Ventas del Mes</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="display-4 font-weight-bold">@Model.VentasMesActual</div>
+                            <div class="text-muted">Total ventas en @DateTime.Now.ToString("MMMM")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white">
+                        <h6 class="m-0 font-weight-bold">Ingresos del Mes</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="display-4 font-weight-bold">@Model.IngresosMesActual.ToString("C")</div>
+                            <div class="text-muted">Total ingresos en @DateTime.Now.ToString("MMMM")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos y Tablas -->
+        <div class="row">
+            <!-- Top Medicamentos Reservados -->
+            <div class="col-xl-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-warning text-white">
+                        <h6 class="m-0 font-weight-bold">Top 5 Medicamentos Más Reservados (Últimos 30 días)</h6>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.MedicamentosMasReservados.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Medicamento</th>
+                                            <th>Cantidad Reservada</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.MedicamentosMasReservados)
+                                        {
+                                            <tr>
+                                                <td>@item.Nombre</td>
+                                                <td><span class="badge badge-primary">@item.CantidadReservada</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center text-muted py-3">
+                                <i class="fas fa-pills fa-3x mb-3"></i>
+                                <p>No hay reservas en los últimos 30 días</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reservas por Estado -->
+            <div class="col-xl-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-secondary text-white">
+                        <h6 class="m-0 font-weight-bold">Reservas por Estado (Últimos 7 días)</h6>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.ReservasUltimos7Dias.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Estado</th>
+                                            <th>Cantidad</th>
+                                            <th>Porcentaje</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var total = Model.ReservasUltimos7Dias.Sum(r => r.Cantidad);
+                                        }
+                                        @foreach (var item in Model.ReservasUltimos7Dias)
+                                        {
+                                            var porcentaje = total > 0 ? (item.Cantidad * 100.0 / total) : 0;
+                                            <tr>
+                                                <td>
+                                                    <span class="badge badge-@GetEstadoBadgeClass(item.Estado)">
+                                                        @item.Estado
+                                                    </span>
+                                                </td>
+                                                <td>@item.Cantidad</td>
+                                                <td>
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-@GetEstadoBadgeClass(item.Estado)" 
+                                                             role="progressbar" 
+                                                             style="width: @porcentaje.ToString("F0")%">
+                                                            @porcentaje.ToString("F1")%
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center text-muted py-3">
+                                <i class="fas fa-calendar fa-3x mb-3"></i>
+                                <p>No hay reservas en los últimos 7 días</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}
+
+@functions {
+    public string GetEstadoBadgeClass(string estado)
+    {
+        return estado switch
+        {
+            "PENDIENTE" => "warning",
+            "CONFIRMADA" => "success",
+            "CANCELADA" => "danger",
+            "EXPIRADA" => "secondary",
+            _ => "light"
+        };
+    }
+}

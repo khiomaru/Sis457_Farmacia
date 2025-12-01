@@ -36,15 +36,94 @@
                     </div>
                 </div>
 
-                <!-- Filter Pills -->
-                <div class="row mb-4">
+                <!-- Advanced Filters -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0">
+                            <i class="fa fa-filter mr-2"></i>Filtros Avanzados
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Index" method="get" id="filterForm">
+                            <div class="row">
+                                <!-- Search -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="searchString" class="form-label font-weight-semibold">
+                                        <i class="fa fa-search mr-1"></i>Buscar
+                                    </label>
+                                    <input type="text" class="form-control" id="searchString" name="searchString"
+                                           placeholder="Cliente, medicamento, cédula..."
+                                           value="@ViewData["SearchString"]" />
+                                    <small class="text-muted">Busca por nombre, cédula, medicamento o motivo</small>
+                                </div>
+
+                                <!-- Estado Filter -->
+                                <div class="col-md-3 mb-3">
+                                    <label for="estadoFilter" class="form-label font-weight-semibold">
+                                        <i class="fa fa-flag mr-1"></i>Estado
+                                    </label>
+                                    <select class="form-control" id="estadoFilter" name="estadoFilter">
+                                        <option value="">Todos los estados</option>
+                                        <option value="PENDIENTE" selected="@(ViewData["EstadoFilter"]?.ToString() == "PENDIENTE")">Pendientes</option>
+                                        <option value="CONFIRMADA" selected="@(ViewData["EstadoFilter"]?.ToString() == "CONFIRMADA")">Confirmadas</option>
+                                        <option value="CANCELADA" selected="@(ViewData["EstadoFilter"]?.ToString() == "CANCELADA")">Canceladas</option>
+                                        <option value="EXPIRADA" selected="@(ViewData["EstadoFilter"]?.ToString() == "EXPIRADA")">Expiradas</option>
+                                    </select>
+                                </div>
+
+                                <!-- Fecha Inicio -->
+                                <div class="col-md-2 mb-3">
+                                    <label for="fechaInicio" class="form-label font-weight-semibold">
+                                        <i class="fa fa-calendar-plus mr-1"></i>Fecha Desde
+                                    </label>
+                                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
+                                           value="@ViewData["FechaInicio"]" />
+                                </div>
+
+                                <!-- Fecha Fin -->
+                                <div class="col-md-2 mb-3">
+                                    <label for="fechaFin" class="form-label font-weight-semibold">
+                                        <i class="fa fa-calendar-minus mr-1"></i>Fecha Hasta
+                                    </label>
+                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin"
+                                           value="@ViewData["FechaFin"]" />
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="col-md-1 mb-3 d-flex align-items-end">
+                                    <div class="btn-group-vertical w-100">
+                                        <button type="submit" class="btn btn-primary btn-sm mb-1" title="Aplicar filtros">
+                                            <i class="fa fa-filter"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="clearFilters()" title="Limpiar filtros">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Quick Filter Pills -->
+                <div class="row mb-3">
                     <div class="col-12">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-outline-primary active" data-filter="all">Todas</button>
-                            <button type="button" class="btn btn-outline-warning" data-filter="PENDIENTE">Pendientes</button>
-                            <button type="button" class="btn btn-outline-success" data-filter="CONFIRMADA">Confirmadas</button>
-                            <button type="button" class="btn btn-outline-danger" data-filter="CANCELADA">Canceladas</button>
-                            <button type="button" class="btn btn-outline-secondary" data-filter="EXPIRADA">Expiradas</button>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="setQuickFilter('')">
+                                Todas <span class="badge badge-primary ml-1">@Model.Count()</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-warning" onclick="setQuickFilter('PENDIENTE')">
+                                Pendientes <span class="badge badge-warning ml-1">@Model.Count(r => r.Estado == "PENDIENTE")</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-success" onclick="setQuickFilter('CONFIRMADA')">
+                                Confirmadas <span class="badge badge-success ml-1">@Model.Count(r => r.Estado == "CONFIRMADA")</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="setQuickFilter('CANCELADA')">
+                                Canceladas <span class="badge badge-danger ml-1">@Model.Count(r => r.Estado == "CANCELADA")</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="setQuickFilter('EXPIRADA')">
+                                Expiradas <span class="badge badge-secondary ml-1">@Model.Count(r => r.Estado == "EXPIRADA")</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -203,22 +282,66 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
-            // Filter functionality
-            $('.btn-group button').click(function() {
-                $('.btn-group button').removeClass('active');
-                $(this).addClass('active');
-                
-                var filter = $(this).data('filter');
-                if (filter === 'all') {
-                    $('tbody tr').show();
-                } else {
-                    $('tbody tr').hide();
-                    $('tbody tr[data-status="' + filter + '"]').show();
-                }
+            // Quick filter functionality
+            function setQuickFilter(estado) {
+                $('#estadoFilter').val(estado);
+                $('#filterForm').submit();
+            }
+
+            // Make function global
+            window.setQuickFilter = setQuickFilter;
+
+            // Clear filters function
+            window.clearFilters = function() {
+                $('#searchString').val('');
+                $('#estadoFilter').val('');
+                $('#fechaInicio').val('');
+                $('#fechaFin').val('');
+                $('#filterForm').submit();
+            }
+
+            // Auto-submit form when date inputs change
+            $('#fechaInicio, #fechaFin').change(function() {
+                $('#filterForm').submit();
+            });
+
+            // Auto-submit after 500ms of typing in search
+            var searchTimeout;
+            $('#searchString').on('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(function() {
+                    $('#filterForm').submit();
+                }, 500);
+            });
+
+            // Auto-submit when estado changes
+            $('#estadoFilter').change(function() {
+                $('#filterForm').submit();
             });
 
             // Initialize tooltips
             $('[title]').tooltip();
+
+            // Highlight search terms in table
+            function highlightSearchTerm() {
+                var searchTerm = $('#searchString').val().toLowerCase();
+                if (searchTerm.length > 2) {
+                    $('tbody tr').each(function() {
+                        var $row = $(this);
+                        var text = $row.text().toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            $row.addClass('table-warning');
+                        } else {
+                            $row.removeClass('table-warning');
+                        }
+                    });
+                } else {
+                    $('tbody tr').removeClass('table-warning');
+                }
+            }
+
+            // Apply highlighting
+            highlightSearchTerm();
         });
     </script>
 }
