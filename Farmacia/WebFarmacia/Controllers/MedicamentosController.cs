@@ -62,14 +62,14 @@ namespace WebFarmacia.Controllers
         // POST: Medicamentos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdCategoria,IdLaboratorio,Codigo,Nombre,Descripcion,Composicion,FechaVencimiento,Stock,PrecioVenta,RequiereReceta")] Medicamento medicamento)
+        public async Task<IActionResult> Create([Bind("Id,IdCategoria,IdLaboratorio,Codigo,Nombre,Descripcion,Composicion,FechaVencimiento,Stock,PrecioVenta,RequiereReceta,UsuarioRegistro,FechaRegistro,Estado")] Medicamento medicamento)
         {
             if (ModelState.IsValid)
             {
                 medicamento.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
                 medicamento.FechaRegistro = DateTime.Now;
                 medicamento.Estado = 1;
-                _context.Medicamentos.Add(medicamento);
+                _context.Add(medicamento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -111,25 +111,20 @@ namespace WebFarmacia.Controllers
             {
                 try
                 {
-                    var medicamentoDb = await _context.Medicamentos.FindAsync(id);
-                    if (medicamentoDb == null)
+                    _context.Update(medicamento);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MedicamentoExists(medicamento.Id))
                     {
                         return NotFound();
                     }
-
-                    medicamentoDb.IdCategoria = medicamento.IdCategoria;
-                    medicamentoDb.IdLaboratorio = medicamento.IdLaboratorio;
-                    medicamentoDb.Codigo = medicamento.Codigo;
-                    medicamentoDb.Nombre = medicamento.Nombre;
-                    medicamentoDb.Descripcion = medicamento.Descripcion;
-                    medicamentoDb.Composicion = medicamento.Composicion;
-                    medicamentoDb.FechaVencimiento = medicamento.FechaVencimiento;
-                    medicamentoDb.Stock = medicamento.Stock;
-                    medicamentoDb.PrecioVenta = medicamento.PrecioVenta;
-                    medicamentoDb.RequiereReceta = medicamento.RequiereReceta;
-
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    else
+                    {
+                        throw;
+                    }
                 }
                 catch (DbUpdateException ex)
                 {

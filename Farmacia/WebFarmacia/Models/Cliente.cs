@@ -26,4 +26,5 @@ public partial class Cliente
     public string NombreCompleto => $"{Nombres} {Apellidos}".Trim();
 
     public virtual ICollection<Venta> Ventas { get; set; } = [];
+    public virtual ICollection<Reserva> Reservas { get; set; } = [];
 }

@@ -1,0 +1,244 @@
+@model IEnumerable<WebFarmacia.Models.Reserva>
+
+@{
+    ViewData["Title"] = "Reservas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Hero Section -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate mb-5 text-center">
+                <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Reservas <i class="fa fa-chevron-right"></i></span></p>
+                <h2 class="mb-0 bread">Gestión de Reservas</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10">
+                <!-- Action Bar -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="ftco-animate">Reservas de Medicamentos</h4>
+                        <p class="text-muted">Gestiona las reservas y apartados de medicamentos</p>
+                    </div>
+                    <div>
+                        <a asp-action="Create" class="btn btn-primary py-2 px-4">
+                            <i class="fa fa-plus"></i> Nueva Reserva
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-primary active" data-filter="all">Todas</button>
+                            <button type="button" class="btn btn-outline-warning" data-filter="PENDIENTE">Pendientes</button>
+                            <button type="button" class="btn btn-outline-success" data-filter="CONFIRMADA">Confirmadas</button>
+                            <button type="button" class="btn btn-outline-danger" data-filter="CANCELADA">Canceladas</button>
+                            <button type="button" class="btn btn-outline-secondary" data-filter="EXPIRADA">Expiradas</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reservas Table -->
+                <div class="table-responsive bg-white p-4 rounded shadow-sm">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Medicamento</th>
+                                <th>Cantidad</th>
+                                <th>Fecha Reserva</th>
+                                <th>Fecha Vencimiento</th>
+                                <th>Estado</th>
+                                <th>Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model == null || !Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="8" class="text-center py-4">
+                                        <div class="text-muted">
+                                            <i class="fa fa-calendar-times fa-3x mb-3"></i>
+                                            <p>No se encontraron reservas</p>
+                                            <a asp-action="Create" class="btn btn-sm btn-primary">Crear primera reserva</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr data-status="@item.Estado">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="mr-3">
+                                                    <div class="icon-circle bg-primary text-white">
+                                                        <i class="fa fa-user"></i>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="font-weight-semibold">@item.IdClienteNavigation?.Nombres @item.IdClienteNavigation?.Apellidos</div>
+                                                    <small class="text-muted">@item.IdClienteNavigation?.CedulaIdentidad</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="font-weight-semibold">@item.IdMedicamentoNavigation?.Nombre</div>
+                                            <small class="text-muted">@item.IdMedicamentoNavigation?.IdLaboratorioNavigation?.Nombre</small>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">@item.Cantidad</span>
+                                        </td>
+                                        <td>
+                                            <div>@item.FechaReserva.ToString("dd/MM/yyyy")</div>
+                                            <small class="text-muted">@item.FechaReserva.ToString("HH:mm")</small>
+                                        </td>
+                                        <td>
+                                            <div>@item.FechaVencimientoReserva.ToString("dd/MM/yyyy")</div>
+                                            <small class="text-muted">@item.FechaVencimientoReserva.ToString("HH:mm")</small>
+                                        </td>
+                                        <td>
+                                            @switch (item.Estado)
+                                            {
+                                                case "PENDIENTE":
+                                                    <span class="badge badge-warning">Pendiente</span>
+                                                    break;
+                                                case "CONFIRMADA":
+                                                    <span class="badge badge-success">Confirmada</span>
+                                                    break;
+                                                case "CANCELADA":
+                                                    <span class="badge badge-danger">Cancelada</span>
+                                                    break;
+                                                case "EXPIRADA":
+                                                    <span class="badge badge-secondary">Expirada</span>
+                                                    break;
+                                                default:
+                                                    <span class="badge badge-light">@item.Estado</span>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="font-weight-semibold text-primary">@item.Total.ToString("C")</div>
+                                            <small class="text-muted">Bs.</small>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-action="Details" asp-route-id="@item.IdReserva" class="btn btn-sm btn-outline-info" title="Ver detalles">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                @if (item.Estado == "PENDIENTE")
+                                                {
+                                                    <a asp-action="Confirmar" asp-route-id="@item.IdReserva" class="btn btn-sm btn-outline-success" title="Confirmar">
+                                                        <i class="fa fa-check"></i>
+                                                    </a>
+                                                    <a asp-action="Cancelar" asp-route-id="@item.IdReserva" class="btn btn-sm btn-outline-danger" title="Cancelar">
+                                                        <i class="fa fa-times"></i>
+                                                    </a>
+                                                }
+                                                <a asp-action="Delete" asp-route-id="@item.IdReserva" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <div class="card border-primary">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Total Reservas</h5>
+                                <h2 class="text-primary">@Model?.Count() ?? 0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-warning">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Pendientes</h5>
+                                <h2 class="text-warning">@Model?.Count(r => r.Estado == "PENDIENTE") ?? 0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-success">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Confirmadas</h5>
+                                <h2 class="text-success">@Model?.Count(r => r.Estado == "CONFIRMADA") ?? 0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-info">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Total Valor</h5>
+                                <h2 class="text-info">@Model?.Sum(r => r.Total).ToString("C") ?? "Bs.0"</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Filter functionality
+            $('.btn-group button').click(function() {
+                $('.btn-group button').removeClass('active');
+                $(this).addClass('active');
+                
+                var filter = $(this).data('filter');
+                if (filter === 'all') {
+                    $('tbody tr').show();
+                } else {
+                    $('tbody tr').hide();
+                    $('tbody tr[data-status="' + filter + '"]').show();
+                }
+            });
+
+            // Initialize tooltips
+            $('[title]').tooltip();
+        });
+    </script>
+}
+
+<style>
+    .icon-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+    
+    .card {
+        transition: transform 0.2s;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+    }
+</style>
