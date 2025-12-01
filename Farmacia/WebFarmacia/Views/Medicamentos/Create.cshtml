@@ -12,7 +12,7 @@
         <h2 class="text-black mb-4">Crear Nuevo Medicamento</h2>
         
         <form asp-action="Create">
-          <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+          <div asp-validation-summary="All" class="alert alert-danger"></div>
           
           <div class="form-group">
             <label asp-for="Codigo" class="font-weight-bold">Código</label>
@@ -89,9 +89,9 @@
           </div>
           
           <div class="form-group">
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" asp-for="RequiereReceta" class="custom-control-input" />
-              <label asp-for="RequiereReceta" class="custom-control-label">Requiere Receta Médica</label>
+            <div class="form-check">
+              <input type="checkbox" asp-for="RequiereReceta" class="form-check-input" />
+              <label asp-for="RequiereReceta" class="form-check-label">Requiere Receta Médica</label>
             </div>
             <span asp-validation-for="RequiereReceta" class="text-danger"></span>
           </div>
