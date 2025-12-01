@@ -79,7 +79,7 @@ public class HomeController : Controller
 
         // Total de resultados para paginación
         int totalItems = await query.CountAsync();
-        int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+        int totalPages = totalItems > 0 ? (int)Math.Ceiling((double)totalItems / pageSize) : 1;
 
         // Aplicar paginación
         var medicamentos = await query

@@ -5,33 +5,48 @@
     Layout = "_Layout";
 }
 
-<!-- Hero Section para Catálogo -->
-<div class="site-blocks-cover inner-page" style="background-image: url('/images/hero-bg.jpg'); background-size: cover; background-position: center;">
-    <div class="container">
+<!-- Hero Section con diseño inspirado en el template -->
+<section class="header01 catalogo-seccion" style="position: relative; padding: 0; min-height: 100vh; background: linear-gradient(135deg, rgba(12, 84, 96, 0.9), rgba(18, 61, 29, 0.8)), url('/images/hero_1.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+    
+    <!-- Overlay decorativo -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-top: 4px solid transparent; border-right: 8px solid transparent; border-bottom: 4px solid transparent; border-left: 8px solid transparent;">
+        <div style="background-color: rgba(200, 225, 184, 0.1); width: 100%; height: 100%;"></div>
+    </div>
+    
+    <div class="container" style="position: relative; z-index: 1; height: 100%; display: flex; align-items: center;">
         <div class="row">
-            <div class="col-lg-7 mx-auto text-center align-self-center">
-                <div class="intro-text">
-                    <h1 class="text-white">Catálogo de Medicamentos</h1>
-                    <p class="text-white mb-3">Encuentra los mejores productos farmacéuticos para tu salud</p>
-                    <p class="text-white">
-                        @if (ViewBag.TotalItems != null)
-                        {
-                            <span class="badge badge-light">@(ViewBag.TotalItems) productos disponibles</span>
-                        }
+            <div class="col-12">
+                <div class="card-wrapper text-center" style="background-color: rgba(200, 225, 184, 0.95); padding: 120px 32px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+                    <p class="mbr-label mbr-fonts-style" style="color: #123D1D; font-size: 1.2rem; font-weight: 600; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">
+                        [Tu Salud]
                     </p>
+                    <h2 class="mbr-section-title mbr-fonts-style" style="color: #0027ba; font-size: 3.5rem; font-weight: 700; margin-bottom: 24px; line-height: 1.2;">
+                        Catálogo de Medicamentos
+                    </h2>
+                    <div class="text-wrapper">
+                        <p class="mbr-text mbr-fonts-style" style="color: #000000; font-size: 1.1rem; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                            Descubre nuestra amplia selección de medicamentos de alta calidad. Tu bienestar es nuestra prioridad, con productos garantizados y precios competitivos.
+                        </p>
+                    </div>
+                    <div class="mbr-section-btn">
+                        <a asp-action="Catalogo" asp-fragment="productos" class="btn btn-primary btn-lg" style="padding: 15px 40px; font-size: 1.1rem; border-radius: 50px; background-color: #0027ba; border: none; box-shadow: 0 4px 15px rgba(0, 39, 186, 0.3);">
+                            <i class="fas fa-arrow-down mr-2"></i>Ver Productos
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="site-section">
+<!-- Sección de Filtros y Productos -->
+<section id="productos" class="site-section bg-light py-5">
     <div class="container">
         <!-- Filtros de Búsqueda -->
         <div class="row mb-5">
             <div class="col-12">
-                <div class="bg-light p-4 rounded">
-                    <h3 class="mb-3">Buscar Medicamentos</h3>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h3 class="mb-3 text-center">Buscar Medicamentos</h3>
                     <form asp-action="Catalogo" method="get" class="row g-3">
                         <div class="col-md-4">
                             <label for="busqueda" class="form-label">Buscar por nombre o descripción</label>
@@ -79,9 +94,9 @@
         </div>
 
         <!-- Resultados de Búsqueda -->
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex justify-content-between align-items-center">
                     <h2>
                         @if (!string.IsNullOrEmpty(ViewBag.BusquedaActual as string) || 
                              !string.IsNullOrEmpty(ViewBag.CategoriaActual as string) || 
@@ -111,16 +126,16 @@
                 @foreach (var medicamento in Model)
                 {
                     <div class="col-sm-6 col-lg-3 text-center item mb-4">
-                        <div class="card h-100">
-                            <div class="card-img-top">
+                        <div class="card h-100 product-card" style="border: none; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease;">
+                            <div class="card-img-top" style="overflow: hidden; border-radius: 15px 15px 0 0;">
                                 <img src="~/images/@(medicamento.Codigo != null ? "product_0" + (Model.ToList().IndexOf(medicamento) % 6 + 1) + ".png" : "product_01.png")" 
                                      alt="@medicamento.Nombre" 
-                                     class="img-fluid" style="height: 200px; object-fit: cover;">
+                                     class="img-fluid" style="height: 200px; object-fit: cover; transition: transform 0.3s ease;">
                             </div>
                             <div class="card-body d-flex flex-column">
                                 <h3 class="text-dark h5">
                                     <a asp-controller="Medicamentos" asp-action="Details" asp-route-id="@medicamento.Id" 
-                                       class="text-decoration-none">
+                                       class="text-decoration-none" style="color: #123D1D;">
                                         @medicamento.Nombre
                                     </a>
                                 </h3>
@@ -137,14 +152,14 @@
                                     </p>
                                 }
                                 <div class="mt-auto">
-                                    <p class="price h4 text-primary mb-3">Bs. @medicamento.PrecioVenta.ToString("N2")</p>
+                                    <p class="price h4 text-primary mb-3" style="color: #0027ba;">Bs. @medicamento.PrecioVenta.ToString("N2")</p>
                                     <div class="d-grid gap-2">
                                         <a asp-controller="Medicamentos" asp-action="Details" asp-route-id="@medicamento.Id" 
-                                           class="btn btn-outline-primary btn-sm">
+                                           class="btn btn-outline-primary btn-sm" style="border-radius: 50px;">
                                             <i class="fa fa-eye"></i> Ver Detalles
                                         </a>
                                         <a asp-controller="Account" asp-action="Login" 
-                                           class="btn btn-success btn-sm">
+                                           class="btn btn-success btn-sm" style="border-radius: 50px;">
                                             <i class="fa fa-shopping-cart"></i> Comprar
                                         </a>
                                     </div>
@@ -217,28 +232,28 @@
             </div>
         }
     </div>
-</div>
+</section>
 
-<!-- Sección de Información Adicional -->
-<div class="site-section bg-light">
+<!-- Sección de Beneficios -->
+<section class="site-section py-5" style="background: linear-gradient(135deg, #C8E1B8, #e8f5e9);">
     <div class="container">
         <div class="row">
             <div class="col-md-4 text-center mb-4">
-                <div class="p-4 bg-white rounded shadow-sm">
+                <div class="p-4 bg-white rounded shadow-sm hover-card">
                     <i class="fa fa-truck fa-3x text-primary mb-3"></i>
                     <h3>Envíos Rápidos</h3>
                     <p>Entregas en 24-48 horas en toda la ciudad</p>
                 </div>
             </div>
             <div class="col-md-4 text-center mb-4">
-                <div class="p-4 bg-white rounded shadow-sm">
+                <div class="p-4 bg-white rounded shadow-sm hover-card">
                     <i class="fa fa-shield-alt fa-3x text-success mb-3"></i>
                     <h3>Productos Seguros</h3>
                     <p>Medicamentos originales y garantizados</p>
                 </div>
             </div>
             <div class="col-md-4 text-center mb-4">
-                <div class="p-4 bg-white rounded shadow-sm">
+                <div class="p-4 bg-white rounded shadow-sm hover-card">
                     <i class="fa fa-headset fa-3x text-warning mb-3"></i>
                     <h3>Soporte 24/7</h3>
                     <p>Asesoría profesional cuando la necesites</p>
@@ -246,4 +261,79 @@
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- Estilos personalizados -->
+<style>
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .product-card:hover img {
+        transform: scale(1.05);
+    }
+    
+    .hover-card {
+        transition: transform 0.3s ease;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    
+    .catalogo-seccion {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    
+    .mbr-label {
+        color: #123D1D;
+        text-align: center;
+        font-weight: 600;
+        letter-spacing: 2px;
+    }
+    
+    .mbr-section-title {
+        color: #0027ba;
+        text-align: center;
+        font-weight: 700;
+    }
+    
+    .mbr-text {
+        color: #000000;
+        text-align: center;
+    }
+    
+    .mbr-section-btn {
+        text-align: center;
+    }
+    
+    @@media (max-width: 992px) {
+        .card-wrapper {
+            padding: 80px 24px !important;
+        }
+        
+        .mbr-section-title {
+            font-size: 2.5rem !important;
+        }
+    }
+    
+    @@media (max-width: 768px) {
+        .catalogo-seccion {
+            min-height: auto;
+            padding: 80px 0;
+        }
+        
+        .card-wrapper {
+            padding: 60px 20px !important;
+        }
+        
+        .mbr-section-title {
+            font-size: 2rem !important;
+        }
+    }
+</style>

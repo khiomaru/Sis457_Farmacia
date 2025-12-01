@@ -70,8 +70,9 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label asp-for="Stock" class="font-weight-bold">Stock</label>
-                <input asp-for="Stock" class="form-control" type="number" min="0" placeholder="0" />
+                <input asp-for="Stock" class="form-control" type="number" min="1" placeholder="1" value="1" />
                 <span asp-validation-for="Stock" class="text-danger"></span>
+                <small class="form-text text-muted">El stock debe ser mayor a 0 para que el medicamento aparezca en el catálogo público.</small>
               </div>
             </div>
           </div>

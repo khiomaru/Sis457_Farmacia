@@ -34,7 +34,7 @@ public partial class Medicamento
     public DateTime FechaVencimiento { get; set; }
 
     [Required]
-    [Range(0, int.MaxValue, ErrorMessage = "El stock debe ser mayor o igual a 0")]
+    [Range(1, int.MaxValue, ErrorMessage = "El stock debe ser mayor a 0")]
     public int Stock { get; set; }
 
     [Required]
