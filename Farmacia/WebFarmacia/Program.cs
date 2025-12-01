@@ -26,7 +26,7 @@ using (var scope = app.Services.CreateScope())
     
     try
     {
-        // Forzar la recreación de la base de datos para usar el nuevo método de encriptación
+        // Recrear la base de datos para asegurar que todos los datos estén correctos
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
         logger.LogInformation("Base de datos creada/verificada correctamente.");
@@ -39,7 +39,11 @@ using (var scope = app.Services.CreateScope())
                 new Categoria { Nombre = "Analgésicos", Descripcion = "Medicamentos para el dolor", Estado = 1 },
                 new Categoria { Nombre = "Antiinflamatorios", Descripcion = "Medicamentos antiinflamatorios", Estado = 1 },
                 new Categoria { Nombre = "Antipiréticos", Descripcion = "Medicamentos para la fiebre", Estado = 1 },
-                new Categoria { Nombre = "Vitaminas", Descripcion = "Suplementos vitamínicos", Estado = 1 }
+                new Categoria { Nombre = "Vitaminas", Descripcion = "Suplementos vitamínicos", Estado = 1 },
+                new Categoria { Nombre = "Antihistamínicos", Descripcion = "Medicamentos para alergias", Estado = 1 },
+                new Categoria { Nombre = "Antidepresivos", Descripcion = "Medicamentos para depresión", Estado = 1 },
+                new Categoria { Nombre = "Antidiabéticos", Descripcion = "Medicamentos para diabetes", Estado = 1 },
+                new Categoria { Nombre = "Antihipertensivos", Descripcion = "Medicamentos para la hipertensión", Estado = 1 }
             );
             logger.LogInformation("Categorías iniciales agregadas.");
         }
@@ -50,7 +54,9 @@ using (var scope = app.Services.CreateScope())
                 new Laboratorio { Nombre = "Bayer", Pais = "Alemania", Estado = 1 },
                 new Laboratorio { Nombre = "Pfizer", Pais = "Estados Unidos", Estado = 1 },
                 new Laboratorio { Nombre = "Roche", Pais = "Suiza", Estado = 1 },
-                new Laboratorio { Nombre = "GSK", Pais = "Reino Unido", Estado = 1 }
+                new Laboratorio { Nombre = "GSK", Pais = "Reino Unido", Estado = 1 },
+                new Laboratorio { Nombre = "Abbott", Pais = "Estados Unidos", Estado = 1 },
+                new Laboratorio { Nombre = "Novartis", Pais = "Suiza", Estado = 1 }
             );
             logger.LogInformation("Laboratorios iniciales agregados.");
         }
@@ -75,6 +81,21 @@ using (var scope = app.Services.CreateScope())
         }
 
         context.SaveChanges(); // Guardar para obtener el ID del empleado
+
+        // Seed medicamentos if not exists
+        if (!context.Medicamentos.Any())
+        {
+            context.Medicamentos.AddRange(
+                new Medicamento { IdCategoria = 6, IdLaboratorio = 2, Codigo = "MED005", Nombre = "Loratadina 10mg", Descripcion = "Antihistamínico para alergias", Composicion = "Loratadina", FechaVencimiento = DateTime.Parse("2025-10-10"), Stock = 120, PrecioVenta = 10.00m, RequiereReceta = false, UsuarioRegistro = "system", FechaRegistro = DateTime.Now, Estado = 1 },
+                new Medicamento { IdCategoria = 7, IdLaboratorio = 3, Codigo = "MED006", Nombre = "Sertralina 50mg", Descripcion = "Antidepresivo", Composicion = "Sertralina", FechaVencimiento = DateTime.Parse("2026-01-15"), Stock = 80, PrecioVenta = 20.00m, RequiereReceta = true, UsuarioRegistro = "system", FechaRegistro = DateTime.Now, Estado = 1 },
+                new Medicamento { IdCategoria = 8, IdLaboratorio = 5, Codigo = "MED007", Nombre = "Metformina 500mg", Descripcion = "Antidiabético", Composicion = "Metformina", FechaVencimiento = DateTime.Parse("2026-05-20"), Stock = 150, PrecioVenta = 18.50m, RequiereReceta = true, UsuarioRegistro = "system", FechaRegistro = DateTime.Now, Estado = 1 },
+                new Medicamento { IdCategoria = 1, IdLaboratorio = 4, Codigo = "MED008", Nombre = "Ciprofloxacino 500mg", Descripcion = "Antibiótico fluoroquinolona", Composicion = "Ciprofloxacino", FechaVencimiento = DateTime.Parse("2025-11-30"), Stock = 90, PrecioVenta = 22.00m, RequiereReceta = true, UsuarioRegistro = "system", FechaRegistro = DateTime.Now, Estado = 1 },
+                new Medicamento { IdCategoria = 2, IdLaboratorio = 1, Codigo = "MED009", Nombre = "Aspirina 100mg", Descripcion = "Analgésico y antiplaquetario", Composicion = "Ácido acetilsalicílico", FechaVencimiento = DateTime.Parse("2025-09-25"), Stock = 250, PrecioVenta = 5.50m, RequiereReceta = false, UsuarioRegistro = "system", FechaRegistro = DateTime.Now, Estado = 1 },
+                new Medicamento { IdCategoria = 5, IdLaboratorio = 6, Codigo = "MED010", Nombre = "Vitamina D 1000 UI", Descripcion = "Suplemento de vitamina D", Composicion = "Colecalciferol", FechaVencimiento = DateTime.Parse("2026-07-10"), Stock = 200, PrecioVenta = 12.00m, RequiereReceta = false, UsuarioRegistro = "system", FechaRegistro = DateTime.Now, Estado = 1 },
+                new Medicamento { IdCategoria = 9, IdLaboratorio = 1, Codigo = "MED011", Nombre = "Enalapril 10mg", Descripcion = "Antihipertensivo", Composicion = "Enalapril", FechaVencimiento = DateTime.Parse("2026-02-28"), Stock = 100, PrecioVenta = 15.00m, RequiereReceta = true, UsuarioRegistro = "system", FechaRegistro = DateTime.Now, Estado = 1 }
+            );
+            logger.LogInformation("Medicamentos iniciales agregados.");
+        }
 
         if (!context.Usuarios.Any())
         {

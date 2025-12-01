@@ -358,3 +358,39 @@ VALUES (2, 'lramirez', '123456');
 
 INSERT INTO Usuario(idEmpleado, usuario, clave)
 VALUES (3, 'sofia', '123456');
+
+-- Más Laboratorios
+INSERT INTO Laboratorio(nombre, pais) VALUES ('Sanofi', 'Francia');
+INSERT INTO Laboratorio(nombre, pais) VALUES ('AstraZeneca', 'Suecia');
+
+-- Más Categorías
+INSERT INTO Categoria(nombre, descripcion) VALUES ('Antihistamínicos', 'Medicamentos para alergias');
+INSERT INTO Categoria(nombre, descripcion) VALUES ('Antidepresivos', 'Medicamentos para depresión');
+INSERT INTO Categoria(nombre, descripcion) VALUES ('Antidiabéticos', 'Medicamentos para diabetes');
+
+-- Más Medicamentos correspondientes a las nuevas categorías
+INSERT INTO Medicamento(idCategoria, idLaboratorio, codigo, nombre, descripcion, composicion, fechaVencimiento, stock, precioVenta, requiereReceta)
+VALUES (6, 2, 'MED005', 'Loratadina 10mg', 'Antihistamínico para alergias', 'Loratadina', '2025-10-10', 120, 10.00, 0);
+
+INSERT INTO Medicamento(idCategoria, idLaboratorio, codigo, nombre, descripcion, composicion, fechaVencimiento, stock, precioVenta, requiereReceta)
+VALUES (7, 3, 'MED006', 'Sertralina 50mg', 'Antidepresivo', 'Sertralina', '2026-01-15', 80, 20.00, 1);
+
+INSERT INTO Medicamento(idCategoria, idLaboratorio, codigo, nombre, descripcion, composicion, fechaVencimiento, stock, precioVenta, requiereReceta)
+VALUES (8, 5, 'MED007', 'Metformina 500mg', 'Antidiabético', 'Metformina', '2026-05-20', 150, 18.50, 1);
+
+-- Más Medicamentos para categorías existentes
+INSERT INTO Medicamento(idCategoria, idLaboratorio, codigo, nombre, descripcion, composicion, fechaVencimiento, stock, precioVenta, requiereReceta)
+VALUES (1, 4, 'MED008', 'Ciprofloxacino 500mg', 'Antibiótico fluoroquinolona', 'Ciprofloxacino', '2025-11-30', 90, 22.00, 1);
+
+INSERT INTO Medicamento(idCategoria, idLaboratorio, codigo, nombre, descripcion, composicion, fechaVencimiento, stock, precioVenta, requiereReceta)
+VALUES (2, 1, 'MED009', 'Aspirina 100mg', 'Analgésico y antiplaquetario', 'Ácido acetilsalicílico', '2025-09-25', 250, 5.50, 0);
+
+INSERT INTO Medicamento(idCategoria, idLaboratorio, codigo, nombre, descripcion, composicion, fechaVencimiento, stock, precioVenta, requiereReceta)
+VALUES (5, 6, 'MED010', 'Vitamina D 1000 UI', 'Suplemento de vitamina D', 'Colecalciferol', '2026-07-10', 200, 12.00, 0);
+
+-- Más Categorías
+INSERT INTO Categoria(nombre, descripcion) VALUES ('Antihipertensivos', 'Medicamentos para la hipertensión');
+
+-- Más Medicamentos correspondientes
+INSERT INTO Medicamento(idCategoria, idLaboratorio, codigo, nombre, descripcion, composicion, fechaVencimiento, stock, precioVenta, requiereReceta)
+VALUES (9, 1, 'MED011', 'Enalapril 10mg', 'Antihipertensivo', 'Enalapril', '2026-02-28', 100, 15.00, 1);
