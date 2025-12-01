@@ -1,179 +1,157 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>@ViewData["Title"] - WebFarmacia</title>
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="~/css/bootstrap.css" />
-    <!--owl slider stylesheet -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-    <!-- nice select  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
-    <!-- font awesome style -->
-    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
-    <!-- Custom styles for this template -->
-    <link href="~/css/style.css" rel="stylesheet" />
-
-    <!-- responsive style -->
-    <link href="~/css/responsive.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/WebFarmacia.styles.css" asp-append-version="true" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+    
+    <!-- pharma-master CSS -->
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/css/jquery-ui.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/aos.css">
+    <link rel="stylesheet" href="~/css/style.css">
 </head>
-<body data-bs-spy="scroll" data-bs-target="#header" tabindex="0">
-    <!-- Header Section Starts -->
-    <header class="header_section">
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg custom_nav-container" style="background-color: black; width: 100%; padding: 0;">
-                <!-- Logo -->
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index" style="color: white;">
-                    <i class="fa fa-plus-square"></i> <span>Farmacia</span>
-                </a>
+<body>
+    <div class="site-wrap">
+        <!-- Navigation Bar -->
+        <div class="site-navbar py-2">
 
-                <!-- Navbar Toggle Button (for mobile view) -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+          <div class="search-wrap">
+            <div class="container">
+              <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+              <form action="#" method="post">
+                <input type="text" class="form-control" placeholder="Buscar medicamentos...">
+              </form>
+            </div>
+          </div>
 
-                <!-- Navbar Content -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Navigation Links -->
-                    <ul class="navbar-nav mx-auto">
-                        @if (User.Identity?.IsAuthenticated == true)
-
-                        {
-                            <!-- Show only for authenticated users -->
-                            <li class="nav-item active">
-                                <a class="nav-link" asp-controller="Medicamentos" asp-action="Index" style="color: white;">Medicamentos</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" asp-controller="Clientes" asp-action="Index" style="color: white;">Clientes</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" asp-controller="Empleados" asp-action="Index" style="color: white;">Empleados</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" asp-controller="Categorias" asp-action="Index" style="color: white;">Categorias</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" asp-controller="Ventas" asp-action="Index" style="color: white;">Ventas</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" asp-controller="DetalleVentas" asp-action="Index" style="color: white;">Detalles de la Venta</a>
-                            </li>
-                        }
-
-                        else
-
-                        {
-                            <!-- Show for non-authenticated users -->
-                            <li class="nav-item active">
-                                <a class="nav-link" asp-controller="Home" asp-action="Index" style="color: white;">Inicio</a>
-                            </li>
-                            <!-- Dropdown Menu for Tables -->
-                            <li class="nav-item active">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
-                                    Tables
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="table_clients.html" style="color: black;">Clients</a></li>
-                                    <li><a class="dropdown-item" href="table_orders.html" style="color: black;">Orders</a></li>
-                                    <li><a class="dropdown-item" href="table_products.html" style="color: black;">Products</a></li>
-                                </ul>
-                            </li>
-                        }
-                    </ul>
-
-                    <!-- User Options -->
-                    <div class="user_option">
-                        @if (User.Identity?.IsAuthenticated == true)
-
-                        {
-                            <!-- Authenticated User Greeting -->
-                            <span class="nav-link" style="color: white;">Hola, @User.Identity.Name</span>
-
-                            <!-- Logout Button -->
-                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                                <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
-                            </form>
-                        }
-
-                        else
-
-                        {
-                            <!-- Non-authenticated User Options -->
-                            <a asp-controller="Account" asp-action="Login" class="user_link" title="Iniciar Sesión" style="color: white;">
-                                <i class="fa fa-user" aria-hidden="true"></i> Iniciar Sesión
-                            </a>
-                        }
-                    </div>
+          <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="logo">
+                <div class="site-logo">
+                  <a asp-controller="Home" asp-action="Index" class="js-logo-clone">Farmacia</a>
                 </div>
-            </nav>
+              </div>
+              <div class="main-nav d-none d-lg-block">
+                <nav class="site-navigation text-right text-md-center" role="navigation">
+                  <ul class="site-menu js-clone-nav d-none d-lg-block">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                      <!-- Admin Menu for Authenticated Users -->
+                      <li><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+                      <li><a asp-controller="Medicamentos" asp-action="Index">Medicamentos</a></li>
+                      <li><a asp-controller="Clientes" asp-action="Index">Clientes</a></li>
+                      <li><a asp-controller="Empleados" asp-action="Index">Empleados</a></li>
+                      <li><a asp-controller="Categorias" asp-action="Index">Categorías</a></li>
+                      <li><a asp-controller="Ventas" asp-action="Index">Ventas</a></li>
+                    }
+                    else
+                    {
+                      <!-- Public Menu for Non-Authenticated Users -->
+                      <li class="active"><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+                      <li><a asp-controller="Home" asp-action="Catalogo">Catálogo</a></li>
+                    }
+                  </ul>
+                </nav>
+              </div>
+              <div class="icons">
+                <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
+                
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                  <!-- Authenticated User Options -->
+                  <span class="mr-3">Hola, @User.Identity.Name</span>
+                  <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-primary btn-sm">Cerrar Sesión</button>
+                  </form>
+                }
+                else
+                {
+                  <!-- Non-Authenticated User Options -->
+                  <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-sm">
+                    Iniciar Sesión
+                  </a>
+                }
+                
+                <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
+              </div>
+            </div>
+          </div>
         </div>
-    </header>
-    <!-- End Header Section -->
-
-    <div class="container">
+        
+        <!-- Main Content -->
         @RenderBody()
+        
+        <footer class="site-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+
+                <div class="block-7">
+                  <h3 class="footer-heading mb-4">Sobre Nosotros</h3>
+                  <p>Sistema de gestión de farmacia con productos de calidad y servicio profesional.</p>
+                </div>
+
+              </div>
+              <div class="col-lg-3 mx-auto mb-5 mb-lg-0">
+                <h3 class="footer-heading mb-4">Enlaces Rápidos</h3>
+                <ul class="list-unstyled">
+                  <li><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+                  @if (User.Identity?.IsAuthenticated != true)
+                  {
+                    <li><a asp-controller="Home" asp-action="Catalogo">Catálogo</a></li>
+                  }
+                  @if (User.Identity?.IsAuthenticated == true)
+                  {
+                    <li><a asp-controller="Medicamentos" asp-action="Index">Medicamentos</a></li>
+                    <li><a asp-controller="Ventas" asp-action="Index">Ventas</a></li>
+                  }
+                </ul>
+              </div>
+
+              <div class="col-md-6 col-lg-3">
+                <div class="block-5 mb-5">
+                  <h3 class="footer-heading mb-4">Información de Contacto</h3>
+                  <ul class="list-unstyled">
+                    <li class="address">Dirección de la Farmacia</li>
+                    <li class="phone"><a href="tel://1234567890">+123 456 7890</a></li>
+                    <li class="email">contacto@farmacia.com</li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+            <div class="row pt-5 mt-5 text-center">
+              <div class="col-md-12">
+                <p>
+                  Copyright &copy;
+                  <script>document.write(new Date().getFullYear());</script>
+                  Sistema de Gestión de Farmacia
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </footer>
     </div>
-    <!-- Footer Section Starts -->
-    <footer class="footer_section">
-        <div class="container">
-            @if (!(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ||
-            ViewContext.RouteData.Values["action"]?.ToString() == "Edit" ||
-            ViewContext.RouteData.Values["action"]?.ToString() == "Delete" ||
-            ViewContext.RouteData.Values["action"]?.ToString() == "Login"))
-            {
-                <div class="row">
-                    <!-- Contact Information -->
-                    <div class="col-md-4">
-                        <h4>Contact Us</h4>
-                        <p>Location</p>
-                        <p>Call +01 1234567890</p>
-                        <p>demo@gmail.com</p>
-                    </div>
-
-                    <!-- Feane Description -->
-                    <div class="col-md-4">
-                        <h4>Feane</h4>
-                        <p>Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with</p>
-                    </div>
-
-                    <!-- Opening Hours -->
-                    <div class="col-md-4">
-                        <h4>Opening Hours</h4>
-                        <p>Everyday</p>
-                        <p>10.00 Am - 10.00 Pm</p>
-                    </div>
-                </div>
-
-                <div class="text-center mt-4">
-                    <p>© All Rights Reserved By Free Html Templates</p>
-                    <p>© Distributed By ThemeWagon</p>
-                </div>
-            }
-        </div>
-    </footer>
-    <!-- Footer Section Ends -->
-    <!-- jQery -->
-    <script src="~/js/jquery-3.4.1.min.js"></script>
-    <!-- popper js -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
-    <!-- bootstrap js -->
-    <script src="~/js/bootstrap.js"></script>
-    <!-- owl slider -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
-    </script>
-    <!-- isotope js -->
-    <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
-    <!-- nice select -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
-    <!-- custom js -->
-    <script src="~/js/custom.js"></script>
-    <!-- Google Map -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-    </script>
-    <!-- End Google Map -->
+    
+    <!-- pharma-master JavaScript -->
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/js/aos.js"></script>
+    <script src="~/js/main.js"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

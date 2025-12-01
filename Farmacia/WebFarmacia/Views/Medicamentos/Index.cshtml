@@ -5,59 +5,77 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Medicamentos</h1>
+<div class="site-section">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-md-6 mb-5">
+        <h2 class="text-uppercase">Medicamentos</h2>
+      </div>
+      <div class="col-md-6 mb-5 text-md-right">
+        <a asp-action="Create" class="btn btn-primary">
+          <span class="icon-plus"></span> Nuevo Medicamento
+        </a>
+      </div>
+    </div>
 
-<p>
-    <a asp-action="Create"><i class="fa fa-plus"></i> Crear nuevo</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Categoría</th>
-            <th>Laboratorio</th>
-            <th>Stock</th>
-            <th>Precio Venta</th>
-            <th>Usuario Registro</th>
-            <th>Fecha Registro</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Codigo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td>@(item.IdCategoriaNavigation?.Nombre ?? "N/A")</td>
-                <td>@(item.IdLaboratorioNavigation?.Nombre ?? "N/A")</td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stock)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PrecioVenta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioRegistro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaRegistro)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" title="Editar"><i class="fa fa-edit"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" title="Listar"><i class="fa fa-list"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" title="Eliminar"><i class="fa fa-trash"></i></a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Laboratorio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach (var item in Model)
+              {
+                <tr>
+                  <td>
+                    <strong>@Html.DisplayFor(modelItem => item.Nombre)</strong>
+                    <br>
+                    <small class="text-muted">@Html.DisplayFor(modelItem => item.Descripcion)</small>
+                  </td>
+                  <td>
+                    <strong>Bs. @item.PrecioVenta.ToString("N2")</strong>
+                  </td>
+                  <td>
+                    <span class="badge @(item.Stock > 10 ? "badge-success" : item.Stock > 0 ? "badge-warning" : "badge-danger")">
+                      @Html.DisplayFor(modelItem => item.Stock)
+                    </span>
+                  </td>
+                  <td>@(item.IdCategoriaNavigation?.Nombre ?? "N/A")</td>
+                  <td>@(item.IdLaboratorioNavigation?.Nombre ?? "N/A")</td>
+                  <td>
+                    <span class="badge @(item.Estado == 1 ? "badge-success" : "badge-danger")">
+                      @(item.Estado == 1 ? "Activo" : "Inactivo")
+                    </span>
+                  </td>
+                  <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                      <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" title="Editar">
+                        <span class="icon-edit"></span>
+                      </a>
+                      <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info" title="Detalles">
+                        <span class="icon-eye"></span>
+                      </a>
+                      <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" title="Eliminar">
+                        <span class="icon-trash"></span>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

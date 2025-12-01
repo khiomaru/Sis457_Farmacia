@@ -1,14 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Inicio - Sistema de Farmacia";
+﻿@model IEnumerable<WebFarmacia.Models.Medicamento>
+
+@{
+    ViewData["Title"] = "Inicio - Farmacia";
 }
 
-<div class="container mt-5">
-    <div class="jumbotron text-center" style="background-color: #f8f9fa; padding: 3rem;">
-        <h1 class="display-4">Sistema de Gestión de Farmacia</h1>
-        <p class="lead">Bienvenido al sistema de administración de medicamentos, ventas y clientes</p>
-        <hr class="my-4">
-        @if (User.Identity?.IsAuthenticated == true)
-        {
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <!-- Vista para usuarios autenticados -->
+    <div class="container mt-5">
+        <div class="jumbotron text-center" style="background-color: #f8f9fa; padding: 3rem;">
+            <h1 class="display-4">Sistema de Gestión de Farmacia</h1>
+            <p class="lead">Bienvenido al sistema de administración de medicamentos, ventas y clientes</p>
+            <hr class="my-4">
             <p>Hola, <strong>@User.Identity.Name</strong>. Selecciona una opción del menú para comenzar.</p>
             <div class="row mt-4">
                 <div class="col-md-4 mb-3">
@@ -42,13 +45,200 @@
                     </div>
                 </div>
             </div>
-        }
-        else
-        {
-            <p>Por favor, inicia sesión para acceder al sistema.</p>
-            <a class="btn btn-primary btn-lg" asp-controller="Account" asp-action="Login" role="button">
-                <i class="fa fa-sign-in"></i> Iniciar Sesión
-            </a>
-        }
+        </div>
     </div>
-</div>
+}
+else
+{
+    <!-- Vista pública con catálogo de productos -->
+    
+    <!-- Hero Section -->
+    <div class="site-blocks-cover" style="background-image: url('/images/hero_1.jpg'); background-size: cover; background-position: center;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 mx-auto text-center align-self-center">
+                    <div class="intro-text">
+                        <h2 class="sub-title text-white">Medicamentos de Calidad</h2>
+                        <h1 class="text-white">Bienvenido a Farmacia</h1>
+                        <p class="text-white mb-5">Tu salud es nuestra prioridad. Encuentra los mejores medicamentos y productos farmacéuticos.</p>
+                        <p>
+                            <a asp-controller="Medicamentos" asp-action="Index" class="btn btn-primary px-5 py-3">
+                                Ver Catálogo Completo
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Banner Section -->
+    <div class="site-section">
+      <div class="container">
+        <div class="row align-items-stretch section-overlap">
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+            <div class="banner-wrap bg-primary h-100">
+              <a href="#" class="h-100">
+                <h5>Envío <br> Gratis</h5>
+                <p>
+                  En pedidos mayores a Bs. 200
+                  <strong>Entrega rápida y segura</strong>
+                </p>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+            <div class="banner-wrap h-100">
+              <a href="#" class="h-100">
+                <h5>Ofertas <br> Especiales</h5>
+                <p>
+                  Hasta 50% de descuento
+                  <strong>Productos seleccionados</strong>
+                </p>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+            <div class="banner-wrap bg-warning h-100">
+              <a href="#" class="h-100">
+                <h5>Tarjetas <br> de Regalo</h5>
+                <p>
+                  La opción perfecta
+                  <strong>Para cualquier ocasión</strong>
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="title-section text-center col-12">
+            <h2 class="text-uppercase">Productos Destacados</h2>
+          </div>
+        </div>
+            <div class="row">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var medicamento in Model)
+                    {
+                        <div class="col-sm-6 col-lg-4 text-center item mb-4">
+                            <a asp-controller="Medicamentos" asp-action="Details" asp-route-id="@medicamento.Id">
+                                <img src="~/images/@(medicamento.Codigo != null ? "product_0" + (Model.ToList().IndexOf(medicamento) % 6 + 1) + ".png" : "product_01.png")" 
+                                     alt="@medicamento.Nombre" 
+                                     class="img-fluid">
+                            </a>
+                            <h3 class="text-dark">
+                                <a asp-controller="Medicamentos" asp-action="Details" asp-route-id="@medicamento.Id">
+                                    @medicamento.Nombre
+                                </a>
+                            </h3>
+                            <p class="price">Bs. @medicamento.PrecioVenta.ToString("N2")</p>
+                            <p class="text-muted small">@(medicamento.IdCategoriaNavigation?.Descripcion ?? "Medicamento")</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center">
+                        <p class="lead">No hay productos disponibles en este momento.</p>
+                        <p>
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-primary">
+                                Iniciar Sesión para Gestionar Productos
+                            </a>
+                        </p>
+                    </div>
+                }
+            </div>
+            
+            @if (Model != null && Model.Any())
+            {
+                <div class="row mt-5">
+                    <div class="col-12 text-center">
+                        <a asp-controller="Medicamentos" asp-action="Index" class="btn btn-primary btn-lg">
+                            Ver Todos los Productos
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+      </div>
+
+    <!-- New Products Section -->
+    <div class="site-section bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="title-section text-center col-12">
+            <h2 class="text-uppercase">Nuevos Productos</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 block-3 products-wrap">
+            <div class="nonloop-block-3 owl-carousel">
+              @if (Model != null && Model.Any())
+              {
+                @foreach (var medicamento in Model.Take(4))
+                {
+                  <div class="text-center item mb-4">
+                    <a asp-controller="Medicamentos" asp-action="Details" asp-route-id="@medicamento.Id">
+                      <img src="~/images/@(medicamento.Codigo != null ? "product_0" + (Model.ToList().IndexOf(medicamento) % 6 + 1) + ".png" : "product_01.png")"
+                           alt="@medicamento.Nombre"
+                           class="img-fluid">
+                    </a>
+                    <h3 class="text-dark">
+                      <a asp-controller="Medicamentos" asp-action="Details" asp-route-id="@medicamento.Id">
+                        @medicamento.Nombre
+                      </a>
+                    </h3>
+                    <p class="price">Bs. @medicamento.PrecioVenta.ToString("N2")</p>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="title-section text-center col-12">
+            <h2 class="text-uppercase">Testimonios</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 block-3 products-wrap">
+            <div class="nonloop-block-3 no-direction owl-carousel">
+              <div class="testimony">
+                <blockquote>
+                  <img src="~/images/person_1.jpg" alt="Cliente" class="img-fluid w-25 mb-4 rounded-circle">
+                  <p>&ldquo;Excelente servicio y productos de alta calidad. Siempre encuentran lo que necesito.&rdquo;</p>
+                </blockquote>
+                <p>&mdash; Maria González</p>
+              </div>
+              <div class="testimony">
+                <blockquote>
+                  <img src="~/images/person_2.jpg" alt="Cliente" class="img-fluid w-25 mb-4 rounded-circle">
+                  <p>&ldquo;El personal es muy profesional y atento. Recomiendo ampliamente esta farmacia.&rdquo;</p>
+                </blockquote>
+                <p>&mdash; Juan Pérez</p>
+              </div>
+              <div class="testimony">
+                <blockquote>
+                  <img src="~/images/person_3.jpg" alt="Cliente" class="img-fluid w-25 mb-4 rounded-circle">
+                  <p>&ldquo;Precios competitivos y gran variedad de medicamentos. Mi farmacia de confianza.&rdquo;</p>
+                </blockquote>
+                <p>&mdash; Ana Rodríguez</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+}

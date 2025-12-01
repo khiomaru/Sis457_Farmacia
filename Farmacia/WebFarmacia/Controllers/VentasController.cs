@@ -19,6 +19,19 @@ namespace WebFarmacia.Controllers
             _context = context;
         }
 
+        // Clase para manejar datos del carrito
+        public class CarritoData
+        {
+            public List<CarritoItem> items { get; set; } = new List<CarritoItem>();
+        }
+
+        public class CarritoItem
+        {
+            public int medicamentoId { get; set; }
+            public decimal precioUnitario { get; set; }
+            public int cantidad { get; set; }
+        }
+
         // GET: Ventas
         public async Task<IActionResult> Index()
         {
@@ -227,28 +240,156 @@ public JsonResult BuscarProducto(string? codigo = null, int? idMedicamento = nul
         // GET: Ventas/Create
         public IActionResult Create()
         {
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "Usuario1");
+            ViewData["IdCliente"] = new SelectList(_context.Clientes.Where(c => c.Estado == 1), "IdCliente", "NombreCompleto");
             return View();
         }
 
+        // GET: Ventas/GetMedicamentosJson
+        [HttpGet]
+        public IActionResult GetMedicamentosJson()
+        {
+            var medicamentos = _context.Medicamentos
+                .Where(m => m.Estado == 1 && m.Stock > 0)
+                .Select(m => new
+                {
+                    m.Id,
+                    m.Codigo,
+                    m.Nombre,
+                    m.PrecioVenta,
+                    m.Stock
+                })
+                .OrderBy(m => m.Nombre)
+                .ToList();
+
+            return Json(medicamentos);
+        }
+
         // POST: Ventas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdVenta,IdUsuario,IdCliente,NumeroFactura,Total,UsuarioRegistro,FechaRegistro,Estado")] Venta ventum)
+        public async Task<IActionResult> Create(string carritoData, [Bind("IdCliente,NumeroFactura")] Venta venta)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(carritoData))
             {
-                ventum.UsuarioRegistro = User.Identity?.Name ?? "Sistema";
-                ventum.FechaRegistro = DateTime.Now;
-                ventum.Estado = 1;
-                _context.Ventas.Add(ventum);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", "El carrito está vacío");
+                ViewData["IdCliente"] = new SelectList(_context.Clientes.Where(c => c.Estado == 1), "IdCliente", "NombreCompleto", venta.IdCliente);
+                return View(venta);
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "Usuario1", ventum.IdUsuario);
-            return View(ventum);
+
+            try
+            {
+                // Deserializar datos del carrito
+                var carrito = System.Text.Json.JsonSerializer.Deserialize<CarritoData>(carritoData);
+                
+                if (carrito == null || carrito.items == null || !carrito.items.Any())
+                {
+                    ModelState.AddModelError("", "El carrito está vacío");
+                    ViewData["IdCliente"] = new SelectList(_context.Clientes.Where(c => c.Estado == 1), "IdCliente", "NombreCompleto", venta.IdCliente);
+                    return View(venta);
+                }
+
+                using (var transaction = await _context.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        // Obtener el usuario autenticado
+                        var usuarioNombre = User.Identity?.Name ?? "Sistema";
+                        var usuario = await _context.Usuarios
+                            .FirstOrDefaultAsync(u => u.Usuario1 == usuarioNombre && u.Estado == 1);
+
+                        if (usuario == null)
+                        {
+                            ModelState.AddModelError("", "Usuario no encontrado o inactivo");
+                            ViewData["IdCliente"] = new SelectList(_context.Clientes.Where(c => c.Estado == 1), "IdCliente", "NombreCompleto", venta.IdCliente);
+                            return View(venta);
+                        }
+
+                        // Calcular total
+                        decimal total = 0;
+                        foreach (var item in carrito.items)
+                        {
+                            total += item.precioUnitario * item.cantidad;
+                        }
+
+                        // Crear la venta
+                        var nuevaVenta = new Venta
+                        {
+                            IdCliente = venta.IdCliente,
+                            IdUsuario = usuario.IdUsuario,
+                            NumeroFactura = venta.NumeroFactura,
+                            Total = total,
+                            FechaVenta = DateTime.Now,
+                            FechaRegistro = DateTime.Now,
+                            UsuarioRegistro = usuarioNombre,
+                            Estado = 1
+                        };
+
+                        _context.Ventas.Add(nuevaVenta);
+                        await _context.SaveChangesAsync();
+
+                        // Procesar los detalles de la venta y actualizar stock
+                        foreach (var item in carrito.items)
+                        {
+                            // Verificar que el medicamento existe
+                            var medicamento = await _context.Medicamentos
+                                .FirstOrDefaultAsync(m => m.Id == item.medicamentoId);
+
+                            if (medicamento == null)
+                            {
+                                await transaction.RollbackAsync();
+                                ModelState.AddModelError("", $"Medicamento con ID {item.medicamentoId} no encontrado");
+                                ViewData["IdCliente"] = new SelectList(_context.Clientes.Where(c => c.Estado == 1), "IdCliente", "NombreCompleto", venta.IdCliente);
+                                return View(venta);
+                            }
+
+                            // Verificar stock disponible
+                            if (medicamento.Stock < item.cantidad)
+                            {
+                                await transaction.RollbackAsync();
+                                ModelState.AddModelError("", $"Stock insuficiente para {medicamento.Nombre}. Disponible: {medicamento.Stock}, Solicitado: {item.cantidad}");
+                                ViewData["IdCliente"] = new SelectList(_context.Clientes.Where(c => c.Estado == 1), "IdCliente", "NombreCompleto", venta.IdCliente);
+                                return View(venta);
+                            }
+
+                            // Crear detalle de venta
+                            var detalle = new VentaDetalle
+                            {
+                                IdVenta = nuevaVenta.IdVenta,
+                                IdMedicamento = medicamento.Id,
+                                Cantidad = item.cantidad,
+                                PrecioUnitario = item.precioUnitario,
+                                SubTotal = item.precioUnitario * item.cantidad,
+                                FechaRegistro = DateTime.Now,
+                                UsuarioRegistro = usuarioNombre,
+                                Estado = 1
+                            };
+
+                            _context.VentaDetalles.Add(detalle);
+
+                            // Actualizar stock
+                            medicamento.Stock -= item.cantidad;
+                        }
+
+                        await _context.SaveChangesAsync();
+                        await transaction.CommitAsync();
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch (Exception)
+                    {
+                        await transaction.RollbackAsync();
+                        ModelState.AddModelError("", "Error al procesar la venta");
+                        ViewData["IdCliente"] = new SelectList(_context.Clientes.Where(c => c.Estado == 1), "IdCliente", "NombreCompleto", venta.IdCliente);
+                        return View(venta);
+                    }
+                }
+            }
+            catch (System.Text.Json.JsonException)
+            {
+                ModelState.AddModelError("", "Error al procesar los datos del carrito");
+                ViewData["IdCliente"] = new SelectList(_context.Clientes.Where(c => c.Estado == 1), "IdCliente", "NombreCompleto", venta.IdCliente);
+                return View(venta);
+            }
         }
 
         // GET: Ventas/Edit/5

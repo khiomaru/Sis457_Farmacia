@@ -1,67 +1,102 @@
 @model WebFarmacia.Models.Medicamento
 
 @{
-    ViewData["Title"] = "Detalle Medicamento";
+    ViewData["Title"] = Model?.Nombre ?? "Detalle Medicamento";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Detalle Medicamento</h1>
+<div class="site-section">
+  <div class="container">
+    <!-- Breadcrumb Navigation -->
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Medicamentos" asp-action="Index">Medicamentos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model?.Nombre</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
 
-<div>
-    <h4>Medicamento</h4>
-   
-    <dl class="row">
-        <dt class="col-sm-2">Código</dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Codigo)
-        </dd>
-        <dt class="col-sm-2">Nombre</dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class="col-sm-2">Descripción</dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class="col-sm-2">Composición</dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Composicion)
-        </dd>
-        <dt class="col-sm-2">Categoría</dt>
-        <dd class="col-sm-10">
-            @(Model.IdCategoriaNavigation?.Nombre ?? "N/A")
-        </dd>
-        <dt class="col-sm-2">Laboratorio</dt>
-        <dd class="col-sm-10">
-            @(Model.IdLaboratorioNavigation?.Nombre ?? "N/A")
-        </dd>
-        <dt class="col-sm-2">Fecha de Vencimiento</dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaVencimiento)
-        </dd>
-        <dt class="col-sm-2">Stock</dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <dt class="col-sm-2">Precio de Venta</dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PrecioVenta)
-        </dd>
-        <dt class="col-sm-2">Requiere Receta</dt>
-        <dd class="col-sm-10">
-            @(Model.RequiereReceta ? "Sí" : "No")
-        </dd>
-        <dt class="col-sm-2">Usuario de Registro</dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UsuarioRegistro)
-        </dd>
-        <dt class="col-sm-2">Fecha de Registro</dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaRegistro)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id"><i class="fa fa-edit"></i> Editar</a> |
-    <a asp-action="Index"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+    <div class="row">
+      <!-- Image Section -->
+      <div class="col-md-6 mb-5 mb-md-0">
+        <img src="~/images/@(Model?.Codigo != null ? "product_01.png" : "product_01.png")"
+             alt="@Model?.Nombre"
+             class="img-fluid rounded">
+      </div>
+      
+      <!-- Product Information Section -->
+      <div class="col-md-6">
+        <h2 class="text-black">@Model?.Nombre</h2>
+        <p>@Model?.Descripcion</p>
+        
+        <p class="price h3 text-primary">
+          <span>Bs. @Model?.PrecioVenta.ToString("N2")</span>
+        </p>
+
+        <div class="mb-4">
+          <span class="badge @(Model?.Stock > 10 ? "badge-success" : Model?.Stock > 0 ? "badge-warning" : "badge-danger") mb-3">
+            Stock: @Model?.Stock unidades
+          </span>
+          @if (Model?.RequiereReceta == true)
+          {
+            <span class="badge badge-info mb-3">
+              Requiere Receta
+            </span>
+          }
+          <span class="badge @(Model?.Estado == 1 ? "badge-success" : "badge-danger") mb-3">
+            @(Model?.Estado == 1 ? "Activo" : "Inactivo")
+          </span>
+        </div>
+
+        <!-- Product Specifications -->
+        <div class="border p-3 mb-4">
+          <h4 class="text-black mb-3">Especificaciones</h4>
+          <dl class="row">
+            <dt class="col-sm-4">Código:</dt>
+            <dd class="col-sm-8">@Model?.Codigo</dd>
+            
+            <dt class="col-sm-4">Categoría:</dt>
+            <dd class="col-sm-8">@(Model?.IdCategoriaNavigation?.Nombre ?? "N/A")</dd>
+            
+            <dt class="col-sm-4">Laboratorio:</dt>
+            <dd class="col-sm-8">@(Model?.IdLaboratorioNavigation?.Nombre ?? "N/A")</dd>
+            
+            <dt class="col-sm-4">Composición:</dt>
+            <dd class="col-sm-8">@Model?.Composicion</dd>
+            
+            <dt class="col-sm-4">Fecha Vencimiento:</dt>
+            <dd class="col-sm-8">@(Model?.FechaVencimiento.Year > 1 ? Model.FechaVencimiento.ToString("dd/MM/yyyy") : "N/A")</dd>
+          </dl>
+        </div>
+
+        <!-- Action Buttons (only for authenticated users) -->
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+          <div class="d-flex align-items-center">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary mr-3">
+              <span class="icon-edit"></span> Editar
+            </a>
+            <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger mr-3">
+              <span class="icon-trash"></span> Eliminar
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+              <span class="icon-arrow-left"></span> Volver a la lista
+            </a>
+          </div>
+        }
+        else
+        {
+          <div>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+              <span class="icon-arrow-left"></span> Volver al catálogo
+            </a>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
 </div>

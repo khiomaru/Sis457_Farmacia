@@ -1,44 +1,316 @@
 ﻿@model WebFarmacia.Models.Venta
 
 @{
-    ViewData["Title"] = "Crear Venta";
+    ViewData["Title"] = "Nueva Venta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Crear Venta</h1>
-
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdUsuario" class="control-label"></label>
-                <select asp-for="IdUsuario" class ="form-control" asp-items="ViewBag.IdUsuario"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdCliente" class="control-label"></label>
-                <select asp-for="IdCliente" class="form-control" asp-items="ViewBag.IdCliente"></select>
-                <span asp-validation-for="IdCliente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumeroFactura" class="control-label"></label>
-                <input asp-for="NumeroFactura" class="form-control" />
-                <span asp-validation-for="NumeroFactura" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Crear</button>
-            </div>
-        </form>
+<div class="site-section">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-md-8">
+        <h2 class="text-black">Nueva Venta</h2>
+      </div>
     </div>
+
+    <div class="row">
+      <!-- Sección de selección de cliente -->
+      <div class="col-lg-6 mb-5">
+        <div class="bg-light p-4">
+          <h4 class="text-black mb-4">Información del Cliente</h4>
+          <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            
+            <div class="form-group">
+              <label asp-for="IdCliente" class="font-weight-bold">Cliente</label>
+              <select asp-for="IdCliente" class="form-control" asp-items="ViewBag.IdCliente">
+                <option value="">-- Seleccione un cliente --</option>
+              </select>
+              <span asp-validation-for="IdCliente" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+              <label asp-for="NumeroFactura" class="font-weight-bold">Número de Factura</label>
+              <input asp-for="NumeroFactura" class="form-control" placeholder="Ingrese número de factura" />
+              <span asp-validation-for="NumeroFactura" class="text-danger"></span>
+            </div>
+          </form>
+        </div>
+
+        <!-- Sección Agregar Medicamentos -->
+        <div class="bg-light p-4 mt-4">
+          <h4 class="text-black mb-4">Agregar Medicamentos</h4>
+          <div class="form-group">
+            <label class="font-weight-bold">Medicamento</label>
+            <select id="medicamentoSelect" class="form-control">
+              <option value="">-- Seleccione un medicamento --</option>
+            </select>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="font-weight-bold">Cantidad</label>
+                <input type="number" id="cantidadInput" class="form-control" min="1" value="1" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mt-4">
+                <button type="button" id="agregarCarritoBtn" class="btn btn-primary btn-block">
+                  <span class="icon-plus"></span> Agregar al Carrito
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carrito de Compras -->
+      <div class="col-lg-6">
+        <div class="bg-white p-4 border">
+          <h4 class="text-black mb-4">Carrito de Compras</h4>
+          <div id="carritoItems">
+            <div class="text-center text-muted py-5">
+              <p class="mb-0">El carrito está vacío</p>
+            </div>
+          </div>
+          
+          <!-- Total -->
+          <div class="border-top pt-3 mt-4">
+            <div class="row justify-content-end">
+              <div class="col-md-6">
+                <div class="d-flex justify-content-between mb-3">
+                  <h5 class="text-black">Subtotal:</h5>
+                  <h5 class="text-black" id="subtotal">Bs. 0.00</h5>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <h5 class="text-black font-weight-bold">Total:</h5>
+                  <h5 class="text-primary font-weight-bold" id="total">Bs. 0.00</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Botones de acción -->
+          <div class="row mt-4">
+            <div class="col-6">
+              <button type="button" id="cancelarBtn" class="btn btn-outline-secondary btn-block">
+                <span class="icon-arrow-left"></span> Cancelar
+              </button>
+            </div>
+            <div class="col-6">
+              <button type="submit" id="completarVentaBtn" class="btn btn-success btn-block" disabled>
+                <span class="icon-check"></span> Completar Venta
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div>
-    <a asp-action="Index"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
-</div>
+<!-- Oculto - para enviar datos del carrito -->
+<input type="hidden" id="carritoData" name="carritoData" value="" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Array para almacenar items del carrito
+        let cartItems = [];
+        
+        // Cargar lista de medicamentos al cargar la página
+        $(document).ready(function() {
+            cargarMedicamentos();
+            actualizarCarrito();
+        });
+        
+        // Función para cargar medicamentos en el dropdown
+        function cargarMedicamentos() {
+            $.getJSON('/Medicamentos/GetMedicamentosJson', function(data) {
+                $('#medicamentoSelect').empty();
+                $('#medicamentoSelect').append('<option value="">-- Seleccione un medicamento --</option>');
+                
+                $.each(data, function(i, medicamento) {
+                    $('#medicamentoSelect').append(
+                        '<option value="' + medicamento.id + '" data-precio="' + medicamento.precioVenta + '" data-stock="' + medicamento.stock + '" data-nombre="' + medicamento.nombre + '">' +
+                        medicamento.codigo + ' - ' + medicamento.nombre + ' (Stock: ' + medicamento.stock + ') - Bs. ' + medicamento.precioVenta.toFixed(2) +
+                        '</option>'
+                    );
+                });
+            });
+        }
+        
+        // Función para agregar item al carrito
+        $('#agregarCarritoBtn').click(function() {
+            const medicamentoId = $('#medicamentoSelect').val();
+            const cantidad = parseInt($('#cantidadInput').val());
+            
+            if (!medicamentoId) {
+                alert('Por favor seleccione un medicamento');
+                return;
+            }
+            
+            if (cantidad <= 0) {
+                alert('La cantidad debe ser mayor a 0');
+                return;
+            }
+            
+            const option = $('#medicamentoSelect option:selected');
+            const medicamento = {
+                id: parseInt(medicamentoId),
+                nombre: option.data('nombre'),
+                precio: parseFloat(option.data('precio')),
+                stock: parseInt(option.data('stock')),
+                cantidad: cantidad
+            };
+            
+            // Validar stock disponible
+            const itemExistente = cartItems.find(item => item.id === medicamento.id);
+            const totalCantidad = itemExistente ? itemExistente.cantidad + cantidad : cantidad;
+            
+            if (totalCantidad > medicamento.stock) {
+                alert('No hay suficiente stock disponible. Stock actual: ' + medicamento.stock);
+                return;
+            }
+            
+            // Validar item duplicado
+            if (itemExistente) {
+                itemExistente.cantidad += cantidad;
+            } else {
+                cartItems.push(medicamento);
+            }
+            
+            // Limpiar campos
+            $('#medicamentoSelect').val('');
+            $('#cantidadInput').val(1);
+            
+            actualizarCarrito();
+        });
+        
+        // Función para eliminar item del carrito
+        function eliminarItem(index) {
+            cartItems.splice(index, 1);
+            actualizarCarrito();
+        }
+        
+        // Función para actualizar cantidad de item
+        function actualizarCantidad(index, nuevaCantidad) {
+            if (nuevaCantidad <= 0) {
+                eliminarItem(index);
+                return;
+            }
+            
+            const item = cartItems[index];
+            if (nuevaCantidad > item.stock) {
+                alert('No hay suficiente stock disponible. Stock actual: ' + item.stock);
+                return;
+            }
+            
+            item.cantidad = nuevaCantidad;
+            actualizarCarrito();
+        }
+        
+        // Función para actualizar vista del carrito
+        function actualizarCarrito() {
+            const carritoContainer = $('#carritoItems');
+            
+            if (cartItems.length === 0) {
+                carritoContainer.html(
+                    '<div class="text-center text-muted py-5">' +
+                    '<p class="mb-0">El carrito está vacío</p>' +
+                    '</div>'
+                );
+                $('#completarVentaBtn').prop('disabled', true);
+            } else {
+                let html = '<div class="table-responsive"><table class="table table-sm">';
+                html += '<thead><tr><th>Medicamento</th><th>Precio Unit.</th><th>Cantidad</th><th>Subtotal</th><th>Acciones</th></tr></thead><tbody>';
+                
+                let subtotal = 0;
+                
+                cartItems.forEach((item, index) => {
+                    const itemSubtotal = item.precio * item.cantidad;
+                    subtotal += itemSubtotal;
+                    
+                    html += '<tr>';
+                    html += '<td>' + item.nombre + '</td>';
+                    html += '<td>Bs. ' + item.precio.toFixed(2) + '</td>';
+                    html += '<td><input type="number" min="1" max="' + item.stock + '" value="' + item.cantidad + '" class="form-control form-control-sm" onchange="actualizarCantidad(' + index + ', this.value)"></td>';
+                    html += '<td>Bs. ' + itemSubtotal.toFixed(2) + '</td>';
+                    html += '<td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarItem(' + index + ')"><span class="icon-trash"></span></button></td>';
+                    html += '</tr>';
+                });
+                
+                html += '</tbody></table></div>';
+                carritoContainer.html(html);
+                $('#completarVentaBtn').prop('disabled', false);
+            }
+            
+            // Actualizar totales
+            updateTotal();
+        }
+        
+        // Función para calcular y mostrar totales
+        function updateTotal() {
+            let subtotal = 0;
+            
+            cartItems.forEach(item => {
+                subtotal += item.precio * item.cantidad;
+            });
+            
+            $('#subtotal').text('Bs. ' + subtotal.toFixed(2));
+            $('#total').text('Bs. ' + subtotal.toFixed(2));
+        }
+        
+        // Función para cancelar la venta
+        $('#cancelarBtn').click(function() {
+            if (cartItems.length > 0) {
+                if (confirm('¿Está seguro que desea cancelar la venta? Los items del carrito se perderán.')) {
+                    cartItems = [];
+                    actualizarCarrito();
+                    window.location.href = '/Ventas';
+                }
+            } else {
+                window.location.href = '/Ventas';
+            }
+        });
+        
+        // Función para completar la venta
+        $('#completarVentaBtn').click(function() {
+            if (cartItems.length === 0) {
+                alert('El carrito está vacío');
+                return;
+            }
+            
+            const clienteId = $('#IdCliente').val();
+            const numeroFactura = $('#NumeroFactura').val();
+            
+            if (!clienteId) {
+                alert('Por favor seleccione un cliente');
+                return;
+            }
+            
+            if (!numeroFactura) {
+                alert('Por favor ingrese el número de factura');
+                return;
+            }
+            
+            // Preparar datos para enviar
+            const ventaData = {
+                clienteId: parseInt(clienteId),
+                numeroFactura: numeroFactura,
+                items: cartItems.map(item => ({
+                    medicamentoId: item.id,
+                    cantidad: item.cantidad,
+                    precioUnitario: item.precio
+                }))
+            };
+            
+            $('#carritoData').val(JSON.stringify(ventaData));
+            
+            // Enviar formulario
+            $('form').submit();
+        });
+    </script>
+}
 
