@@ -1,0 +1,249 @@
+@model IEnumerable<WebFarmacia.Models.Medicamento>
+
+@{
+    ViewData["Title"] = "Catálogo de Medicamentos - Farmacia";
+    Layout = "_Layout";
+}
+
+<!-- Hero Section para Catálogo -->
+<div class="site-blocks-cover inner-page" style="background-image: url('/images/hero-bg.jpg'); background-size: cover; background-position: center;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 mx-auto text-center align-self-center">
+                <div class="intro-text">
+                    <h1 class="text-white">Catálogo de Medicamentos</h1>
+                    <p class="text-white mb-3">Encuentra los mejores productos farmacéuticos para tu salud</p>
+                    <p class="text-white">
+                        @if (ViewBag.TotalItems != null)
+                        {
+                            <span class="badge badge-light">@(ViewBag.TotalItems) productos disponibles</span>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+        <!-- Filtros de Búsqueda -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="bg-light p-4 rounded">
+                    <h3 class="mb-3">Buscar Medicamentos</h3>
+                    <form asp-action="Catalogo" method="get" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="busqueda" class="form-label">Buscar por nombre o descripción</label>
+                            <input type="text" class="form-control" id="busqueda" name="busqueda" 
+                                   value="@(ViewBag.BusquedaActual ?? "")" placeholder="Ej: Paracetamol, Dolor...">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="categoria" class="form-label">Categoría</label>
+                            <select class="form-select" id="categoria" name="categoria">
+                                <option value="">Todas las categorías</option>
+                                @if (ViewBag.Categorias != null)
+                                {
+                                    @foreach (var cat in ViewBag.Categorias)
+                                    {
+                                        <option value="@cat.Nombre" selected="@(ViewBag.CategoriaActual == cat.Nombre ? "selected" : null)">
+                                            @cat.Nombre
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="laboratorio" class="form-label">Laboratorio</label>
+                            <select class="form-select" id="laboratorio" name="laboratorio">
+                                <option value="">Todos los laboratorios</option>
+                                @if (ViewBag.Laboratorios != null)
+                                {
+                                    @foreach (var lab in ViewBag.Laboratorios)
+                                    {
+                                        <option value="@lab.Nombre" selected="@(ViewBag.LaboratorioActual == lab.Nombre ? "selected" : null)">
+                                            @lab.Nombre
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fa fa-search"></i> Buscar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados de Búsqueda -->
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>
+                        @if (!string.IsNullOrEmpty(ViewBag.BusquedaActual as string) || 
+                             !string.IsNullOrEmpty(ViewBag.CategoriaActual as string) || 
+                             !string.IsNullOrEmpty(ViewBag.LaboratorioActual as string))
+                        {
+                            <span>Resultados de Búsqueda</span>
+                        }
+                        else
+                        {
+                            <span>Todos los Productos</span>
+                        }
+                    </h2>
+                    <div>
+                        @if (ViewBag.TotalItems != null)
+                        {
+                            <span class="text-muted">Mostrando @(ViewBag.TotalItems) productos</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Productos -->
+        <div class="row">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var medicamento in Model)
+                {
+                    <div class="col-sm-6 col-lg-3 text-center item mb-4">
+                        <div class="card h-100">
+                            <div class="card-img-top">
+                                <img src="~/images/@(medicamento.Codigo != null ? "product_0" + (Model.ToList().IndexOf(medicamento) % 6 + 1) + ".png" : "product_01.png")" 
+                                     alt="@medicamento.Nombre" 
+                                     class="img-fluid" style="height: 200px; object-fit: cover;">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="text-dark h5">
+                                    <a asp-controller="Medicamentos" asp-action="Details" asp-route-id="@medicamento.Id" 
+                                       class="text-decoration-none">
+                                        @medicamento.Nombre
+                                    </a>
+                                </h3>
+                                <p class="text-muted small mb-2">
+                                    @(medicamento.IdCategoriaNavigation?.Nombre ?? "Medicamento")
+                                </p>
+                                <p class="text-muted small mb-2">
+                                    <i class="fa fa-building"></i> @(medicamento.IdLaboratorioNavigation?.Nombre ?? "Laboratorio no especificado")
+                                </p>
+                                @if (medicamento.RequiereReceta)
+                                {
+                                    <p class="text-warning small mb-2">
+                                        <i class="fa fa-file-medical"></i> Requiere receta médica
+                                    </p>
+                                }
+                                <div class="mt-auto">
+                                    <p class="price h4 text-primary mb-3">Bs. @medicamento.PrecioVenta.ToString("N2")</p>
+                                    <div class="d-grid gap-2">
+                                        <a asp-controller="Medicamentos" asp-action="Details" asp-route-id="@medicamento.Id" 
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="fa fa-eye"></i> Ver Detalles
+                                        </a>
+                                        <a asp-controller="Account" asp-action="Login" 
+                                           class="btn btn-success btn-sm">
+                                            <i class="fa fa-shopping-cart"></i> Comprar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <div class="alert alert-info">
+                        <h3><i class="fa fa-search"></i> No se encontraron productos</h3>
+                        <p class="lead">No hay medicamentos que coincidan con los criterios de búsqueda.</p>
+                        <p>Intenta con otros términos de búsqueda o <a asp-action="Catalogo" class="btn btn-link">ver todos los productos</a>.</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Paginación -->
+        @if (Model != null && Model.Any() && ViewBag.TotalPaginas != null && ViewBag.TotalPaginas > 1)
+        {
+            <div class="row mt-5">
+                <div class="col-12">
+                    <nav aria-label="Paginación de productos">
+                        <ul class="pagination justify-content-center">
+                            @if (ViewBag.PaginaActual > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-action="Catalogo" 
+                                       asp-route-categoria="@(ViewBag.CategoriaActual)"
+                                       asp-route-laboratorio="@(ViewBag.LaboratorioActual)"
+                                       asp-route-busqueda="@(ViewBag.BusquedaActual)"
+                                       asp-route-pagina="@(ViewBag.PaginaActual - 1)">
+                                        Anterior
+                                    </a>
+                                </li>
+                            }
+
+                            @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+                            {
+                                <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
+                                    <a class="page-link" asp-action="Catalogo" 
+                                       asp-route-categoria="@(ViewBag.CategoriaActual)"
+                                       asp-route-laboratorio="@(ViewBag.LaboratorioActual)"
+                                       asp-route-busqueda="@(ViewBag.BusquedaActual)"
+                                       asp-route-pagina="@i">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+
+                            @if (ViewBag.PaginaActual < ViewBag.TotalPaginas)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-action="Catalogo" 
+                                       asp-route-categoria="@(ViewBag.CategoriaActual)"
+                                       asp-route-laboratorio="@(ViewBag.LaboratorioActual)"
+                                       asp-route-busqueda="@(ViewBag.BusquedaActual)"
+                                       asp-route-pagina="@(ViewBag.PaginaActual + 1)">
+                                        Siguiente
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Sección de Información Adicional -->
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <i class="fa fa-truck fa-3x text-primary mb-3"></i>
+                    <h3>Envíos Rápidos</h3>
+                    <p>Entregas en 24-48 horas en toda la ciudad</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <i class="fa fa-shield-alt fa-3x text-success mb-3"></i>
+                    <h3>Productos Seguros</h3>
+                    <p>Medicamentos originales y garantizados</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <i class="fa fa-headset fa-3x text-warning mb-3"></i>
+                    <h3>Soporte 24/7</h3>
+                    <p>Asesoría profesional cuando la necesites</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

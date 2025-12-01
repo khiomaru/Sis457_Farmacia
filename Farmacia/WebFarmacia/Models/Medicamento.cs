@@ -56,5 +56,4 @@ public partial class Medicamento
     public virtual Laboratorio? IdLaboratorioNavigation { get; set; }
 
     public virtual ICollection<VentaDetalle> VentaDetalles { get; set; } = [];
-    public virtual ICollection<Reserva> Reservas { get; set; } = [];
 }

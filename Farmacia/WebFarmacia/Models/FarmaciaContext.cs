@@ -17,7 +17,6 @@ namespace WebFarmacia.Models
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Venta> Ventas { get; set; }
         public virtual DbSet<VentaDetalle> VentaDetalles { get; set; }
-        public virtual DbSet<Reserva> Reservas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -174,36 +173,6 @@ namespace WebFarmacia.Models
                     .HasConstraintName("fk_Usuario_Empleado");
             });
 
-            modelBuilder.Entity<Reserva>(entity =>
-            {
-                entity.ToTable("Reserva");
-                entity.HasKey(e => e.IdReserva);
-
-                entity.Property(e => e.IdReserva).HasColumnName("id").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
-                entity.Property(e => e.IdMedicamento).HasColumnName("idMedicamento");
-                entity.Property(e => e.Cantidad).HasColumnName("cantidad");
-                entity.Property(e => e.Total).HasColumnName("total").HasColumnType("decimal(18, 2)");
-                entity.Property(e => e.Motivo).HasColumnName("motivo").HasMaxLength(200);
-                entity.Property(e => e.Notas).HasColumnName("notas").HasMaxLength(500);
-                entity.Property(e => e.FechaReserva).HasColumnName("fechaReserva").HasColumnType("date");
-                entity.Property(e => e.FechaVencimientoReserva).HasColumnName("fechaVencimientoReserva").HasColumnType("date");
-                entity.Property(e => e.TelefonoContacto).HasColumnName("telefonoContacto").HasMaxLength(20);
-                entity.Property(e => e.EmailContacto).HasColumnName("emailContacto").HasMaxLength(100);
-                entity.Property(e => e.Estado).HasColumnName("estado").HasMaxLength(20).HasDefaultValue("PENDIENTE");
-                entity.Property(e => e.UsuarioRegistro).HasColumnName("usuarioRegistro").HasMaxLength(50);
-                entity.Property(e => e.FechaRegistro).HasColumnName("fechaRegistro").HasColumnType("datetime");
-
-                entity.HasOne(d => d.IdClienteNavigation)
-                    .WithMany(p => p.Reservas)
-                    .HasForeignKey(d => d.IdCliente)
-                    .HasConstraintName("FK_Reserva_Cliente");
-
-                entity.HasOne(d => d.IdMedicamentoNavigation)
-                    .WithMany(p => p.Reservas)
-                    .HasForeignKey(d => d.IdMedicamento)
-                    .HasConstraintName("FK_Reserva_Medicamento");
-            });
 
         }
     }

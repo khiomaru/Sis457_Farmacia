@@ -1,21 +1,15 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using WebFarmacia.Models;
-using WebFarmacia.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<FarmaciaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => options.LoginPath = new PathString("/Account/Login"));
-// Registrar servicios personalizados
-builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<IMonitorStockService, MonitorStockService>();
-builder.Services.AddScoped<IValidationService, ValidationService>();
-
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
@@ -43,4 +37,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
