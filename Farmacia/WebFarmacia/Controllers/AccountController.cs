@@ -39,15 +39,39 @@ namespace WebFarmacia.Controllers
                     return View(model);
                 }
 
+                // Depuración: Verificar qué usuarios existen en la base de datos
+                var todosUsuarios = _context.Usuarios.ToList();
+                var usuarioEncontrado = _context.Usuarios.FirstOrDefault(x => x.Usuario1.ToLower() == model.Usuario.ToLower().Trim());
+                
+                // Depuración: Log de información
+                System.Diagnostics.Debug.WriteLine($"Total de usuarios en BD: {todosUsuarios.Count}");
+                System.Diagnostics.Debug.WriteLine($"Usuario buscado: {model.Usuario.ToLower().Trim()}");
+                
+                if (usuarioEncontrado != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Usuario encontrado en BD: {usuarioEncontrado.Usuario1}");
+                    System.Diagnostics.Debug.WriteLine($"Estado del usuario: {usuarioEncontrado.Estado}");
+                    System.Diagnostics.Debug.WriteLine($"Clave almacenada: {usuarioEncontrado.Clave}");
+                    
+                    var claveIngresadaEncriptada = Encrypt(model.Clave.Trim());
+                    System.Diagnostics.Debug.WriteLine($"Clave ingresada encriptada: {claveIngresadaEncriptada}");
+                    System.Diagnostics.Debug.WriteLine($"Las claves coinciden: {usuarioEncontrado.Clave == claveIngresadaEncriptada}");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Usuario NO encontrado en la base de datos");
+                }
+
                 var usuario = _context.Usuarios
-                    .Where(x => x.Estado == 1 
-                        && x.Usuario1.ToLower() == model.Usuario.ToLower().Trim() 
-                        && x.Clave == model.Clave.Trim())
+                    .Where(x => x.Estado == 1
+                        && x.Usuario1.ToLower() == model.Usuario.ToLower().Trim()
+                        && x.Clave == Encrypt(model.Clave.Trim()))
                     .FirstOrDefault();
 
                 if (usuario != null)
                 {
                     TempData["isLogged"] = true;
+                    System.Diagnostics.Debug.WriteLine($"Inicio de sesión exitoso para: {usuario.Usuario1}");
 
                     var claims = new List<Claim>
                 {
@@ -77,6 +101,7 @@ namespace WebFarmacia.Controllers
                 {
                     ViewBag.ReturnUrl = returnUrl;
                     ModelState.AddModelError("", "Intentos de inicio de sesión no válidos.");
+                    System.Diagnostics.Debug.WriteLine("Fallo en el inicio de sesión - Credenciales incorrectas");
                     return View(model);
                 }
             }
@@ -91,26 +116,12 @@ namespace WebFarmacia.Controllers
             }
         public static string Encrypt(string clearText)
         {
-            string EncryptionKey = "SIS457-1nf0!";
-            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-            using (Aes encryptor = Aes.Create())
+            // Usar un hash SHA256 en lugar de AES para mayor consistencia
+            using (SHA256 sha256 = SHA256.Create())
             {
-                byte[] salt = new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 };
-                byte[] key = Rfc2898DeriveBytes.Pbkdf2(Encoding.UTF8.GetBytes(EncryptionKey), salt, 10000, HashAlgorithmName.SHA256, 32);
-                byte[] iv = Rfc2898DeriveBytes.Pbkdf2(Encoding.UTF8.GetBytes(EncryptionKey), salt, 10000, HashAlgorithmName.SHA256, 16);
-                encryptor.Key = key;
-                encryptor.IV = iv;
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
-                    }
-                    clearText = Convert.ToBase64String(ms.ToArray());
-                }
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(clearText + "SIS457-1nf0!"));
+                return Convert.ToBase64String(bytes);
             }
-            return clearText;
         }
     }
 }
