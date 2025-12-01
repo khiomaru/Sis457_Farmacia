@@ -5,6 +5,8 @@
 
 <h1>Nueva Venta</h1>
 
+@Html.AntiForgeryToken()
+
 <div class="container">
     <div class="row">
         <!-- Información del cliente -->
@@ -285,7 +287,8 @@ function registrarVenta() {
     fetch('/Ventas/RegistrarVenta', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
         },
         body: JSON.stringify(venta)
     })
@@ -293,8 +296,23 @@ function registrarVenta() {
     .then(data => {
         if (data.success) {
             alert("Venta registrada exitosamente.");
-            console.log("Datos de la Venta Registrada:", data.data);
-            mostrarVentaRegistrada(data.data);
+            
+            // Limpiar el formulario
+            productos = [];
+            actualizarTablaProductos();
+            document.getElementById("Documento").value = "";
+            document.getElementById("NombreCompleto").value = "";
+            document.getElementById("Codigo").value = "";
+            document.getElementById("Nombre").value = "";
+            document.getElementById("Descripcion").value = "";
+            document.getElementById("PrecioVenta").value = "";
+            document.getElementById("Stock").value = "";
+            document.getElementById("Cantidad").value = "1";
+            document.getElementById("MontoPago").value = "";
+            document.getElementById("Cambio").value = "";
+            document.getElementById("Codigo").dataset.idMedicamento = "";
+            
+            console.log("Venta registrada correctamente");
         } else {
             alert(data.message || "Error al registrar la venta.");
             console.error("Error del servidor:", data);
